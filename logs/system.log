@@ -1,0 +1,250 @@
+2024-09-08 20:43:29,305 INFO [restartedMain] o.a.c.c.StandardService [DirectJDKLog.java:173] Starting service [Tomcat]
+2024-09-08 20:43:29,306 INFO [restartedMain] o.a.c.c.StandardEngine [DirectJDKLog.java:173] Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-08 20:43:29,319 INFO [restartedMain] o.a.c.c.C.[.[.[/] [DirectJDKLog.java:173] Initializing Spring embedded WebApplicationContext
+2024-09-08 20:43:29,336 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:974] Driver class org.postgresql.Driver found in Thread context class loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@7128bbdc
+2024-09-08 20:43:29,347 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classpath resources at 'classpath:db/callback' ...
+2024-09-08 20:43:29,347 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@7128bbdc ...
+2024-09-08 20:43:29,347 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Unable to resolve location classpath:db/callback.
+2024-09-08 20:43:29,348 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classpath resources at 'classpath:db/migration' ...
+2024-09-08 20:43:29,348 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@7128bbdc ...
+2024-09-08 20:43:29,348 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning URL: file:/C:/Users/admin/IdeaProjects/limitTransactsApi/target/classes/db/migration
+2024-09-08 20:43:29,348 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
+2024-09-08 20:43:29,348 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
+2024-09-08 20:43:29,349 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V1__exchange_rates_table.sql
+2024-09-08 20:43:29,349 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:43:29,349 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V3__transactions_table.sql
+2024-09-08 20:43:29,349 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V4__path_for_api_table.sql
+2024-09-08 20:43:29,349 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classes at classpath:db/migration
+2024-09-08 20:43:29,349 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V1__exchange_rates_table.sql
+2024-09-08 20:43:29,349 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1106] HikariPool-4 - configuration:
+2024-09-08 20:43:29,349 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] allowPoolSuspension.............false
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] autoCommit......................true
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] catalog.........................none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] connectionInitSql...............none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] connectionTestQuery.............none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] connectionTimeout...............30000
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSource......................none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSourceClassName.............none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSourceJNDI..................none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSourceProperties............{password=<masked>}
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] driverClassName................."org.postgresql.Driver"
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] exceptionOverrideClassName......none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] healthCheckProperties...........{}
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] healthCheckRegistry.............none
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] idleTimeout.....................600000
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] initializationFailTimeout.......1
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] isolateInternalQueries..........false
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] jdbcUrl.........................jdbc:postgresql://localhost:5432/transactionsLimitsDB
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] keepaliveTime...................0
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] leakDetectionThreshold..........0
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] maxLifetime.....................1800000
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] maximumPoolSize.................10
+2024-09-08 20:43:29,350 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] metricRegistry..................none
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] metricsTrackerFactory...........none
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] minimumIdle.....................10
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] password........................<masked>
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] poolName........................"HikariPool-4"
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] readOnly........................false
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] registerMbeans..................false
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] scheduledExecutor...............none
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] schema..........................none
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] threadFactory...................internal
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] transactionIsolation............default
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] username........................"postgres"
+2024-09-08 20:43:29,351 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] validationTimeout...............5000
+2024-09-08 20:43:29,351 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:109] HikariPool-4 - Starting...
+2024-09-08 20:43:29,392 INFO [restartedMain] c.z.h.p.HikariPool [HikariPool.java:554] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@639cb018
+2024-09-08 20:43:29,392 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:122] HikariPool-4 - Start completed.
+2024-09-08 20:43:29,393 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V2__limit_table.sql
+2024-09-08 20:43:29,393 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V4__path_for_api_table.sql
+2024-09-08 20:43:29,393 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V3__transactions_table.sql
+2024-09-08 20:43:29,393 INFO [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:37] Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
+2024-09-08 20:43:29,393 DEBUG [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:33] Driver: PostgreSQL JDBC Driver 42.7.3
+2024-09-08 20:43:29,393 DEBUG [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:33] DDL Transactions Supported: true
+2024-09-08 20:43:29,393 DEBUG [restartedMain] o.f.c.i.s.SchemaHistoryFactory [Slf4jLog.java:33] Schemas: 
+2024-09-08 20:43:29,393 DEBUG [restartedMain] o.f.c.i.s.SchemaHistoryFactory [Slf4jLog.java:33] Default schema: null
+2024-09-08 20:43:29,395 DEBUG [restartedMain] o.f.c.i.c.SqlScriptCallbackFactory [Slf4jLog.java:33] Scanning for SQL callbacks ...
+2024-09-08 20:43:29,396 DEBUG [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:33] Validating migrations ...
+2024-09-08 20:43:29,396 DEBUG [restartedMain] o.f.c.a.c.ClassicConfiguration [Slf4jLog.java:33] CherryPickConfigurationExtension not found
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
+2024-09-08 20:43:29,398 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
+2024-09-08 20:43:29,402 INFO [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:37] Successfully validated 4 migrations (execution time 00:00.006s)
+2024-09-08 20:43:29,404 DEBUG [restartedMain] o.f.c.i.c.DbSchemas [Slf4jLog.java:33] Skipping creation of existing schema: "public"
+2024-09-08 20:43:29,440 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@7d3148e
+2024-09-08 20:43:29,442 DEBUG [restartedMain] o.f.c.a.c.ClassicConfiguration [Slf4jLog.java:33] CherryPickConfigurationExtension not found
+2024-09-08 20:43:29,443 INFO [restartedMain] o.f.c.i.c.DbMigrate [Slf4jLog.java:37] Current version of schema "public": 4
+2024-09-08 20:43:29,443 WARN [restartedMain] o.f.c.i.c.DbMigrate [Slf4jLog.java:41] outOfOrder mode is active. Migration of schema "public" may not be reproducible.
+2024-09-08 20:43:29,443 INFO [restartedMain] o.f.c.i.c.DbMigrate [Slf4jLog.java:37] Schema "public" is up to date. No migration necessary.
+2024-09-08 20:43:29,444 DEBUG [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:33] Memory usage: 46 of 96M
+2024-09-08 20:43:29,469 WARN [restartedMain] o.h.o.deprecation [DialectFactoryImpl.java:153] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-09-08 20:43:29,469 WARN [restartedMain] o.h.o.deprecation [DialectFactoryImpl.java:153] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-09-08 20:43:29,477 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - Connection not added, stats (total=2, active=0, idle=2, waiting=0)
+2024-09-08 20:43:29,493 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - Pool stats (total=2, active=0, idle=2, waiting=0)
+2024-09-08 20:43:29,532 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@914ea04
+2024-09-08 20:43:29,572 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=3, active=0, idle=3, waiting=0)
+2024-09-08 20:43:29,595 WARN [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [JpaBaseConfiguration.java:236] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-08 20:43:29,595 WARN [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [JpaBaseConfiguration.java:236] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-08 20:43:29,610 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@d2b7ffe
+2024-09-08 20:43:29,651 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=4, active=0, idle=4, waiting=0)
+2024-09-08 20:43:29,688 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@4829e03f
+2024-09-08 20:43:29,729 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=5, active=0, idle=5, waiting=0)
+2024-09-08 20:43:29,786 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@57c1ead0
+2024-09-08 20:43:29,823 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=6, active=0, idle=6, waiting=0)
+2024-09-08 20:43:29,861 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@79ab6ee6
+2024-09-08 20:43:29,901 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=7, active=0, idle=7, waiting=0)
+2024-09-08 20:43:29,937 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@2fa93aa2
+2024-09-08 20:43:29,978 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=8, active=0, idle=8, waiting=0)
+2024-09-08 20:43:30,016 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@28061f70
+2024-09-08 20:43:30,056 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=9, active=0, idle=9, waiting=0)
+2024-09-08 20:43:30,096 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@70c9e7ca
+2024-09-08 20:43:30,134 DEBUG [HikariPool-4 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After adding stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:43:59,495 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - Pool stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:43:59,495 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:510] HikariPool-4 - Fill pool skipped, pool has sufficient level or currently being filled.
+2024-09-08 20:44:29,495 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - Pool stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:44:29,495 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:510] HikariPool-4 - Fill pool skipped, pool has sufficient level or currently being filled.
+2024-09-08 20:44:59,509 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - Pool stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:44:59,509 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:510] HikariPool-4 - Fill pool skipped, pool has sufficient level or currently being filled.
+2024-09-08 20:45:29,518 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - Pool stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:45:29,518 DEBUG [HikariPool-4 housekeeper] c.z.h.p.HikariPool [HikariPool.java:510] HikariPool-4 - Fill pool skipped, pool has sufficient level or currently being filled.
+2024-09-08 20:45:39,771 INFO [Thread-17] c.z.h.HikariDataSource [HikariDataSource.java:349] HikariPool-4 - Shutdown initiated...
+2024-09-08 20:45:39,771 DEBUG [Thread-17] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - Before shutdown stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:45:39,771 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@639cb018: (connection evicted)
+2024-09-08 20:45:39,771 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@7d3148e: (connection evicted)
+2024-09-08 20:45:39,772 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@914ea04: (connection evicted)
+2024-09-08 20:45:39,772 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@d2b7ffe: (connection evicted)
+2024-09-08 20:45:39,772 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@4829e03f: (connection evicted)
+2024-09-08 20:45:39,772 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@57c1ead0: (connection evicted)
+2024-09-08 20:45:39,773 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@79ab6ee6: (connection evicted)
+2024-09-08 20:45:39,773 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@2fa93aa2: (connection evicted)
+2024-09-08 20:45:39,773 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@28061f70: (connection evicted)
+2024-09-08 20:45:39,773 DEBUG [HikariPool-4 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-4 - Closing connection org.postgresql.jdbc.PgConnection@70c9e7ca: (connection evicted)
+2024-09-08 20:45:39,774 DEBUG [Thread-17] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-4 - After shutdown stats (total=0, active=0, idle=0, waiting=0)
+2024-09-08 20:45:39,774 INFO [Thread-17] c.z.h.HikariDataSource [HikariDataSource.java:351] HikariPool-4 - Shutdown completed.
+2024-09-08 20:45:40,063 INFO [restartedMain] o.a.c.c.StandardService [DirectJDKLog.java:173] Starting service [Tomcat]
+2024-09-08 20:45:40,063 INFO [restartedMain] o.a.c.c.StandardEngine [DirectJDKLog.java:173] Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-08 20:45:40,076 INFO [restartedMain] o.a.c.c.C.[.[.[/] [DirectJDKLog.java:173] Initializing Spring embedded WebApplicationContext
+2024-09-08 20:45:40,095 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:974] Driver class org.postgresql.Driver found in Thread context class loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1e9d7a60
+2024-09-08 20:45:40,105 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classpath resources at 'classpath:db/callback' ...
+2024-09-08 20:45:40,105 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1e9d7a60 ...
+2024-09-08 20:45:40,105 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Unable to resolve location classpath:db/callback.
+2024-09-08 20:45:40,106 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classpath resources at 'classpath:db/migration' ...
+2024-09-08 20:45:40,106 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1e9d7a60 ...
+2024-09-08 20:45:40,106 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning URL: file:/C:/Users/admin/IdeaProjects/limitTransactsApi/target/classes/db/migration
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V1__exchange_rates_table.sql
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V3__transactions_table.sql
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V4__path_for_api_table.sql
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classes at classpath:db/migration
+2024-09-08 20:45:40,107 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V1__exchange_rates_table.sql
+2024-09-08 20:45:40,107 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1106] HikariPool-5 - configuration:
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] allowPoolSuspension.............false
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] autoCommit......................true
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] catalog.........................none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] connectionInitSql...............none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] connectionTestQuery.............none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] connectionTimeout...............30000
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSource......................none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSourceClassName.............none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSourceJNDI..................none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] dataSourceProperties............{password=<masked>}
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] driverClassName................."org.postgresql.Driver"
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] exceptionOverrideClassName......none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] healthCheckProperties...........{}
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] healthCheckRegistry.............none
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] idleTimeout.....................600000
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] initializationFailTimeout.......1
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] isolateInternalQueries..........false
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] jdbcUrl.........................jdbc:postgresql://localhost:5432/transactionsLimitsDB
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] keepaliveTime...................0
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] leakDetectionThreshold..........0
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] maxLifetime.....................1800000
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] maximumPoolSize.................10
+2024-09-08 20:45:40,108 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] metricRegistry..................none
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] metricsTrackerFactory...........none
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] minimumIdle.....................10
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] password........................<masked>
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] poolName........................"HikariPool-5"
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] readOnly........................false
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] registerMbeans..................false
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] scheduledExecutor...............none
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] schema..........................none
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] threadFactory...................internal
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] transactionIsolation............default
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] username........................"postgres"
+2024-09-08 20:45:40,109 DEBUG [restartedMain] c.z.h.HikariConfig [HikariConfig.java:1138] validationTimeout...............5000
+2024-09-08 20:45:40,109 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:109] HikariPool-5 - Starting...
+2024-09-08 20:45:40,148 INFO [restartedMain] c.z.h.p.HikariPool [HikariPool.java:554] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@5e43449d
+2024-09-08 20:45:40,148 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:122] HikariPool-5 - Start completed.
+2024-09-08 20:45:40,149 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V2__limit_table.sql
+2024-09-08 20:45:40,149 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V4__path_for_api_table.sql
+2024-09-08 20:45:40,149 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V3__transactions_table.sql
+2024-09-08 20:45:40,149 INFO [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:37] Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
+2024-09-08 20:45:40,149 DEBUG [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:33] Driver: PostgreSQL JDBC Driver 42.7.3
+2024-09-08 20:45:40,149 DEBUG [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:33] DDL Transactions Supported: true
+2024-09-08 20:45:40,149 DEBUG [restartedMain] o.f.c.i.s.SchemaHistoryFactory [Slf4jLog.java:33] Schemas: 
+2024-09-08 20:45:40,149 DEBUG [restartedMain] o.f.c.i.s.SchemaHistoryFactory [Slf4jLog.java:33] Default schema: null
+2024-09-08 20:45:40,151 DEBUG [restartedMain] o.f.c.i.c.SqlScriptCallbackFactory [Slf4jLog.java:33] Scanning for SQL callbacks ...
+2024-09-08 20:45:40,153 DEBUG [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:33] Validating migrations ...
+2024-09-08 20:45:40,153 DEBUG [restartedMain] o.f.c.a.c.ClassicConfiguration [Slf4jLog.java:33] CherryPickConfigurationExtension not found
+2024-09-08 20:45:40,154 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
+2024-09-08 20:45:40,155 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:45:40,155 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
+2024-09-08 20:45:40,155 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
+2024-09-08 20:45:40,155 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
+2024-09-08 20:45:40,155 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:45:40,155 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
+2024-09-08 20:45:40,155 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
+2024-09-08 20:45:40,159 INFO [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:37] Successfully validated 4 migrations (execution time 00:00.006s)
+2024-09-08 20:45:40,160 DEBUG [restartedMain] o.f.c.i.c.DbSchemas [Slf4jLog.java:33] Skipping creation of existing schema: "public"
+2024-09-08 20:45:40,196 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@1d16c7a0
+2024-09-08 20:45:40,197 DEBUG [restartedMain] o.f.c.a.c.ClassicConfiguration [Slf4jLog.java:33] CherryPickConfigurationExtension not found
+2024-09-08 20:45:40,198 INFO [restartedMain] o.f.c.i.c.DbMigrate [Slf4jLog.java:37] Current version of schema "public": 4
+2024-09-08 20:45:40,199 WARN [restartedMain] o.f.c.i.c.DbMigrate [Slf4jLog.java:41] outOfOrder mode is active. Migration of schema "public" may not be reproducible.
+2024-09-08 20:45:40,199 INFO [restartedMain] o.f.c.i.c.DbMigrate [Slf4jLog.java:37] Schema "public" is up to date. No migration necessary.
+2024-09-08 20:45:40,200 DEBUG [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:33] Memory usage: 38 of 96M
+2024-09-08 20:45:40,227 WARN [restartedMain] o.h.o.deprecation [DialectFactoryImpl.java:153] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-09-08 20:45:40,227 WARN [restartedMain] o.h.o.deprecation [DialectFactoryImpl.java:153] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-09-08 20:45:40,240 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - Connection not added, stats (total=2, active=0, idle=2, waiting=0)
+2024-09-08 20:45:40,259 DEBUG [HikariPool-5 housekeeper] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - Pool stats (total=2, active=0, idle=2, waiting=0)
+2024-09-08 20:45:40,324 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@13d12a72
+2024-09-08 20:45:40,366 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=3, active=0, idle=3, waiting=0)
+2024-09-08 20:45:40,393 WARN [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [JpaBaseConfiguration.java:236] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-08 20:45:40,393 WARN [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [JpaBaseConfiguration.java:236] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-08 20:45:40,405 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@17eeacd0
+2024-09-08 20:45:40,446 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=4, active=0, idle=4, waiting=0)
+2024-09-08 20:45:40,485 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@52ec2049
+2024-09-08 20:45:40,524 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=5, active=0, idle=5, waiting=0)
+2024-09-08 20:45:40,570 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@79ecc673
+2024-09-08 20:45:40,602 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=6, active=0, idle=6, waiting=0)
+2024-09-08 20:45:40,639 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@63f4f186
+2024-09-08 20:45:40,681 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=7, active=0, idle=7, waiting=0)
+2024-09-08 20:45:40,717 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@11e4904
+2024-09-08 20:45:40,758 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=8, active=0, idle=8, waiting=0)
+2024-09-08 20:45:40,795 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@32c3df06
+2024-09-08 20:45:40,836 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=9, active=0, idle=9, waiting=0)
+2024-09-08 20:45:40,873 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:728] HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@2d034873
+2024-09-08 20:45:40,915 DEBUG [HikariPool-5 connection adder] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After adding stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:46:10,270 DEBUG [HikariPool-5 housekeeper] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - Pool stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:46:10,270 DEBUG [HikariPool-5 housekeeper] c.z.h.p.HikariPool [HikariPool.java:510] HikariPool-5 - Fill pool skipped, pool has sufficient level or currently being filled.
+2024-09-08 20:46:24,953 INFO [Thread-21] c.z.h.HikariDataSource [HikariDataSource.java:349] HikariPool-5 - Shutdown initiated...
+2024-09-08 20:46:24,953 DEBUG [Thread-21] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - Before shutdown stats (total=10, active=0, idle=10, waiting=0)
+2024-09-08 20:46:24,953 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@5e43449d: (connection evicted)
+2024-09-08 20:46:24,953 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@1d16c7a0: (connection evicted)
+2024-09-08 20:46:24,954 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@13d12a72: (connection evicted)
+2024-09-08 20:46:24,954 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@17eeacd0: (connection evicted)
+2024-09-08 20:46:24,954 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@52ec2049: (connection evicted)
+2024-09-08 20:46:24,954 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@79ecc673: (connection evicted)
+2024-09-08 20:46:24,954 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@63f4f186: (connection evicted)
+2024-09-08 20:46:24,954 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@11e4904: (connection evicted)
+2024-09-08 20:46:24,954 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@32c3df06: (connection evicted)
+2024-09-08 20:46:24,955 DEBUG [HikariPool-5 connection closer] c.z.h.p.PoolBase [PoolBase.java:133] HikariPool-5 - Closing connection org.postgresql.jdbc.PgConnection@2d034873: (connection evicted)
+2024-09-08 20:46:24,955 DEBUG [Thread-21] c.z.h.p.HikariPool [HikariPool.java:405] HikariPool-5 - After shutdown stats (total=0, active=0, idle=0, waiting=0)
+2024-09-08 20:46:24,955 INFO [Thread-21] c.z.h.HikariDataSource [HikariDataSource.java:351] HikariPool-5 - Shutdown completed.
