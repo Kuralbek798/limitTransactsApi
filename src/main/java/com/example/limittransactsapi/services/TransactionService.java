@@ -1,8 +1,12 @@
 package com.example.limittransactsapi.services;
 
 
+import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
 import com.example.limittransactsapi.DTO.LimitDTO;
+import com.example.limittransactsapi.DTO.TransactionDTO;
 import com.example.limittransactsapi.Entity.Transaction;
+import com.example.limittransactsapi.mapper.LimitMapper;
+import com.example.limittransactsapi.mapper.TransactionMapper;
 import com.example.limittransactsapi.repository.LimitRepository;
 import com.example.limittransactsapi.repository.TransactionRepository;
 import jakarta.persistence.EntityManager;
@@ -10,6 +14,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,53 +30,52 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final LimitService limitService;
+    private final CheckedOnLimitService checkedOnLimitService;
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository, LimitRepository limitRepository, LimitService limitService) {
+    public TransactionService(TransactionRepository transactionRepository, LimitRepository limitRepository, LimitService limitService, CheckedOnLimitService checkedOnLimitService) {
         this.transactionRepository = transactionRepository;
         this.limitService = limitService;
-
+        this.checkedOnLimitService = checkedOnLimitService;
     }
 
     //Creates transactions
-    public Transaction createTransaction(Transaction transaction) {
+    public ResponseEntity<TransactionDTO> createTransaction(TransactionDTO transactionDTO) {
         try {
             //receiving current limit for  category.
-            Optional<LimitDTO> OptionalCurrentLimitDto = limitService.getLatestLimitInOptionalLimitDto();
-            if (OptionalCurrentLimitDto.isPresent()) {
-                BigDecimal limitSum = OptionalCurrentLimitDto.get().getLimitSum();
-
-                // Calculating expenses for current month
-                BigDecimal totalSpent = transactionRepository.sumAmountsByMonth(transaction.getDatetime().getMonth());
-
-                //checking limit
-                if(totalSpent.add(transaction.getSum()).compareTo(limitSum) > 0) {
-                    transaction.setLimitExceeded(true);
-                    log.warn("Transaction exceeded limit: {}.Total spent: {}, Limit: {}", transaction.getSum(), totalSpent, limitSum);
-                }else{
-                    transaction.setLimitExceeded(false);
+            Optional<LimitDTO> optionalCurrentLimitDto = limitService.getLatestLimitInOptionalLimitDto();
+            if (optionalCurrentLimitDto.isPresent()) {
+                 List<CheckedOnLimitDTO> listCheckedOnLimitDTO = checkedOnLimitService.getCheckedOnLimitDTOsByLimitId(optionalCurrentLimitDto.get().getId());
+                if(listCheckedOnLimitDTO.size() > 0){
+                   for(int i = 0; i < listCheckedOnLimitDTO.size(); i++){
+                       listCheckedOnLimitDTO.get(i).getTransactionId();
+                   }
                 }
 
-                log.info("Transaction Created: {}", transaction);
+                Transaction transaction = transactionRepository.save(TransactionMapper.INSTANCE.toEntity(transactionDTO));
+                log.info("Transaction Created: {}");
+                // Calculating expenses for current month
+                //checking limit
 
-                return transactionRepository.save(transaction);
+                BigDecimal limitSum = optionalCurrentLimitDto.get().getLimitSum();
+                if (transaction.getId() != null) {
+                    return ResponseEntity.ok(TransactionMapper.INSTANCE.toDTO(transaction));
+                }
+
+
             }
 
-return null;
+            return null;
 
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new RuntimeException("Transaction could not be created, exception occurred in method createTransaction" + e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            log.error("Ошибка при сохранении в БД: {}", e.getMessage(), e);
+            throw new DataIntegrityViolationException("Ошибка при сохранении транзакции: " + e.getMessage(), e);
+        } catch (DataAccessException e) {
+            log.error("Ошибка при доступе к БД: {}", e.getMessage(), e);
+            throw new DataAccessException("Ошибка при сохранении транзакции: " + e.getMessage(), e) {
+            };
         }
     }
 
 
-    @PersistenceContext
-    private EntityManager entityManager; // Инъекция EntityManager для работы с хранимыми процедурами
-
-    // Метод для вызова хранимой процедуры
-    public List<Transaction> getExceedingTransactions() {
-        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("GetExceedingTransactions", Transaction.class);
-        return query.getResultList();
-    }
 }

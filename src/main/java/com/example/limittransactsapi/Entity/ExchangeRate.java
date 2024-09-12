@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ExchangeRate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(name = "currency_pair", nullable = false)
@@ -28,6 +28,6 @@ public class ExchangeRate {
     @Column(name = "close", nullable = false)
     private Double close;
 
-    @Column(name = "date", nullable = false)
-    private OffsetDateTime date;
+    @Column(name = "datetime", nullable = false)
+    private OffsetDateTime datetime;
 }

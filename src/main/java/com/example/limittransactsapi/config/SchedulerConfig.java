@@ -38,7 +38,7 @@ public class SchedulerConfig {
 
             // Цикл, который будет продолжать выполняться до получения положительного ответа
             while (!success && attempts < maxAttempts) {
-                success = limitService.insertMonthlyLimit(); // Попытка вставить лимит
+                success = limitService.setMonthlyLimitByDefault(); // Попытка вставить лимит
                 if (!success) {
                     attempts++;
                     System.err.println("Attempt " + attempts + " failed. Retrying...");

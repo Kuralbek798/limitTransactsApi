@@ -22,8 +22,8 @@ public class PathForApi {
     @Column(name = "encrypted_api_path", nullable = false)
     private String encryptedApiPath;
 
-    @Column(name = "date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
-    private OffsetDateTime date;
+    @Column(name = "datetime", nullable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
+    private OffsetDateTime datetime;
 
     @Column(name = "description", nullable = false)
     private String description;

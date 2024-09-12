@@ -37,6 +37,6 @@ public class Transaction {
     @Column(name = "expense_category", length = 50)
     private String expenseCategory;
 
-    @Column(name = "limit_exceeded", nullable = false)
-    private Boolean limitExceeded = false;
+ /*   @Column(name = "limit_exceeded", nullable = false)
+    private Boolean limitExceeded = false;*/
 }

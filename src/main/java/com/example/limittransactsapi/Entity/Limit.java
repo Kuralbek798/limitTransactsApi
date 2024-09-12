@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -28,10 +27,10 @@ public class Limit {
     @Column(name = "limit_sum", nullable = false)
     private BigDecimal limitSum = BigDecimal.valueOf(1_000.00);
 
-    @Column(name = "limit_currency", nullable = false, length = 3)
-    private String limitCurrency = "USD";
+    @Column(name = "currency", nullable = false, length = 3)
+    private String currency = "USD";
 
-    @Column(name = "limit_datetime")
-    private OffsetDateTime limitDatetime;
+    @Column(name = "datetime")
+    private OffsetDateTime datetime;
 
 }

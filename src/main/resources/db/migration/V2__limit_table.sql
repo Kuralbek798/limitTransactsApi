@@ -2,8 +2,8 @@
 CREATE TABLE limits (
                         id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
                         limit_sum NUMERIC(10, 2) NOT NULL DEFAULT 1000.00,
-                        limit_currency CHAR(3) NOT NULL DEFAULT 'USD',
-                        limit_datetime TIMESTAMP WITH TIME ZONE NOT NULL  -- Без DEFAULT и CHECK
+                        currency CHAR(3) NOT NULL DEFAULT 'USD',
+                        datetime TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 -- Функция, которая мешает обновлениям

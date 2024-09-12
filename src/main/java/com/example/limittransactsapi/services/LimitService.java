@@ -46,8 +46,9 @@ public class LimitService {
             if (isLimitExist(OptionalLimitDtoFromDB, limitDtoFromClient)) {
                 throw new IllegalArgumentException("A limit with the same sum has already been set; please choose another one.");
             } else {
-                // проверяем в какой валюте был задан лимит, если не USD, то конвертируем по курсу и заменяем данные полученные от клиента.
-                var convertedLimit = checkLimitCurrencyAndSetToUSD(limitDtoFromClient);
+                // check the currency type in which the limit was set. If it is not in USD,
+                // convert it using the exchange rate and adjust the given values accordingly.
+                var convertedLimit = checkLimitCurrencyTypeAndSetToUSD(limitDtoFromClient);
                 limitDtoFromClient.setLimitCurrency(convertedLimit.getLimitCurrency());
                 limitDtoFromClient.setLimitSum(convertedLimit.getLimitSum());
             }
@@ -75,7 +76,7 @@ public class LimitService {
         return OptionalLimitDto.isPresent() && OptionalLimitDto.get().getLimitSum().equals(limitDTO.getLimitSum());
     }
 
-    private LimitDTO checkLimitCurrencyAndSetToUSD(LimitDTO limitDto) {
+    private LimitDTO checkLimitCurrencyTypeAndSetToUSD(LimitDTO limitDto) {
         BigDecimal exchangeRate;
 
         if (limitDto.getLimitCurrency().equals(RUB)) {
@@ -101,10 +102,10 @@ public class LimitService {
         return limitDto;
     }
 
-    public boolean insertMonthlyLimit() {
+    public boolean setMonthlyLimitByDefault() {
         try {
             Limit limit = new Limit();
-            limit.setLimitCurrency(USD);
+            limit.setCurrency(USD);
             limit.setLimitSum(BigDecimal.valueOf(1000));
 
             Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);

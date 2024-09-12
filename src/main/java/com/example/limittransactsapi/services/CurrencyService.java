@@ -76,7 +76,7 @@ public class CurrencyService {
 
             // If the rate exists and is up to date, return it
             if (optionalRate.isPresent() &&
-                    LocalDate.ofInstant(optionalRate.get().getDate().toInstant(), ZoneId.systemDefault()).equals(dateNow)) {
+                    LocalDate.ofInstant(optionalRate.get().getDatetime().toInstant(), ZoneId.systemDefault()).equals(dateNow)) {
                 log.info("Exchange rate found in database for currency pair: {}", currencyPair);
 
                 return ExchangeRateMapper.INSTANCE.toDTO(optionalRate.get());
