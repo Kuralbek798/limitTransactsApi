@@ -1,6 +1,5 @@
 package com.example.limittransactsapi.DTO;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +15,5 @@ public class CheckedOnLimitDTO {
     private UUID transactionId;
     private UUID limitId;
     private boolean limitExceeded;
-    private OffsetDateTime checkedOnLimitDatetime;
+    private OffsetDateTime dateTime;
 }

@@ -1,12 +1,13 @@
 package com.example.limittransactsapi.services;
 
-// Import statements
+
 import com.example.limittransactsapi.DTO.ExchangeRateDTO;
 import com.example.limittransactsapi.Entity.ExchangeRate;
 import com.example.limittransactsapi.Model.RateDataFromJson;
 import com.example.limittransactsapi.mapper.ExchangeRateMapper;
 import com.example.limittransactsapi.repository.ExchangeRateRepository;
 import com.example.limittransactsapi.util.BuildUrlAndDateUtil;
+import com.example.limittransactsapi.util.ConverterUtil;
 import com.example.limittransactsapi.util.HttpClientServiceUtil;
 import com.example.limittransactsapi.util.PathForApiServisUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,7 +29,7 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class CurrencyService {
+public class ExchangeRateService {
     // ObjectMapper for JSON processing
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -45,6 +46,7 @@ public class CurrencyService {
     private final PathForApiServisUtil pathForApiServisUtil;
     private final ExchangeRateRepository exchangeRateRepository;
     private final HttpClientServiceUtil httpClientServiceUtil;
+    private final ConverterUtil converterUtil;
 
     // Currency pair definitions
     private static final String KZT_USD_PAIR = "KZT/USD";
@@ -55,11 +57,12 @@ public class CurrencyService {
 
     // Constructor for dependency injection
     @Autowired
-    public CurrencyService(PathForApiServisUtil pathForApiServisUtil, ExchangeRateRepository exchangeRateRepository,
-                           HttpClientServiceUtil httpClientServiceUtil) {
+    public ExchangeRateService(PathForApiServisUtil pathForApiServisUtil, ExchangeRateRepository exchangeRateRepository,
+                               HttpClientServiceUtil httpClientServiceUtil, ConverterUtil converterUtil) {
         this.pathForApiServisUtil = pathForApiServisUtil;
         this.exchangeRateRepository = exchangeRateRepository;
         this.httpClientServiceUtil = httpClientServiceUtil;
+        this.converterUtil = converterUtil;
     }
 
     // Method to get the currency rate
@@ -72,11 +75,11 @@ public class CurrencyService {
             LocalDate dateNow = LocalDate.now(); // Get the current date
 
             // Fetch the latest rate from the database
-            Optional<ExchangeRate> optionalRate = exchangeRateRepository.findTopByCurrencyPairOrderByDateDesc(currencyPair);
+            Optional<ExchangeRate> optionalRate = exchangeRateRepository.findTopByCurrencyPairOrderByDatetimeRateDesc(currencyPair);
 
             // If the rate exists and is up to date, return it
             if (optionalRate.isPresent() &&
-                    LocalDate.ofInstant(optionalRate.get().getDatetime().toInstant(), ZoneId.systemDefault()).equals(dateNow)) {
+                    LocalDate.ofInstant(optionalRate.get().getDatetimeRate().toInstant(), ZoneId.systemDefault()).equals(dateNow)) {
                 log.info("Exchange rate found in database for currency pair: {}", currencyPair);
 
                 return ExchangeRateMapper.INSTANCE.toDTO(optionalRate.get());
@@ -87,9 +90,9 @@ public class CurrencyService {
 
             // Fetch new data from the external API
             String apiKey = pathForApiServisUtil.getDecryptedApiKey(servisIdentity, uuidKey);
+
             var jsonRoot = getResponseFromHttpRequest(apiKey, currencyPair, dateNow);
             var exchangeRate = fetchAndSaveExchangeRate(jsonRoot, currencyPair);
-
             return ExchangeRateMapper.INSTANCE.toDTO(exchangeRate);
 
         } catch (Exception e) {
@@ -106,7 +109,7 @@ public class CurrencyService {
             LocalDate endDate = startDate.plusDays(1);
             String url = BuildUrlAndDateUtil.buildUrl(baseUrl, currencyPair, startDate, endDate, apiKey);
 
-            String jsonResponse = String.valueOf(httpClientServiceUtil.sendRequest(url));
+            String jsonResponse = httpClientServiceUtil.sendRequest(url);
 
             // Parse and check the JSON response
             JsonNode root = objectMapper.readTree(jsonResponse);
@@ -121,9 +124,10 @@ public class CurrencyService {
                     root.path("status").toString().contains("error")) {
 
                 for (int i = 0; i < 5; i++) {
-                    startDate = startDate.plusDays(1);
+                    //increasing startDate on one day.
+                    startDate = startDate.minusDays(1);
                     url = BuildUrlAndDateUtil.buildUrl(baseUrl, currencyPair, startDate, endDate, apiKey);
-                    jsonResponse = String.valueOf(httpClientServiceUtil.sendRequest(url));
+                    jsonResponse = httpClientServiceUtil.sendRequest(url);
 
                     if (jsonResponse != null) {
                         root = objectMapper.readTree(jsonResponse);
@@ -150,9 +154,17 @@ public class CurrencyService {
         try {
             RateDataFromJson rateDataFromJson = extractRateFromJsonRoot(jsonRoot);
 
+            if (USD_KZT_PAIR.equals(currencyPair)) {
+                currencyPair = KZT_USD_PAIR;
+            }
+
             if (rateDataFromJson != null && rateDataFromJson.getCloseRate() != null) {
+
                 ExchangeRate exchangeRate = new ExchangeRate(UUID.randomUUID(), currencyPair,
-                        BigDecimal.valueOf(rateDataFromJson.getCloseRate()), rateDataFromJson.getCloseRate(), rateDataFromJson.getDate());
+                        BigDecimal.valueOf(rateDataFromJson.getCloseRate()),
+                        rateDataFromJson.getCloseRate(), rateDataFromJson.getDateTime());
+
+                exchangeRate.setRate(converterUtil.convertUsdToKztToKztToUsd(exchangeRate.getRate()));
                 log.info("Fetched exchange rate from API for currency pair: {}", currencyPair);
                 return exchangeRateRepository.save(exchangeRate);
             }
@@ -180,22 +192,24 @@ public class CurrencyService {
                     // Only use entries with non-zero close values
                     if (close != 0) {
                         rateDataFromJson.setCloseRate(close);
-                        String formattedISODateTimeStr = dateStr.replace(" ", "T");
-                        rateDataFromJson.setDate(OffsetDateTime.parse(formattedISODateTimeStr));
+                        String formattedISODateTimeStr = dateStr.replace(" ", "T") + "Z";
+                        rateDataFromJson.setDateTime(OffsetDateTime.parse(formattedISODateTimeStr));
 
                         return rateDataFromJson;
                     }
                 }
             }
         } catch (IllegalArgumentException | DateTimeParseException e) {
-            log.warn("Error extracting rate data from JSON: {}", e.getMessage());
+            log.error("Error extracting rate data from JSON: {}", e.getMessage());
             return null;
         } catch (NullPointerException e) {
-            log.warn("Encountered null value while processing JSON: {}", e.getMessage());
+            log.error("Encountered null value while processing JSON: {}", e.getMessage());
             return null;
         }
 
-        log.warn("All close values are zero.");
+        log.error("All close values are zero.");
         return null;
     }
+
+
 }

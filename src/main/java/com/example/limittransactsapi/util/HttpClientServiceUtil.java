@@ -1,11 +1,7 @@
 package com.example.limittransactsapi.util;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -35,7 +31,7 @@ public class HttpClientServiceUtil {
                 .build();
     }
 
-    public HttpResponse<String> sendRequest(String url) throws IOException, InterruptedException {
+    public String sendRequest(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
@@ -49,7 +45,7 @@ public class HttpClientServiceUtil {
             return null;
         }
 
-        return response;
+        return response.body();
     }
 }
 

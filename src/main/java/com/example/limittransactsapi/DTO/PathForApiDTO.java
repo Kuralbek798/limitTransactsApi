@@ -15,5 +15,5 @@ public class PathForApiDTO {
 
     private String description;
 
-    private OffsetDateTime date;
+    private OffsetDateTime dateTime;
 }

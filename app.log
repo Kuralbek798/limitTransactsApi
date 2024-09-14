@@ -419,7 +419,7 @@ org.springframework.dao.InvalidDataAccessResourceUsageException: JDBC exception 
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
 	at jdk.proxy4/jdk.proxy4.$Proxy134.findByCurrencyPairAndDate(Unknown Source)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:85)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:85)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -576,7 +576,7 @@ org.postgresql.util.PSQLException: ОШИБКА: столбец er1_0.close не
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:223)
 	at jdk.proxy4/jdk.proxy4.$Proxy134.findByCurrencyPairAndDate(Unknown Source)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:85)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:85)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1126,7 +1126,7 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 2024-09-08 17:26:12 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class com.example.limittransactsapi.DTO.PathForApiDTO (java.util.ArrayList is in module java.base of loader 'bootstrap'; com.example.limittransactsapi.DTO.PathForApiDTO is in unnamed module of loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader @776a1260)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:19)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1184,7 +1184,7 @@ java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class 
 2024-09-08 17:26:52 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class com.example.limittransactsapi.DTO.PathForApiDTO (java.util.ArrayList is in module java.base of loader 'bootstrap'; com.example.limittransactsapi.DTO.PathForApiDTO is in unnamed module of loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader @776a1260)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:19)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1437,7 +1437,7 @@ java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class 
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1493,7 +1493,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1557,7 +1557,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1613,7 +1613,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -1961,7 +1961,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2017,7 +2017,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2078,7 +2078,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2134,7 +2134,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.convertToPathForApiDTO(EncripionDecription.java:61)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:22)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2345,7 +2345,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2549,7 +2549,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2609,7 +2609,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2675,7 +2675,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2735,7 +2735,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -2969,7 +2969,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getAPIKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:73)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:73)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -3029,7 +3029,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getAPIKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:73)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:73)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -3268,7 +3268,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 	at java.base/javax.crypto.Cipher.doFinal(Cipher.java:2205)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.decrypt(EncripionDecription.java:47)
 	at com.example.limittransactsapi.util.EncripionDecriptionUtil.getAPIKey(EncripionDecription.java:25)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:73)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:73)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -3483,8 +3483,8 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 java.lang.IllegalArgumentException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
 	at java.base/java.net.URI.create(URI.java:906)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:35)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:96)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:77)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -3546,8 +3546,8 @@ Caused by: java.net.URISyntaxException: Illegal character in scheme name at inde
 	... 54 common frames omitted
 2024-09-08 18:36:15 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Failed to fetch and save exchange rate
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:113)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:77)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:113)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -3602,7 +3602,7 @@ org.hibernate.service.spi.ServiceException: Failed to fetch and save exchange ra
 Caused by: java.lang.IllegalArgumentException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
 	at java.base/java.net.URI.create(URI.java:906)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:35)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	... 52 common frames omitted
 Caused by: java.net.URISyntaxException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
 	at java.base/java.net.URI$Parser.fail(URI.java:2974)
@@ -3621,8 +3621,8 @@ java.net.URISyntaxException: Illegal character in scheme name at index 0: "https
 	at java.base/java.net.URI.<init>(URI.java:623)
 	at java.base/java.net.URI.create(URI.java:904)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:35)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:96)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:77)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -3827,7 +3827,7 @@ java.net.URISyntaxException: Illegal character in scheme name at index 0: "https
 2024-09-08 18:37:35 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 18:37:54 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:81)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:81)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -3883,7 +3883,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 18:38:03 - HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled.
 2024-09-08 18:38:07 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:81)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:81)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -4114,7 +4114,7 @@ APPLICATION FAILED TO START
 
 Description:
 
-Parameter 3 of constructor in com.example.limittransactsapi.services.CurrencyService required a bean of type 'com.example.limittransactsapi.util.HttpClientServiceUtil' that could not be found.
+Parameter 3 of constructor in com.example.limittransactsapi.services.ExchangeRateService required a bean of type 'com.example.limittransactsapi.util.HttpClientServiceUtil' that could not be found.
 
 
 Action:
@@ -4392,7 +4392,7 @@ Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientS
 2024-09-08 18:46:14 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 18:46:14 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:81)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:81)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -4446,7 +4446,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 18:46:14 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:81)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:81)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -4512,8 +4512,8 @@ java.lang.InterruptedException: null
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:96)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:77)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -4567,8 +4567,8 @@ java.lang.InterruptedException: null
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 18:47:32 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Failed to fetch and save exchange rate
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:113)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:77)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:113)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -4626,7 +4626,7 @@ Caused by: java.lang.InterruptedException: null
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	... 52 common frames omitted
 2024-09-08 18:47:32 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 java.lang.InterruptedException: null
@@ -4635,8 +4635,8 @@ java.lang.InterruptedException: null
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:96)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:77)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -5115,7 +5115,7 @@ java.lang.InterruptedException: null
 2024-09-08 18:49:16 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 18:49:16 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:81)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:81)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -5169,7 +5169,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 18:49:16 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:81)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:81)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -5726,7 +5726,7 @@ Caused by: java.lang.NoClassDefFoundError: com/example/limittransactsapi/service
 	at java.base/java.lang.Class.getDeclaredConstructors(Class.java:2555) ~[na:na]
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:379) ~[spring-beans-6.1.12.jar:6.1.12]
 	... 23 common frames omitted
-Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.services.CurrencyService
+Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.services.ExchangeRateService
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525) ~[na:na]
@@ -5888,7 +5888,7 @@ Caused by: java.lang.NoClassDefFoundError: com/example/limittransactsapi/service
 	at java.base/java.lang.Class.getDeclaredConstructors(Class.java:2555) ~[na:na]
 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:379) ~[spring-beans-6.1.12.jar:6.1.12]
 	... 23 common frames omitted
-Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.services.CurrencyService
+Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.services.ExchangeRateService
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525) ~[na:na]
@@ -6035,7 +6035,7 @@ Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.servi
 2024-09-08 19:37:20 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 19:37:20 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:82)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:82)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -6089,7 +6089,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 19:37:20 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:82)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:82)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -6586,8 +6586,8 @@ java.lang.InterruptedException: null
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:97)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:78)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:97)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:78)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -6641,8 +6641,8 @@ java.lang.InterruptedException: null
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 19:51:22 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Failed to fetch and save exchange rate
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:114)
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:78)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:114)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:78)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -6700,7 +6700,7 @@ Caused by: java.lang.InterruptedException: null
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
 	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
-	at com.example.limittransactsapi.services.CurrencyService.fetchAndSaveExchangeRate(CurrencyService.java:97)
+	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:97)
 	... 52 common frames omitted
 2024-09-08 19:51:22 - Resolved [org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to flush: java.nio.channels.ClosedChannelException]
 2024-09-08 19:51:22 - Closing JPA EntityManagerFactory for persistence unit 'default'
@@ -6854,7 +6854,7 @@ Caused by: java.lang.InterruptedException: null
 2024-09-08 19:51:32 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 19:51:32 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:82)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:82)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -6908,7 +6908,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 19:51:32 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:82)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:82)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -7169,7 +7169,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:06:44 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 20:06:44 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:82)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:82)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -7223,7 +7223,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 20:06:44 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:82)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:82)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -7431,7 +7431,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:15:16 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 20:15:16 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:82)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:82)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -7635,7 +7635,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:16:26 - Failed to fetch exchange rate from API for currency pair, the result IS NULL!: KZT/USD on date: 2024-09-08T00:00+05:00
 2024-09-08 20:16:26 - Error occurred while fetching the exchange rate for currency pair: KZT/USD on date: 2024-09-08T00:00+05:00
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:83)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:83)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
@@ -7689,7 +7689,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 	at java.base/java.lang.Thread.run(Thread.java:842)
 2024-09-08 20:16:26 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
 org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched from API, the result IS NULL!.
-	at com.example.limittransactsapi.services.CurrencyService.getCurrencyRate(CurrencyService.java:83)
+	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:83)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)

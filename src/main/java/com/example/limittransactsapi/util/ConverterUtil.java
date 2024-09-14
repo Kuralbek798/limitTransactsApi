@@ -2,7 +2,6 @@ package com.example.limittransactsapi.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -19,11 +18,14 @@ public class ConverterUtil {
         return amount.multiply(currencyRate);
     }
 
-    // Временное решение просто пока не успеваю апи искать, а покупать подписку пока не получается.
-    public  BigDecimal convertCurrencyForUSDByKZTRate(BigDecimal amount, BigDecimal exchangeRate) {
-        if (amount == null || exchangeRate == null || exchangeRate.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Amount and exchange rate must not be null or zero.");
+    public  BigDecimal convertUsdToKztToKztToUsd(BigDecimal usdToKzt) {
+        if (usdToKzt.compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("Курс доллара к тенге не может быть равен нулю.");
         }
-        return amount.divide(exchangeRate, 2, RoundingMode.HALF_UP);
+        // Возвращение обратного значения для вычисления курса KZT к USD
+        return BigDecimal.ONE.divide(usdToKzt, 6, RoundingMode.HALF_UP); // 6 — число знаков после запятой для большей точности
     }
+
+
+
 }

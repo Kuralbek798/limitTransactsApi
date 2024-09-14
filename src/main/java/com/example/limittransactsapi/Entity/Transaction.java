@@ -1,5 +1,7 @@
 package com.example.limittransactsapi.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +27,8 @@ public class Transaction {
     @Column(name = "currency", nullable = false, length = 3)
     private String currency;
 
-    @Column(name = "datetime", nullable = false)
-    private OffsetDateTime datetime;
+    @Column(name = "datetime_transaction", nullable = false)
+    private OffsetDateTime datetimeTransaction;
 
     @Column(name = "account_from", nullable = false)
     private Integer accountFrom;
@@ -37,6 +39,12 @@ public class Transaction {
     @Column(name = "expense_category", length = 50)
     private String expenseCategory;
 
- /*   @Column(name = "limit_exceeded", nullable = false)
-    private Boolean limitExceeded = false;*/
+//    @Transient
+//    private OffsetDateTime tr_date; // Поле, не сохраняемое в таблице
+//
+//    @Transient
+//
+//    private BigDecimal exchange_rate; // Поле, не сохраняемое в таблице
+
+
 }

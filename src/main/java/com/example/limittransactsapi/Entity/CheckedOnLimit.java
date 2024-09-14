@@ -30,4 +30,9 @@ public class CheckedOnLimit {
     @Column(name = "datetime", nullable = false)
     private OffsetDateTime datetime = OffsetDateTime.now();
 
+    public CheckedOnLimit(UUID transactionId, UUID limitId, boolean limitExceeded) {
+        this.transactionId = transactionId;
+        this.limitId = limitId;
+        this.limitExceeded = limitExceeded;
+    }
 }

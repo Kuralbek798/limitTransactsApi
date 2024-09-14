@@ -30,7 +30,7 @@ public class Limit {
     @Column(name = "currency", nullable = false, length = 3)
     private String currency = "USD";
 
-    @Column(name = "datetime")
+    @Column(name = "datetime", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private OffsetDateTime datetime;
 
 }

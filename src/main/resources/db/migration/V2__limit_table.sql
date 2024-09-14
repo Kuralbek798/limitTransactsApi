@@ -24,7 +24,7 @@ CREATE OR REPLACE FUNCTION enforce_limit_datetime()
     RETURNS TRIGGER AS $$
 BEGIN
     -- Принудительно устанавливаем limit_datetime на текущее время
-    NEW.limit_datetime = now() AT TIME ZONE 'UTC';  -- Установка времени
+    NEW.datetime = now() AT TIME ZONE 'UTC';  -- Установка времени
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

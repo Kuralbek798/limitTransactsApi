@@ -2,7 +2,9 @@ package com.example.limittransactsapi.services;
 
 
 import com.example.limittransactsapi.DTO.LimitDTO;
+import com.example.limittransactsapi.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.Entity.Limit;
+import com.example.limittransactsapi.mapper.ClientLimitMapper;
 import com.example.limittransactsapi.mapper.LimitMapper;
 import com.example.limittransactsapi.repository.LimitRepository;
 import com.example.limittransactsapi.util.ConverterUtil;
@@ -28,35 +30,36 @@ public class LimitService {
     private static final String RUB_USD_PAIR = "RUB/USD";
 
     private final LimitRepository limitRepository;
-    private final CurrencyService currencyService;
+    private final ExchangeRateService exchangeRateService;
     private final ConverterUtil converterUtil;
 
     @Autowired
-    public LimitService(LimitRepository limitRepository, CurrencyService currencyService, ConverterUtil converterUtil) {
+    public LimitService(LimitRepository limitRepository, ExchangeRateService exchangeRateService, ConverterUtil converterUtil) {
         this.limitRepository = limitRepository;
-        this.currencyService = currencyService;
+        this.exchangeRateService = exchangeRateService;
         this.converterUtil = converterUtil;
     }
 
     // checking and setting limits method
-    public ResponseEntity<LimitDTO> setLimit(LimitDTO limitDtoFromClient) {
+    public ResponseEntity<LimitDtoFromClient> setLimit(LimitDtoFromClient limitDtoFromClient) {
         try {
-              Optional<LimitDTO>OptionalLimitDtoFromDB = getLatestLimitInOptionalLimitDto();
+            //receiving latest limit from db
+            Optional<LimitDTO> OptionalLimitDtoFromDB = getLatestLimitInOptionalLimitDto();
 
+            //checking and converting limit from client
+            var convertedLimit = checkLimitCurrencyTypeAndSetToUSD(limitDtoFromClient);
+            limitDtoFromClient.setLimitCurrency(convertedLimit.getLimitCurrency());
+            limitDtoFromClient.setLimitSum(convertedLimit.getLimitSum());
+
+            //comparing existing limit with client's limit
             if (isLimitExist(OptionalLimitDtoFromDB, limitDtoFromClient)) {
                 throw new IllegalArgumentException("A limit with the same sum has already been set; please choose another one.");
-            } else {
-                // check the currency type in which the limit was set. If it is not in USD,
-                // convert it using the exchange rate and adjust the given values accordingly.
-                var convertedLimit = checkLimitCurrencyTypeAndSetToUSD(limitDtoFromClient);
-                limitDtoFromClient.setLimitCurrency(convertedLimit.getLimitCurrency());
-                limitDtoFromClient.setLimitSum(convertedLimit.getLimitSum());
             }
 
-            Limit savedLimit = limitRepository.save(LimitMapper.INSTANCE.toEntity(limitDtoFromClient));
+            Limit savedLimit = limitRepository.save(ClientLimitMapper.INSTANCE.toEntity(limitDtoFromClient));
             log.info("Limit saved successfully: {}", limitDtoFromClient);
 
-            return new ResponseEntity<>(LimitMapper.INSTANCE.toDTO(savedLimit), HttpStatus.CREATED);
+            return new ResponseEntity<>(ClientLimitMapper.INSTANCE.toDTO(savedLimit), HttpStatus.CREATED);
 
         } catch (IllegalArgumentException | IllegalStateException e) {
             log.error("Error in method setLimit: {}", e.getMessage(), e);
@@ -68,38 +71,42 @@ public class LimitService {
     }
 
     public Optional<LimitDTO> getLatestLimitInOptionalLimitDto() {
-        Optional<Limit> existingLimit = limitRepository.findTopByOrderByLimitDatetimeDesc();
-        return  existingLimit.map(limit -> LimitMapper.INSTANCE.toDTO(limit));
+        Optional<Limit> existingLimit = limitRepository.findTopByOrderByDatetimeDesc();
+        return existingLimit.map(limit -> LimitMapper.INSTANCE.toDTO(limit));
     }
 
-    private boolean isLimitExist(Optional<LimitDTO> OptionalLimitDto, LimitDTO limitDTO) {
-        return OptionalLimitDto.isPresent() && OptionalLimitDto.get().getLimitSum().equals(limitDTO.getLimitSum());
+    private boolean isLimitExist(Optional<LimitDTO> OptionalLimitDto, LimitDtoFromClient limitDtoFromClient) {
+        return OptionalLimitDto.isPresent() && OptionalLimitDto.get().getLimitAmount().equals(limitDtoFromClient.getLimitSum());
     }
 
-    private LimitDTO checkLimitCurrencyTypeAndSetToUSD(LimitDTO limitDto) {
+    private LimitDtoFromClient checkLimitCurrencyTypeAndSetToUSD(LimitDtoFromClient limitDtoFromClient) {
         BigDecimal exchangeRate;
-
-        if (limitDto.getLimitCurrency().equals(RUB)) {
-            var exchangeRateDTO = currencyService.getCurrencyRate(RUB_USD_PAIR);
+        // checking currency type if it is RUB
+        if (limitDtoFromClient.getLimitCurrency().equals(RUB)) {
+            //receiving rate
+            var exchangeRateDTO = exchangeRateService.getCurrencyRate(RUB_USD_PAIR);
             exchangeRate = exchangeRateDTO.getRate();
             if (exchangeRate == null || exchangeRate.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new IllegalArgumentException("Invalid exchange rate for RUB.");
             }
-            BigDecimal bigDecimal = converterUtil.currencyConverter(limitDto.getLimitSum(), exchangeRate);
-            limitDto.setLimitSum(bigDecimal);
-            limitDto.setLimitCurrency(USD);
-
-        } else if (limitDto.getLimitCurrency().equals(KZT)) {
-            var exchangeRateDTO = currencyService.getCurrencyRate(KZT_USD_PAIR);
+            //converting limit sum by rate
+            BigDecimal bigDecimal = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
+            limitDtoFromClient.setLimitSum(bigDecimal);
+            limitDtoFromClient.setLimitCurrency(USD);
+            //checking currency type if it is KZT
+        } else if (limitDtoFromClient.getLimitCurrency().equals(KZT)) {
+            //receiving currency rate
+            var exchangeRateDTO = exchangeRateService.getCurrencyRate(KZT_USD_PAIR);
             exchangeRate = exchangeRateDTO.getRate();
             if (exchangeRate == null || exchangeRate.compareTo(BigDecimal.ZERO) <= 0) {
                 throw new IllegalArgumentException("Invalid exchange rate for KZT.");
             }
-            BigDecimal bigDecimal = converterUtil.convertCurrencyForUSDByKZTRate(limitDto.getLimitSum(), exchangeRate);
-            limitDto.setLimitSum(bigDecimal);
-            limitDto.setLimitCurrency(USD);
+            //converting limit sum by rate
+            var bigDecimal = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
+            limitDtoFromClient.setLimitSum(bigDecimal);
+            limitDtoFromClient.setLimitCurrency(USD);
         }
-        return limitDto;
+        return limitDtoFromClient;
     }
 
     public boolean setMonthlyLimitByDefault() {

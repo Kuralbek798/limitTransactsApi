@@ -4,6 +4,6 @@ CREATE TABLE exchange_rates
     currency_pair VARCHAR(20)                    NOT NULL,
     rate          DECIMAL                        NOT NULL,
     close         DOUBLE PRECISION               NOT NULL,
-    datetime      TIMESTAMP WITH TIME ZONE       NOT NULL,
+    datetime_rate      TIMESTAMP WITH TIME ZONE       NOT NULL,
      PRIMARY KEY (id)
 );

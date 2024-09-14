@@ -5,15 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExchangeRateDTO {
-
-    private String currencyPair;
-    private BigDecimal rate;
-    private OffsetDateTime dateTimeRate;
-
+public class LimitDtoFromClient {
+    private BigDecimal limitSum;
+    private String limitCurrency;
 }
