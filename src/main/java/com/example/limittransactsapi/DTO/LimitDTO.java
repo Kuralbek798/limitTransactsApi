@@ -17,4 +17,9 @@ public class  LimitDTO {
     private String limitCurrency;
     private OffsetDateTime dateTime;
 
+    //for test
+    public LimitDTO(BigDecimal limitAmount, UUID id) {
+        this.limitAmount = limitAmount;
+        this.id = id;
+    }
 }

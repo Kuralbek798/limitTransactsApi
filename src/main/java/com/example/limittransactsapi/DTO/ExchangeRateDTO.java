@@ -16,4 +16,8 @@ public class ExchangeRateDTO {
     private BigDecimal rate;
     private OffsetDateTime dateTimeRate;
 
+
+    //test
+    public ExchangeRateDTO(String kzt, String usd, BigDecimal bigDecimal) {
+    }
 }
