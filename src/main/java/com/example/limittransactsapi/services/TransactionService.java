@@ -50,7 +50,6 @@ public class TransactionService {
         this.exchangeRateService = exchangeRateService;
     }
 
-
     //Creates transactions
     public ResponseEntity sendTransactionsToDB(List<TransactionDTO> transactionsListFromService) {
         try {
@@ -61,7 +60,6 @@ public class TransactionService {
                 var transactionsWithRates = getTransactionsWithRates(currentLimit.getId());
                 checkTransactionsOnActiveLimit(transactionsListFromService, transactionsWithRates, currentLimit);
 
-                //saveTransactionsToDB(transactionsListFromService);
                 return ResponseEntity.ok().build();
 
             } else {
@@ -90,38 +88,53 @@ public class TransactionService {
             log.error("TransactionService class error occurred in the method getCurrentLimit {}", e.getMessage(), e);
             throw new RuntimeException(e.getMessage(), e);
         }
-
     }
 
     public void checkTransactionsOnActiveLimit(List<TransactionDTO> transactionsListFromService, List<TransactionDTO> transactionsWithRates, LimitDTO currentLimit) {
         for (TransactionDTO transaction : transactionsListFromService) {
             try {
-                var exchangeRatesMap = getCurrencyRateDTOinMap();
+                var exchangeRatesMap = getCurrencyRateAsMap();
+
                 var transactionsByAccountAndCategory = groupTransactionsByAccountAndCategory(transactionsWithRates);
+
+
+
                 // Check the transaction based on the expense category
                 if ("product".equalsIgnoreCase(transaction.getExpenseCategory()) || "service".equalsIgnoreCase(transaction.getExpenseCategory())) {
-
                     BigDecimal transactionSum = getConvertedSumInUSD(transaction, exchangeRatesMap);
-
                     //creating total sum of transactions
                     BigDecimal additionalSum = findTheSameAccountFromAndExpenseCategory(transactionsByAccountAndCategory, transaction);
-                    if (additionalSum.compareTo(BigDecimal.ZERO) > 0) {
-                        var totalSum = transactionSum.add(additionalSum);
-                        var checkedOnLimitDTO = getCheckedOnLimitDTO(transaction, currentLimit, totalSum);
-                        if (checkedOnLimitDTO != null) {
-                            transactionRepository.save(TransactionMapper.INSTANCE.toEntity(transaction));
-                            checkedOnLimitService.saveCheckedOnLimit(CheckedOnLimitMapper.INSTANCE.toEntity(checkedOnLimitDTO));
-                            if (!checkedOnLimitDTO.isLimitExceeded()) {
-                                addTransactionToGroupedListByAccountFromAndExpense(transactionsWithRates, transaction);
-                            }
-
-                        }
+                    var totalSum = transactionSum.add(additionalSum);
+                    var checkedOnLimitDTO = getCheckedOnLimitDTO(transaction, currentLimit, totalSum);
+                    //saving data to DB.
+                    transactionRepository.save(TransactionMapper.INSTANCE.toEntity(transaction));
+                    checkedOnLimitService.saveCheckedOnLimit(CheckedOnLimitMapper.INSTANCE.toEntity(checkedOnLimitDTO));
+                    if (checkedOnLimitDTO.isLimitExceeded() == false) {
+                        TransactionDTO transactionDTO = createTransactionDTOwithData(transaction, exchangeRatesMap);
+                        transactionsWithRates.add(transactionDTO);
                     }
                 }
             } catch (Exception e) {
                 log.error("Error processing transaction ID: {}. Exception: {}", transaction.getId(), e.getMessage(), e);
             }
         }
+    }
+
+    private TransactionDTO createTransactionDTOwithData(TransactionDTO transaction, Map<String, ExchangeRateDTO> exchangeRatesMap) {
+
+        var rate = getConvertedSumInUSD(transaction, exchangeRatesMap);
+        return new TransactionDTO() {
+            {
+                setAmount(transaction.getAmount());
+                setCurrency(transaction.getCurrency());
+                setDatetimeTransaction(transaction.getDatetimeTransaction());
+                setAccountFrom(transaction.getAccountFrom());
+                setAccountTo(transaction.getAccountTo());
+                setExpenseCategory(transaction.getExpenseCategory());
+                setTrDate(transaction.getDatetimeTransaction().truncatedTo(ChronoUnit.DAYS));
+                setExchangeRate(rate);
+            }
+        };
     }
 
     private List<TransactionDTO> groupTransactionsByAccountAndCategory(List<TransactionDTO> transactionsWithRates) {
@@ -134,50 +147,34 @@ public class TransactionService {
         return transactionsByAccountAndCategory;
     }
 
-    private void addTransactionToGroupedListByAccountFromAndExpense(List<TransactionDTO> transactionsWithRates, TransactionDTO transaction) {
-        transactionsWithRates.add(new TransactionDTO() {
-            {
-                setAmount(transaction.getAmount());
-                setCurrency(transaction.getCurrency());
-                setDatetimeTransaction(transaction.getDatetimeTransaction());
-                setAccountFrom(transaction.getAccountFrom());
-                setExpenseCategory(transaction.getExpenseCategory());
-                setTrDate(transaction.getDatetimeTransaction().truncatedTo(ChronoUnit.DAYS));
-                setExchangeRate(transaction.getExchangeRate());
-
-            }
-        });
-
-        var transactionsWithSumByRates = getTransactionsWithCalculatedSum(transactionsWithRates);
-        var transactionsByAccountAndCategory = groupTransactionsByAccountAndCategory(transactionsWithRates);
-
-    }
-
-
     private BigDecimal getConvertedSumInUSD(TransactionDTO transaction, Map<String, ExchangeRateDTO> exchangeRatesMap) {
-        BigDecimal convertedSumOfTransaction = BigDecimal.ZERO;
-        if (!"USD".equalsIgnoreCase(transaction.getCurrency())) {
-            if (transaction.getCurrency().equalsIgnoreCase("RUB")) {
-                var exchangeRate = exchangeRatesMap.get(RUB_USD_PAIR);
-                if (exchangeRate != null) {
-                    // Convert the transaction sum to USD using the latest currency rate
-                    return converterUtil.currencyConverter(transaction.getSum(), exchangeRate.getRate());
-                }
-            } else if (transaction.getCurrency().equalsIgnoreCase("KZT")) {
-                var exchangeRate = exchangeRatesMap.get(KZT_USD_PAIR);
-                if (exchangeRate != null) {
-                    // Convert the transaction sum to USD using the latest currency rate
-                    return converterUtil.currencyConverter(transaction.getSum(), exchangeRate.getRate());
+        try {
+            BigDecimal sum = null;
+            if (!"USD".equalsIgnoreCase(transaction.getCurrency())) {
+                if (transaction.getCurrency().equalsIgnoreCase("RUB")) {
+                    var exchangeRate = exchangeRatesMap.get(RUB_USD_PAIR);
+                    if (exchangeRate != null) {
+                        // Convert the transaction sum to USD using the latest currency rate
+                        return converterUtil.currencyConverter(transaction.getSum(), exchangeRate.getRate());
+                    }
+                } else if (transaction.getCurrency().equalsIgnoreCase("KZT")) {
+                    var exchangeRate = exchangeRatesMap.get(KZT_USD_PAIR);
+                    if (exchangeRate != null) {
+                        // Convert the transaction sum to USD using the latest currency rate
+                        return converterUtil.currencyConverter(transaction.getSum(), exchangeRate.getRate());
+                    }
                 }
             }
+            if ("USD".equalsIgnoreCase(transaction.getCurrency())) {
+                sum = transaction.getSum();
+            }
+            return sum;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
         }
-        if ("USD".equalsIgnoreCase(transaction.getCurrency())) {
-            convertedSumOfTransaction = transaction.getSum();
-        }
-        return convertedSumOfTransaction;
     }
 
-    private Map<String, ExchangeRateDTO> getCurrencyRateDTOinMap() {
+    private Map<String, ExchangeRateDTO> getCurrencyRateAsMap() {
         try {
             Map<String, ExchangeRateDTO> exchangeRateMap = new HashMap<>();
             exchangeRateMap.put("KZT/USD", exchangeRateService.getCurrencyRate("KZT/USD"));
@@ -189,9 +186,29 @@ public class TransactionService {
             log.error("Failed to get currency rate for currency: {}. Exception: {}", e.getMessage(), e);
             throw new RuntimeException(e.getMessage(), e);
         }
-
     }
 
+
+    private BigDecimal findTheSameAccountFromAndExpenseCategory(List<TransactionDTO> transactionsByAccountAndCategory, TransactionDTO transaction) {
+        try {
+            // Filtering transactions with matching 'accountFrom' и 'expenseCategory'
+            BigDecimal totalSum = transactionsByAccountAndCategory.stream()
+                    .filter(transactionFromList -> transactionFromList.getExpenseCategory().equalsIgnoreCase(transaction.getExpenseCategory()) &&
+                            transactionFromList.getAccountFrom().equals(transaction.getAccountFrom()))
+                    // summing up all found transactions
+                    .map(transactionFromList -> Optional.ofNullable(transactionFromList.getSum()).orElse(BigDecimal.ZERO))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add); // summing up all found sums.
+
+            // Adding the amount of transferred transaction
+            totalSum = totalSum.add(Optional.ofNullable(transaction.getSum()).orElse(BigDecimal.ZERO));
+
+            return totalSum;
+        } catch (Exception e) {
+            log.error("Ошибка при вычислении дополнительной суммы для категории: {}. Exception: {}", e.getMessage(), e);
+            throw new RuntimeException("TransactionService: ошибка в методе findTheSameAccountFromAndExpenseCategory: " + e.getMessage(), e);
+        }
+    }
+/*
     private BigDecimal findTheSameAccountFromAndExpenseCategory(List<TransactionDTO> transactionsByAccountAndCategory, TransactionDTO transaction) {
         try {
             return transactionsByAccountAndCategory.stream()
@@ -209,8 +226,7 @@ public class TransactionService {
             log.error("Error calculating additional sum for category: {}. Exception: {}", e.getMessage(), e);
             throw new RuntimeException("TransactionSerfis error ocured in the method findTheSameAccountFromAndExpenseCategory" + e.getMessage(), e);
         }
-
-    }
+    }*/
 
     private CheckedOnLimitDTO getCheckedOnLimitDTO(TransactionDTO transaction, LimitDTO currentLimit, BigDecimal totalSum) {
         try {
@@ -220,7 +236,6 @@ public class TransactionService {
             checkedOnLimit.setTransactionId(transaction.getId());
             checkedOnLimit.setLimitId(currentLimit.getId());
             checkedOnLimit.setLimitExceeded(isExceeded); // true if the transaction sum over limit.
-
             log.info("Transaction ID: {} processed. Limit exceeded: {}", transaction.getId(), checkedOnLimit.isLimitExceeded());
             return checkedOnLimit;
         } catch (Exception e) {
@@ -235,7 +250,7 @@ public class TransactionService {
                 .forEach(transaction -> { // loop transactions
                     BigDecimal calculatedSum = transaction.getAmount().multiply(transaction.getExchangeRate());
                     transaction.setSum(calculatedSum);
-                    transaction.setCurrency("USD"); // setting currency USD
+                    transaction.setConvertedCurrency("USD"); // setting currency USD
                 });
         return transactionsWithRates;
     }
@@ -257,7 +272,7 @@ public class TransactionService {
                                         (sum1, sum2) -> sum1.add(sum2))))
                         .entrySet()
                         .stream()
-                        // creating each group into object TransactionDTO
+                        // Create a summarized TransactionDTO for each 'expenseCategory' in the 'accountFrom' group
                         .map(expenseGroup -> {
                             TransactionDTO summaryTransaction = new TransactionDTO(
                                     "USD",
@@ -295,7 +310,6 @@ public class TransactionService {
 
             transactions.add(dto);
         }
-
         return transactions;
     }
 

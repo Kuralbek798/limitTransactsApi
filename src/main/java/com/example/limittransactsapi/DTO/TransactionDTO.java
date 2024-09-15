@@ -17,6 +17,7 @@ public class TransactionDTO {
 
     private UUID id;
     private BigDecimal amount;
+    private String convertedCurrency;
     private String currency;
     private OffsetDateTime datetimeTransaction;
     private Integer accountFrom;
@@ -26,8 +27,8 @@ public class TransactionDTO {
     private BigDecimal exchangeRate;
     private BigDecimal sum;
 
-    public TransactionDTO(  String currency, String expenseCategory, Integer accountFrom, BigDecimal sum) {
-        this.currency = currency;
+    public TransactionDTO(  String convertedCurrency, String expenseCategory, Integer accountFrom, BigDecimal sum) {
+        this.convertedCurrency = convertedCurrency;
         this.expenseCategory = expenseCategory;
         this.accountFrom = accountFrom;
         this.sum = sum;

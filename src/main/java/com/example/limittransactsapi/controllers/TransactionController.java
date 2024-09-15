@@ -42,9 +42,10 @@ public class TransactionController {
     @GetMapping("/{limitId}")
     public List<TransactionDTO> getTransactions(@PathVariable UUID limitId) {
        var a = transactionService.getTransactionsWithRates(limitId);
-       var b = transactionService.getTransactionsWithCalculatedSum(a);
+       //var b = transactionService.getTransactionsWithCalculatedSum(a);
 
-        return transactionService.groupAndSummarizeTransactions(b);
+        //return transactionService.groupAndSummarizeTransactions(b);
+        return a;
     }
 
 }
