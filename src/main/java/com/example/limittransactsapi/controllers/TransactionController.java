@@ -8,11 +8,11 @@ import com.example.limittransactsapi.DTO.TransactionDTO;
 import com.example.limittransactsapi.services.ExchangeRateService;
 import com.example.limittransactsapi.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/transactions")
@@ -34,13 +34,13 @@ public class TransactionController {
 
 //Don't forget to delete for testing purpose only!!!!!!!
     @GetMapping("/currancy")
-    public ExchangeRateDTO getExchangeRate(String currencyPair){
+    public CompletableFuture<ExchangeRateDTO> getExchangeRate(String currencyPair){
         return exchangeRateService.getCurrencyRate(currencyPair);
     }
 
     //Don't forget to delete for testing purpose only!!!!!!!
     @GetMapping("/{limitId}")
-    public List<TransactionDTO> getTransactions(@PathVariable UUID limitId) {
+    public CompletableFuture<List<TransactionDTO>> getTransactions(@PathVariable UUID limitId) {
        var a = transactionService.getTransactionsWithRates(limitId);
        //var b = transactionService.getTransactionsWithCalculatedSum(a);
 

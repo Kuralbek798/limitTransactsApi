@@ -1,17 +1,25 @@
 package com.example.limittransactsapi.config;
 
+
 import com.example.limittransactsapi.services.LimitService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.Executor;
 
 @Data
 @Configuration
 @EnableScheduling
-public class SchedulerConfig {
+@EnableAsync
+public class Config {
 
     @Value("${scheduler.enabled:true}")
     private boolean schedulerEnabled;
@@ -26,7 +34,7 @@ public class SchedulerConfig {
 
 
     @Autowired
-    public SchedulerConfig(LimitService limitService) {
+    public Config(LimitService limitService) {
         this.limitService = limitService;
     }
 
@@ -54,5 +62,30 @@ public class SchedulerConfig {
         }
     }
 
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
+    @Bean(name = "taskExecutor") // Регистрация бина для асинхронного выполнения задач
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+
+        // Установка базового размера пула потоков
+        executor.setCorePoolSize(5);
+
+        // Установка максимального размера пула потоков
+        executor.setMaxPoolSize(10);
+
+        // Установка емкости очереди задач
+        executor.setQueueCapacity(25);
+
+        // Установка префикса имен потоков для упрощения отладки
+        executor.setThreadNamePrefix("AsyncThread-");
+
+        // Инициализация исполнителя
+        executor.initialize();
+
+        return executor;
+    }
 }

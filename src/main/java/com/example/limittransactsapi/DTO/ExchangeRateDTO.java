@@ -1,23 +1,39 @@
 package com.example.limittransactsapi.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@ToString
 public class ExchangeRateDTO {
 
-    private String currencyPair;
-    private BigDecimal rate;
-    private OffsetDateTime dateTimeRate;
+    private final String currencyPair;
+    private final BigDecimal rate;
+    private  OffsetDateTime dateTimeRate;
 
 
-    //test
-    public ExchangeRateDTO(String kzt, String usd, BigDecimal bigDecimal) {
+    public ExchangeRateDTO(String currencyPair, BigDecimal rate) {
+        this.currencyPair = currencyPair;
+        this.rate = rate;
+
     }
+
+    // Синхронизированный сеттер для dateTimeRate
+    public synchronized void setDateTimeRate(OffsetDateTime dateTimeRate) {
+        this.dateTimeRate = dateTimeRate;
+    }
+
+    // Геттер для dateTimeRate
+    public synchronized OffsetDateTime getDateTimeRate() {
+        return this.dateTimeRate;
+    }
+
+    // Метод для установки значения dateTimeRate на текущее время
+    public synchronized void setCurrentDateTimeRate() {
+        this.dateTimeRate = OffsetDateTime.now();
+    }
+
 }
