@@ -92,7 +92,7 @@ public class CheckedOnLimitService {
                 log.error("An error occurred while saving CheckedOnLimit: {}", e.getMessage()); // Логирование всех других ошибок
                 throw new CustomGenericException("Ошибка при сохранении CheckedOnLimit", e); // Бросаем общее пользовательское исключение
             }
-        }); // Выполнение операции с использованием кастомного исполнителя
+        });
     }
 
 
