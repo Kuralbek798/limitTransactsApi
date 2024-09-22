@@ -104,14 +104,11 @@ public class TransactionService {
                 });
     }
 
-
     public CompletableFuture<ResponseEntity<String>> processTransactions(Map<String, List<TransactionDTO>> clientsTransactMap,
                                                                          Map<String, List<TransactionDTO>> dbTransactMap,
                                                                          LimitDTO limitDTO) {
         List<String> categories = List.of("service", "product");
-
-//        List<CompletableFuture<Object>> futures = new ArrayList<>();
-
+        List<CompletableFuture<Void>> futures = new ArrayList<>(); // Collecting futures for void
 
         for (String category : categories) {
             var clientsTransactions = clientsTransactMap.getOrDefault(category, Collections.emptyList());
@@ -125,26 +122,29 @@ public class TransactionService {
                     .thenCompose(groupedTransactions -> summarizeGroupedTransactions(groupedTransactions));
 
             // Combine future results
-            clientsGroupedFuture.thenCombine(dbSummarizedFuture, (clientGroups, dbSummaries) -> {
+            CompletableFuture<Void> future = clientsGroupedFuture.thenCombine(dbSummarizedFuture, (clientGroups, dbSummaries) -> {
+                        additionTransactionsWithComparisonOnLimit(clientGroups, dbSummaries, limitDTO); // Assuming this method returns void
+                        return null; // Explicit return null for void
+                    })
+                    .thenAccept(aVoid -> { /* Do something if needed after combination */ })
+                    .exceptionally(ex -> {
+                        log.error("Error processing transactions for category {}: {}", category, ex.getMessage());
+                        return null; // Handle exceptions if needed
+                    });
 
-                additionTransactionsWithComparisonOnLimit(clientGroups, dbSummaries, limitDTO);
-
-
-                return null; // Return null because we don't need to process this combine result further
-            }).exceptionally(ex -> {
-                log.error("Error processing transactions for category {}: {}", category, ex.getMessage());
-                return null; // Handle exceptions if needed
-            });
+            futures.add(future); // Add this future to the list
         }
 
-     /*   // Wait for all futures to complete and build the response
+        // Wait for all futures to complete and build the response
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                 .thenApply(v -> ResponseEntity.ok("All categories processed successfully"))
                 .exceptionally(ex -> {
                     log.error("Error processing transactions: {}", ex.getMessage());
                     return ResponseEntity.internalServerError().body("Error");
-                });*/
+                });
     }
+
+
 
 
 
@@ -183,7 +183,7 @@ public class TransactionService {
                         return null;
                     }).exceptionally(ex -> {
                         log.error("An error occurred while processing transaction ID {}: {}", tr.getId(), ex.getMessage());
-                        return null; // Handle exception
+                        return null;
                     });
                 } else {
                     // Handle case for exceeding limit as you did before
