@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -56,23 +57,25 @@ public class TransactionService {
         if (transactionsListFromService == null || transactionsListFromService.isEmpty()) {
             return CompletableFuture.completedFuture(ResponseEntity.badRequest().body("The list was empty"));
         }
-        return limitService.getLatestLimitAsync().thenCompose(currentLimit -> getTransactionsWithRates(currentLimit.getId()).thenCompose(transactionsWithRates -> checkTransactionsOnActiveLimit(transactionsListFromService, transactionsWithRates, currentLimit))).exceptionally(ex -> {
-            log.error("Error occurred: {}", ex.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
-        });
+        return limitService.getLatestLimitAsync().thenCompose(currentLimit -> getTransactionsWithRates(currentLimit.getId())
+                        .thenCompose(transactionsWithRates -> checkTransactionsOnActiveLimit(transactionsListFromService, transactionsWithRates, currentLimit)))
+                .exceptionally(ex -> {
+                    log.error("Error occurred: {}", ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
+                });
     }
 
     @Async("customExecutor")
-    CompletableFuture<ResponseEntity<String>> checkTransactionsOnActiveLimit(List<TransactionDTO> clientsTransactions,
-                                                                             List<TransactionDTO> dbTransactions, LimitDTO limitDTO) {
+    CompletableFuture<ResponseEntity<String>> checkTransactionsOnActiveLimit(List<TransactionDTO> clientsTransactions, List<TransactionDTO> dbTransactions, LimitDTO limitDTO) {
 
         //receiving currency rate
         CompletableFuture<Map<String, ExchangeRateDTO>> exchangeRatesMapFuture = getCurrencyRateAsMap();
         //grouping data by category product/service/notInCategory
         CompletableFuture<Map<String, List<TransactionDTO>>> groupedDBTransactionsFuture = groupTransactionsByExpenseCategory(dbTransactions);
+        //remove data which not in categories.
         groupedDBTransactionsFuture.thenAccept(groupedDBTransactions -> groupedDBTransactions.remove("notInCategories"));
         CompletableFuture<Map<String, List<TransactionDTO>>> groupedClientsTransactionsFuture = groupTransactionsByExpenseCategory(clientsTransactions);
-
+        //save and remove data which not in categories.
         CompletableFuture<Void> outCategoryTransactionsFuture = groupedClientsTransactionsFuture.thenAccept(groupedClients -> {
             List<TransactionDTO> transactionsOutCategory = groupedClients.getOrDefault("notInCategories", new ArrayList<>());
             //save to DB
@@ -80,25 +83,27 @@ public class TransactionService {
             //remove data from map
             groupedClients.remove("notInCategories");
         });
-
+        // Convert client transactions
         CompletableFuture<Map<String, List<TransactionDTO>>> convertedClientsTransactionsFuture = groupedClientsTransactionsFuture
                 .thenCombine(exchangeRatesMapFuture, this::convertTransactionsSumAndCurrencyByUSDAsync)
                 .thenCompose(CompletableFuture -> CompletableFuture);
 
-
+        // Convert DB transactions
         CompletableFuture<Map<String, List<TransactionDTO>>> convertedDBTransactionsFuture = groupedDBTransactionsFuture
                 .thenCombine(exchangeRatesMapFuture, this::convertTransactionsSumAndCurrencyByUSDAsync)
                 .thenCompose(CompletableFuture -> CompletableFuture);
-        // .thenCompose(transactions -> groupAndSummarizeDBTransactionsByAccount(transactions));
 
-        convertedClientsTransactionsFuture.thenCombine(convertedDBTransactionsFuture, (convertedClientsTr, convertedDBTr) -> {
+        // Process transactions after conversion
+        CompletableFuture<Void> processTransactionsFuture = convertedClientsTransactionsFuture.thenCombine(convertedDBTransactionsFuture, (convertedClientsTr, convertedDBTr) -> {
 
-            return processTransactions(convertedClientsTr, convertedDBTr, limitDTO);
+            processTransactions(convertedClientsTr, convertedDBTr, limitDTO);
+            return null;
 
         });
 
         return CompletableFuture.allOf(outCategoryTransactionsFuture, convertedClientsTransactionsFuture, convertedDBTransactionsFuture)
-                .thenCompose(v -> CompletableFuture.completedFuture(ResponseEntity.ok("Transactions processed successfully"))).exceptionally(ex -> {
+                .thenCompose(v -> CompletableFuture.completedFuture(ResponseEntity.ok("Transactions processed successfully")))
+                .exceptionally(ex -> {
                     log.error("An error occurred during transaction processing: {}", ex.getMessage());
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during transaction processing: " + ex.getMessage());
                 });
@@ -108,31 +113,26 @@ public class TransactionService {
                                                                          Map<String, List<TransactionDTO>> dbTransactMap,
                                                                          LimitDTO limitDTO) {
         List<String> categories = List.of("service", "product");
-        List<CompletableFuture<Void>> futures = new ArrayList<>(); // Collecting futures for void
+        List<CompletableFuture<Void>> futures = new ArrayList<>(); // Collecting futures
 
         for (String category : categories) {
             var clientsTransactions = clientsTransactMap.getOrDefault(category, Collections.emptyList());
             var dbTransactions = dbTransactMap.getOrDefault(category, Collections.emptyList());
 
-            // Group clients transactions asynchronously
             CompletableFuture<Map<Integer, List<TransactionDTO>>> clientsGroupedFuture = groupTransactionsByAccount(clientsTransactions);
-
-            // Group database transactions asynchronously and then summarize them
             CompletableFuture<Map<Integer, BigDecimal>> dbSummarizedFuture = groupTransactionsByAccount(dbTransactions)
-                    .thenCompose(groupedTransactions -> summarizeGroupedTransactions(groupedTransactions));
+                    .thenCompose(this::summarizeGroupedTransactions);
 
-            // Combine future results
-            CompletableFuture<Void> future = clientsGroupedFuture.thenCombine(dbSummarizedFuture, (clientGroups, dbSummaries) -> {
-                        additionTransactionsWithComparisonOnLimit(clientGroups, dbSummaries, limitDTO); // Assuming this method returns void
-                        return null; // Explicit return null for void
-                    })
-                    .thenAccept(aVoid -> { /* Do something if needed after combination */ })
+            CompletableFuture<Void> future = clientsGroupedFuture
+                    .thenCombine(dbSummarizedFuture, (clientGroups, dbSummaries) ->
+                            additionTransactionsWithComparisonOnLimit(clientGroups, dbSummaries, limitDTO))
+                    .thenCompose(Function.identity()) // Correctly handle the nested CompletableFuture
                     .exceptionally(ex -> {
                         log.error("Error processing transactions for category {}: {}", category, ex.getMessage());
-                        return null; // Handle exceptions if needed
+                        return null;
                     });
 
-            futures.add(future); // Add this future to the list
+            futures.add(future);
         }
 
         // Wait for all futures to complete and build the response
@@ -140,19 +140,20 @@ public class TransactionService {
                 .thenApply(v -> ResponseEntity.ok("All categories processed successfully"))
                 .exceptionally(ex -> {
                     log.error("Error processing transactions: {}", ex.getMessage());
-                    return ResponseEntity.internalServerError().body("Error");
+                    return ResponseEntity.internalServerError().body("Error while processing transactions");
                 });
     }
 
 
 
+/*
+    @Async("customExecutor")
+    CompletableFuture<Void> additionTransactionsWithComparisonOnLimit(Map<Integer, List<TransactionDTO>> clientsTransactions,
+                                                                      Map<Integer, BigDecimal> comparerExamplesDB,
+                                                                      LimitDTO limitDTO) {
 
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
 
-
-    public ResponseEntity<String> additionTransactionsWithComparisonOnLimit(Map<Integer, List<TransactionDTO>> clientsTransactions,
-                                                                            Map<Integer, BigDecimal> comparerExamplesDB,
-                                                                            LimitDTO limitDTO) {
-        // Loop clients transactions
         for (Map.Entry<Integer, List<TransactionDTO>> entry : clientsTransactions.entrySet()) {
             Integer accountFrom = entry.getKey();
             List<TransactionDTO> clientsTransactionsList = entry.getValue();
@@ -160,52 +161,56 @@ public class TransactionService {
             AtomicReference<BigDecimal> dbSum = new AtomicReference<>(comparerExamplesDB.getOrDefault(accountFrom, BigDecimal.ZERO));
 
             for (TransactionDTO tr : clientsTransactionsList) {
-                // Check sum of transactions on limit
+                CompletableFuture<Void> future;
                 if (dbSum.get().add(tr.getConvertedSum()).compareTo(limit) <= 0) {
-                    // This call is asynchronous
                     CompletableFuture<CheckedOnLimitDTO> savedCheckFuture = checkedOnLimitService
                             .saveCheckedOnLimitAsync(new CheckedOnLimit(tr.getId(), limitDTO.getId(), false));
 
-                    // Wrap the synchronous save in a CompletableFuture
                     CompletableFuture<TransactionDTO> savedTransactionFuture = CompletableFuture.supplyAsync(() ->
                             saveTransactionWithHandling(TransactionMapper.INSTANCE.toEntity(tr))
                     );
 
-                    // Combine the results
-                    savedCheckFuture.thenCombine(savedTransactionFuture, (checkedResult, savedTransaction) -> {
-                        // Check results
-                        if (savedTransaction != null && checkedResult != null) {
-                            // Updating the value in AtomicReference
-                            dbSum.updateAndGet(value -> value.add(tr.getConvertedSum()));
-                        } else {
-                            throw new IllegalStateException("Failed to save transaction or checked limit.");
-                        }
-                        return null;
-                    }).exceptionally(ex -> {
-                        log.error("An error occurred while processing transaction ID {}: {}", tr.getId(), ex.getMessage());
-                        return null;
-                    });
+                    future = savedCheckFuture.thenCombine(savedTransactionFuture, (checkedResult, savedTransaction) -> {
+                                if (savedTransaction != null && checkedResult != null) {
+                                    dbSum.updateAndGet(value -> value.add(tr.getConvertedSum()));
+                                } else {
+                                    throw new IllegalStateException("Failed to save transaction or checked limit.");
+                                }
+                                return null;
+                            }).thenRun(() -> {}) // This ensures Void is returned
+                            .exceptionally(ex -> {
+                                log.error("An error occurred while processing transaction ID {}: {}", tr.getId(), ex.getMessage());
+                                return null;
+                            });
+
                 } else {
-                    // Handle case for exceeding limit as you did before
-                    CheckedOnLimit checked = new CheckedOnLimit(tr.getId(), limitDTO.getId(), true);
-                    checkedOnLimitService.saveCheckedOnLimitAsync(checked)
+                    future = checkedOnLimitService.saveCheckedOnLimitAsync(new CheckedOnLimit(tr.getId(), limitDTO.getId(), true))
                             .handle((result, ex) -> {
                                 if (ex != null) {
                                     log.error("Error saving checked on limit for transaction ID {}: {}", tr.getId(), ex.getMessage());
                                 } else {
                                     log.info("Successfully saved checked on limit for transaction ID {}", tr.getId());
                                 }
-                                return result;
-                            });
-
-                    saveTransactionWithHandling(TransactionMapper.INSTANCE.toEntity(tr));
+                                return null;
+                            }).thenRun(() -> saveTransactionWithHandling(TransactionMapper.INSTANCE.toEntity(tr)))
+                            .thenRun(() -> {}); // This ensures Void is returned
                 }
+                futures.add(future);
             }
         }
 
-        // Return a successful response
-        return ResponseEntity.ok("Successfully processed transactions.");
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
     }
+*/
+
+
+
+
+
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
