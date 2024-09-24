@@ -30,7 +30,7 @@ public class ExchangeRate {
     private Double close;
 
     @Column(name = "datetime_rate", nullable = false)
-    private OffsetDateTime datetimeRate;
+    private OffsetDateTime dateTimeRate;
 
 
 

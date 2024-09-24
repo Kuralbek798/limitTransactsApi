@@ -78,30 +78,34 @@ public class LimitService {
     @Async("customExecutor")
     public CompletableFuture<LimitDtoFromClient> checkCurrencyTypeAndSetToUSAsync(LimitDtoFromClient limitDtoFromClient) {
         // Check currency type for RUB
-        if (limitDtoFromClient.getLimitCurrency().equals(RUB)) {
+        if (limitDtoFromClient.getCurrency().equals(RUB)) {
             return exchangeRateService.getCurrencyRate(RUB_USD_PAIR)
                     .thenComposeAsync(exchangeRateDTO -> {
                         BigDecimal exchangeRate = exchangeRateDTO.getRate();
                         if (exchangeRate == null || exchangeRate.compareTo(BigDecimal.ZERO) <= 0) {
                             throw new IllegalArgumentException("Недопустимый курс для RUB.");
                         }
-                        BigDecimal bigDecimal = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
-                        limitDtoFromClient.setLimitSum(bigDecimal);
-                        limitDtoFromClient.setLimitCurrency(USD);
+                        BigDecimal convertedCurrency = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
+                        LimitDtoFromClient limiDTOFromClient = new LimitDtoFromClient(
+                                convertedCurrency
+                                , "USD"
+                        );
                         return CompletableFuture.completedFuture(limitDtoFromClient);
                     });
 
             // Check currency type for KZT
-        } else if (limitDtoFromClient.getLimitCurrency().equals(KZT)) {
+        } else if (limitDtoFromClient.getCurrency().equals(KZT)) {
             return exchangeRateService.getCurrencyRate(KZT_USD_PAIR)
                     .thenComposeAsync(exchangeRateDTO -> {
                         BigDecimal exchangeRate = exchangeRateDTO.getRate();
                         if (exchangeRate == null || exchangeRate.compareTo(BigDecimal.ZERO) <= 0) {
                             throw new IllegalArgumentException("Недопустимый курс для KZT.");
                         }
-                        BigDecimal bigDecimal = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
-                        limitDtoFromClient.setLimitSum(bigDecimal);
-                        limitDtoFromClient.setLimitCurrency(USD);
+                        BigDecimal convertedCurrency = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
+                        LimitDtoFromClient limiDTOFromClient = new LimitDtoFromClient(
+                                convertedCurrency
+                                ,"USD"
+                        );
                         return CompletableFuture.completedFuture(limitDtoFromClient);
                     });
         } else {

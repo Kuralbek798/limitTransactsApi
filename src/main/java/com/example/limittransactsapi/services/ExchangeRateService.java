@@ -26,7 +26,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -94,7 +93,7 @@ public class ExchangeRateService {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return exchangeRateRepository.findTopByCurrencyPairOrderByDatetimeRateDesc(effectiveCurrencyPair)
-                        .filter(rate -> LocalDate.ofInstant(rate.getDatetimeRate().toInstant(), ZoneId.systemDefault()).equals(dateNow))
+                        .filter(rate -> LocalDate.ofInstant(rate.getDateTimeRate().toInstant(), ZoneId.systemDefault()).equals(dateNow))
                         .map(rate -> {
                             log.info("Exchange rate found in database for currency pair: {}", effectiveCurrencyPair);
                             return ExchangeRateMapper.INSTANCE.toDTO(rate);

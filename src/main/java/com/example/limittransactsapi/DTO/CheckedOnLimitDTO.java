@@ -1,67 +1,34 @@
 package com.example.limittransactsapi.DTO;
 
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@NoArgsConstructor
+@Getter
 @ToString
-public class CheckedOnLimitDTO {
-    private UUID id;
-    private UUID transactionId;
-    private UUID limitId;
-    private boolean limitExceeded;
-    private OffsetDateTime dateTime;
+public final class CheckedOnLimitDTO {
 
-    // Синхронизированный геттер для id
-    public synchronized UUID getId() {
-        return id;
-    }
+    private final UUID id;
+    private final UUID transactionId;
+    private final UUID limitId;
+    private final boolean limitExceeded;
+    private final OffsetDateTime datetime;
 
-    // Синхронизированный сеттер для id
-    public synchronized void setId(UUID id) {
+    @JsonCreator
+    public CheckedOnLimitDTO(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("transactionId") UUID transactionId,
+            @JsonProperty("limitId") UUID limitId,
+            @JsonProperty("limitExceeded") boolean limitExceeded,
+            @JsonProperty("datetime") OffsetDateTime datetime) {
         this.id = id;
-    }
-
-    // Синхронизированный геттер для transactionId
-    public synchronized UUID getTransactionId() {
-        return transactionId;
-    }
-
-    // Синхронизированный сеттер для transactionId
-    public synchronized void setTransactionId(UUID transactionId) {
         this.transactionId = transactionId;
-    }
-
-    // Синхронизированный геттер для limitId
-    public synchronized UUID getLimitId() {
-        return limitId;
-    }
-
-    // Синхронизированный сеттер для limitId
-    public synchronized void setLimitId(UUID limitId) {
         this.limitId = limitId;
-    }
-
-    // Синхронизированный геттер для limitExceeded
-    public synchronized boolean isLimitExceeded() {
-        return limitExceeded;
-    }
-
-    // Синхронизированный сеттер для limitExceeded
-    public synchronized void setLimitExceeded(boolean limitExceeded) {
         this.limitExceeded = limitExceeded;
-    }
-
-    // Синхронизированный геттер для dateTime
-    public synchronized OffsetDateTime getDateTime() {
-        return dateTime;
-    }
-
-    // Синхронизированный сеттер для dateTime
-    public synchronized void setDateTime(OffsetDateTime dateTime) {
-        this.dateTime = dateTime;
+        this.datetime = datetime;
     }
 }

@@ -430,17 +430,55 @@ public class TransactionService {
 
     private void convertTransactionToUSD(TransactionDTO transaction, ExchangeRateDTO exchangeRateRUB, ExchangeRateDTO exchangeRateKZT) {
         BigDecimal rate;
+
         if ("RUB".equalsIgnoreCase(transaction.getCurrency())) {
             rate = getExchangeRate(transaction.getExchangeRate(), exchangeRateRUB);
-            transaction.setConvertedSum(converterUtil.currencyConverter(transaction.getSum(), rate));
-            transaction.setConvertedCurrency("USD");
+            TransactionDTO convertedTransaction = new TransactionDTO(
+                    transaction.getId()
+                    ,transaction.getSum()
+                    ,transaction.getCurrency()
+                    ,transaction.getDatetimeTransaction()
+                    ,transaction.getAccountFrom()
+                    ,transaction.getAccountTo()
+                    ,transaction.getExpenseCategory()
+                    ,transaction.getTrDate()
+                    ,transaction.getExchangeRate()
+                    ,transaction.getConvertedSum()
+                    ,transaction.getConvertedCurrency()
+                    ,transaction.isLimitExceeded()
+            );
+
         } else if ("KZT".equalsIgnoreCase(transaction.getCurrency())) {
             rate = getExchangeRate(transaction.getExchangeRate(), exchangeRateKZT);
-            transaction.setConvertedSum(converterUtil.currencyConverter(transaction.getSum(), rate));
-            transaction.setConvertedCurrency("USD");
+            TransactionDTO convertedTransaction = new TransactionDTO(
+                    transaction.getId()
+                    ,transaction.getSum()
+                    ,transaction.getCurrency()
+                    ,transaction.getDatetimeTransaction()
+                    ,transaction.getAccountFrom()
+                    ,transaction.getAccountTo()
+                    ,transaction.getExpenseCategory()
+                    ,transaction.getTrDate()
+                    ,transaction.getExchangeRate()
+                    ,transaction.getConvertedSum()
+                    ,transaction.getConvertedCurrency()
+                    ,transaction.isLimitExceeded()
+            );
         } else if ("USD".equalsIgnoreCase(transaction.getCurrency())) {
-            transaction.setConvertedSum(transaction.getSum());
-            transaction.setConvertedCurrency(transaction.getCurrency());
+            TransactionDTO convertedTransaction = new TransactionDTO(
+                    transaction.getId()
+                    ,transaction.getSum()
+                    ,transaction.getCurrency()
+                    ,transaction.getDatetimeTransaction()
+                    ,transaction.getAccountFrom()
+                    ,transaction.getAccountTo()
+                    ,transaction.getExpenseCategory()
+                    ,transaction.getTrDate()
+                    ,transaction.getExchangeRate()
+                    ,transaction.getConvertedSum()
+                    ,transaction.getConvertedCurrency()
+                    ,transaction.isLimitExceeded()
+            );
         }
     }
 
@@ -455,13 +493,14 @@ public class TransactionService {
         }
     }
 
-
     private CompletableFuture<Map<String, List<TransactionDTO>>> convertTransactionsSumAndCurrencyByUSDAsync(Map<String, List<TransactionDTO>> groupedTransactions, Map<String, ExchangeRateDTO> exchangeRateMap) {
         return CompletableFuture.supplyAsync(() -> {
             ExchangeRateDTO rubUsdRate = exchangeRateMap.get(RUB_USD_PAIR);
             ExchangeRateDTO kztUsdRate = exchangeRateMap.get(KZT_USD_PAIR);
 
-            groupedTransactions.values().forEach(transactionsList -> transactionsList.forEach(transaction -> convertTransactionToUSD(transaction, rubUsdRate, kztUsdRate)));
+            groupedTransactions.values()
+                    .forEach(tr -> tr
+                            .forEach(transaction -> convertTransactionToUSD(transaction, rubUsdRate, kztUsdRate)));
             log.warn("method convertTransactionsSumAndCurrencyByUSDAsync, groupedTransactions {}", groupedTransactions);
             return groupedTransactions;
         }, customExecutor);

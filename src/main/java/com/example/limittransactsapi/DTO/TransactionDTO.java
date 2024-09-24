@@ -1,130 +1,105 @@
 package com.example.limittransactsapi.DTO;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class TransactionDTO {
 
-    private UUID id;
-    private BigDecimal sum;
-    private String currency;
-    private OffsetDateTime datetimeTransaction;
-    private Integer accountFrom;
-    private Integer accountTo;
-    private String expenseCategory;
-    private OffsetDateTime trDate;
-    private BigDecimal exchangeRate;
-    private BigDecimal convertedSum;
-    private String convertedCurrency;
-    private boolean limitExceeded = false;
+    private final UUID id;
+    private final BigDecimal sum;
+    private final String currency;
+    private final OffsetDateTime datetimeTransaction;
+    private final Integer accountFrom;
+    private final Integer accountTo;
+    private final String expenseCategory;
+    private final OffsetDateTime trDate;
+    private final BigDecimal exchangeRate;
+    private final BigDecimal convertedSum;
+    private final String convertedCurrency;
+    private final boolean limitExceeded;
 
-    public TransactionDTO(BigDecimal convertedSum,String convertedCurrency, String expenseCategory, Integer accountFrom, BigDecimal sum) {
-      this.convertedSum = convertedSum;
-        this.convertedCurrency = convertedCurrency;
-        this.expenseCategory = expenseCategory;
-        this.accountFrom = accountFrom;
+    @JsonCreator
+    public TransactionDTO(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("sum") BigDecimal sum,
+            @JsonProperty("currency") String currency,
+            @JsonProperty("datetimeTransaction") OffsetDateTime datetimeTransaction,
+            @JsonProperty("accountFrom") Integer accountFrom,
+            @JsonProperty("accountTo") Integer accountTo,
+            @JsonProperty("expenseCategory") String expenseCategory,
+            @JsonProperty("trDate") OffsetDateTime trDate,
+            @JsonProperty("exchangeRate") BigDecimal exchangeRate,
+            @JsonProperty("convertedSum") BigDecimal convertedSum,
+            @JsonProperty("convertedCurrency") String convertedCurrency,
+            @JsonProperty("limitExceeded") boolean limitExceeded) {
+        this.id = id;
         this.sum = sum;
+        this.currency = currency;
+        this.datetimeTransaction = datetimeTransaction;
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
+        this.expenseCategory = expenseCategory;
+        this.trDate = trDate;
+        this.exchangeRate = exchangeRate;
+        this.convertedSum = convertedSum;
+        this.convertedCurrency = convertedCurrency;
+        this.limitExceeded = limitExceeded;
     }
 
-    public synchronized UUID getId() {
+
+
+    // Геттеры
+    public UUID getId() {
         return id;
     }
 
-    public synchronized void setId(UUID id) {
-        this.id = id;
-    }
-
-    public synchronized BigDecimal getSum() {
+    public BigDecimal getSum() {
         return sum;
     }
 
-    public synchronized void setSum(BigDecimal sum) {
-        this.sum = sum;
-    }
-
-    public synchronized String getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public synchronized void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public synchronized OffsetDateTime getDatetimeTransaction() {
+    public OffsetDateTime getDatetimeTransaction() {
         return datetimeTransaction;
     }
 
-    public synchronized void setDatetimeTransaction(OffsetDateTime datetimeTransaction) {
-        this.datetimeTransaction = datetimeTransaction;
-    }
-
-    public synchronized Integer getAccountFrom() {
+    public Integer getAccountFrom() {
         return accountFrom;
     }
 
-    public synchronized void setAccountFrom(Integer accountFrom) {
-        this.accountFrom = accountFrom;
-    }
-
-    public synchronized Integer getAccountTo() {
+    public Integer getAccountTo() {
         return accountTo;
     }
 
-    public synchronized void setAccountTo(Integer accountTo) {
-        this.accountTo = accountTo;
-    }
-
-    public synchronized String getExpenseCategory() {
+    public String getExpenseCategory() {
         return expenseCategory;
     }
 
-    public synchronized void setExpenseCategory(String expenseCategory) {
-        this.expenseCategory = expenseCategory;
-    }
-
-    public synchronized OffsetDateTime getTrDate() {
+    public OffsetDateTime getTrDate() {
         return trDate;
     }
 
-    public synchronized void setTrDate(OffsetDateTime trDate) {
-        this.trDate = trDate;
-    }
-
-    public synchronized BigDecimal getExchangeRate() {
+    public BigDecimal getExchangeRate() {
         return exchangeRate;
     }
 
-    public synchronized void setExchangeRate(BigDecimal exchangeRate) {
-        this.exchangeRate = exchangeRate;
-    }
-
-    public synchronized BigDecimal getConvertedSum() {
+    public BigDecimal getConvertedSum() {
         return convertedSum;
     }
 
-    public synchronized void setConvertedSum(BigDecimal convertedSum) {
-        this.convertedSum = convertedSum;
-    }
-
-    public synchronized String getConvertedCurrency() {
+    public String getConvertedCurrency() {
         return convertedCurrency;
     }
 
-    public synchronized void setConvertedCurrency(String convertedCurrency) {
-        this.convertedCurrency = convertedCurrency;
-    }
-
-    public synchronized boolean isLimitExceeded() {
+    public boolean isLimitExceeded() {
         return limitExceeded;
-    }
-
-    public synchronized void setLimitExceeded(boolean limitExceeded) {
-        this.limitExceeded = limitExceeded;
     }
 }
