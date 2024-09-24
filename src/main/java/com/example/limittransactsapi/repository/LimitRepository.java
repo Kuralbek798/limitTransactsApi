@@ -17,4 +17,5 @@ public interface LimitRepository extends JpaRepository<Limit, UUID> {
 
     default Optional<Limit> saveWithOptional(Limit limit) {
         return Optional.ofNullable(save(limit));}
+
 }

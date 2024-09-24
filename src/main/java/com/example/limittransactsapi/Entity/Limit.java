@@ -25,7 +25,7 @@ public class Limit {
     private UUID id;
 
     @Column(name = "limit_sum", nullable = false)
-    private BigDecimal limitSum = BigDecimal.valueOf(1_000.00);
+    private BigDecimal limitSum ;
 
     @Column(name = "currency", nullable = false, length = 3)
     private String currency = "USD";

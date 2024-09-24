@@ -1,7 +1,6 @@
 package com.example.limittransactsapi.services;
 
 
-import com.example.limittransactsapi.DTO.ExchangeRateDTO;
 import com.example.limittransactsapi.DTO.LimitDTO;
 import com.example.limittransactsapi.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.Entity.Limit;
@@ -75,6 +74,7 @@ public class LimitService {
         });
     }
 
+
     @Async("customExecutor")
     public CompletableFuture<LimitDtoFromClient> checkCurrencyTypeAndSetToUSAsync(LimitDtoFromClient limitDtoFromClient) {
         // Check currency type for RUB
@@ -114,10 +114,14 @@ public class LimitService {
         return CompletableFuture
                 .supplyAsync(() -> {
                     // Fetch the latest limit from the repository
-                    return limitRepository.findTopByOrderByDatetimeDesc()
-                            .filter(limit -> limit.getLimitSum() != null) // Check that limitSum is not null
+                    var limitEntity = limitRepository.findTopByOrderByDatetimeDesc();
+                    log.info("before Mapped limitEntity: {}", limitEntity);
+
+                    var limitDTO = limitEntity.filter(limit -> limit.getLimitSum() != null) // Check that limitSum is not null
                             .map(limit -> LimitMapper.INSTANCE.toDTO(limit))
                             .orElseThrow(() -> new IllegalArgumentException("Нет существующего лимита для проверки.")); // Throw exception if no value is found
+                    log.info("arfter Mapped LimitDTO: {}", limitDTO);
+                    return limitDTO;
                 })
                 .exceptionally(ex -> {
                     log.error("Ошибка при получении последнего лимита: {} причина {}", ex.getMessage(), ex.getCause());
@@ -125,29 +129,38 @@ public class LimitService {
                 });
     }
 
+    public LimitDTO findLimit() {
 
+        var a = limitRepository.findTopByOrderByDatetimeDesc();
+        log.info("Mapped LimitDTO: {}", a);
+        var n = a.map(limit -> LimitMapper.INSTANCE.toDTO(limit)).orElse(null);
+        log.info("Mapped LimitDTO: {}", n);
+
+        return n;
+    }
 
     public boolean setMonthlyLimitByDefault() {
-    try {
-        Limit limit = new Limit();
-        limit.setCurrency(USD);
-        limit.setLimitSum(BigDecimal.valueOf(1000));
+        try {
+            Limit limit = new Limit();
+            limit.setCurrency(USD);
+            limit.setLimitSum(BigDecimal.valueOf(1000));
 
-        Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);
-        if (savedLimit.isPresent() && savedLimit.get().getId() != null && savedLimit.get().getLimitSum().equals(BigDecimal.valueOf(1000))) {
-            log.info("Default limit saved successfully: {}", savedLimit);
-            return true;
-        } else {
-            log.warn("Limit was not saved: {}", limit);
+            Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);
+            if (savedLimit.isPresent() && savedLimit.get().getId() != null && savedLimit.get().getLimitSum().equals(BigDecimal.valueOf(1000))) {
+                log.info("Default limit saved successfully: {}", savedLimit);
+                return true;
+            } else {
+                log.warn("Limit was not saved: {}", limit);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Unexpected error in method insertMonthlyLimit: {}", e.getMessage(), e);
             return false;
         }
-    } catch (Exception e) {
-        log.error("Unexpected error in method insertMonthlyLimit: {}", e.getMessage(), e);
-        return false;
     }
-}
+
     //synchrony private method
-    private boolean isLimitExist(LimitDtoFromClient limitDtoFromClient,LimitDTO limitDto) {
-        return  limitDto.getLimitAmount().equals(limitDtoFromClient.getLimitSum());
+    private boolean isLimitExist(LimitDtoFromClient limitDtoFromClient, LimitDTO limitDto) {
+        return limitDto.getLimitSum().equals(limitDtoFromClient.getLimitSum());
     }
 }

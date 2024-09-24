@@ -2,6 +2,7 @@ package com.example.limittransactsapi.controllers;
 
 
 
+import com.example.limittransactsapi.DTO.LimitDTO;
 import com.example.limittransactsapi.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.services.LimitService;
 import jakarta.validation.Valid;
@@ -53,4 +54,20 @@ public class ClientController {
     }
 */
 
+
+ @GetMapping("/limit")
+    public CompletableFuture<LimitDTO> getLimit(String s) {
+
+     CompletableFuture<LimitDTO> n;
+     if(s.equals("s")){
+
+        //  n = limitService.getLatestLimitAsync();
+          n = limitService.getLatestLimitAsync();
+         return n ;
+     }else {
+         return null;
+     }
+
+
+ }
 }
