@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Appender для логов приложения -->
+    <appender name="APP_LOG" class="ch.qos.logback.core.FileAppender">
+        <file>D:/logs/app/application.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Appender для системных логов -->
+    <appender name="SYSTEM_LOG" class="ch.qos.logback.core.FileAppender">
+        <file>D:/logs/system/system.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Логер для  приложения (info, warn, error) -->
+    <logger name="com.example" level="INFO" additivity="false">
+        <appender-ref ref="APP_LOG" />
+    </logger>
+
+    <!-- Логи Hibernate и Spring -->
+    <logger name="org.hibernate" level="WARN" additivity="false">
+        <appender-ref ref="SYSTEM_LOG" />
+    </logger>
+
+    <logger name="org.springframework" level="WARN" additivity="false">
+        <appender-ref ref="SYSTEM_LOG" />
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="SYSTEM_LOG" />
+    </root>
+</configuration>
+

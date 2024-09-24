@@ -42,7 +42,7 @@ public class LimitService {
 
     @Autowired
     public LimitService(LimitRepository limitRepository, ExchangeRateService exchangeRateService,
-                        ConverterUtil converterUtil, @Qualifier("taskExecutor") Executor customExecutor) {
+                        ConverterUtil converterUtil, @Qualifier("customExecutor") Executor customExecutor) {
         this.limitRepository = limitRepository;
         this.exchangeRateService = exchangeRateService;
         this.converterUtil = converterUtil;

@@ -63,7 +63,7 @@ public class ExchangeRateService {
     // Constructor for dependency injection
     @Autowired
     public ExchangeRateService(PathForApiServisUtil pathForApiServisUtil, ExchangeRateRepository exchangeRateRepository,
-                               HttpClientServiceUtil httpClientServiceUtil, ConverterUtil converterUtil, @Qualifier("taskExecutor") Executor customExecutor) {
+                               HttpClientServiceUtil httpClientServiceUtil, ConverterUtil converterUtil, @Qualifier("customExecutor") Executor customExecutor) {
         this.pathForApiServisUtil = pathForApiServisUtil;
         this.exchangeRateRepository = exchangeRateRepository;
         this.httpClientServiceUtil = httpClientServiceUtil;

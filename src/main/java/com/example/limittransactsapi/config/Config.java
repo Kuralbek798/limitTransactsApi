@@ -18,7 +18,6 @@ import java.util.concurrent.Executor;
 @Data
 @Configuration
 @EnableScheduling
-@EnableAsync
 public class Config {
 
     @Value("${scheduler.enabled:true}")
@@ -67,7 +66,7 @@ public class Config {
         return new RestTemplate();
     }
 
-    @Bean(name = "taskExecutor") // Регистрация бина для асинхронного выполнения задач
+   /* @Bean(name = "taskExecutor") // Регистрация бина для асинхронного выполнения задач
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
@@ -87,5 +86,5 @@ public class Config {
         executor.initialize();
 
         return executor;
-    }
+    }*/
 }

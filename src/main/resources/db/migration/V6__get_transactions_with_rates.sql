@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION get_transactions_with_rates(p_limit_id UUID)
     RETURNS TABLE (
                       id UUID,
-                      amount NUMERIC, -- Сумма
+                      sum NUMERIC, -- Сумма
                       currency VARCHAR(3),
                       datetime_transaction TIMESTAMPTZ, -- Дата и время транзакции
                       account_from INTEGER,

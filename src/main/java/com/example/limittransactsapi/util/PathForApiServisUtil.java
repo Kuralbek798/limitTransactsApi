@@ -2,7 +2,7 @@ package com.example.limittransactsapi.util;
 
 import com.example.limittransactsapi.Entity.PathForApi;
 import com.example.limittransactsapi.repository.PathForApiRepository;
-;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

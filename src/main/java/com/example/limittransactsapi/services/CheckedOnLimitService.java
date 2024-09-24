@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class CheckedOnLimitService {
     private final Executor customExecutor;
 
     @Autowired
-    public CheckedOnLimitService(CheckedOnLimitRepository checkedOnLimitRepository, @Qualifier("taskExecutor") Executor customExecutor) {
+    public CheckedOnLimitService(CheckedOnLimitRepository checkedOnLimitRepository, @Qualifier("customExecutor") Executor customExecutor) {
         this.checkedOnLimitRepository = checkedOnLimitRepository;
         this.customExecutor = customExecutor;
     }
@@ -72,6 +74,7 @@ public class CheckedOnLimitService {
                   return new ArrayList<>();
                 });
     }
+    @Transactional
     @Async("customExecutor")
     // Save a record
     public CompletableFuture<CheckedOnLimitDTO> saveCheckedOnLimitAsync(CheckedOnLimit entity) {
@@ -82,15 +85,15 @@ public class CheckedOnLimitService {
 
         return CompletableFuture.supplyAsync(() -> {
             try {
-                var savedEntity = checkedOnLimitRepository.save(entity); // Сохранение сущности
-                log.info("CheckedOnLimit entity saved: {}", savedEntity.getId().toString()); // Логирование успешного сохранения
-                return CheckedOnLimitMapper.INSTANCE.toDTO(savedEntity); // Преобразование и возврат DTO
+                var savedEntity = checkedOnLimitRepository.save(entity);
+                log.info("CheckedOnLimit entity saved: {}", savedEntity.getId().toString());
+                return CheckedOnLimitMapper.INSTANCE.toDTO(savedEntity);
             } catch (DataAccessException dae) {
-                log.error("Data access error while saving CheckedOnLimit: {}", dae.getMessage()); // Логирование ошибок доступа к данным
-                throw new CustomDataAccessException("Ошибка доступа к данным при сохранении CheckedOnLimit", dae); // Бросаем пользовательское исключение
+                log.error("Data access error while saving CheckedOnLimit: {}", dae.getMessage());
+                throw new CustomDataAccessException("Ошибка доступа к данным при сохранении CheckedOnLimit", dae);
             } catch (Exception e) {
-                log.error("An error occurred while saving CheckedOnLimit: {}", e.getMessage()); // Логирование всех других ошибок
-                throw new CustomGenericException("Ошибка при сохранении CheckedOnLimit", e); // Бросаем общее пользовательское исключение
+                log.error("An error occurred while saving CheckedOnLimit: {}", e.getMessage());
+                throw new CustomGenericException("Ошибка при сохранении CheckedOnLimit", e);
             }
         });
     }

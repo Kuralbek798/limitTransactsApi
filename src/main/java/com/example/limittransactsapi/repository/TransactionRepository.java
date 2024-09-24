@@ -21,7 +21,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
 
    @Query(value = "SELECT " +
            "id AS id, " +
-           "amount AS amount, " +
+           "sum AS sum, " +
            "currency AS currency, " +
            "datetime_transaction AS datetimeTransaction, " +
            "account_from AS accountFrom, " +

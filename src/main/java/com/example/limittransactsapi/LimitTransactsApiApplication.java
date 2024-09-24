@@ -1,12 +1,13 @@
 package com.example.limittransactsapi;
 
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableScheduling // Включаем поддержку планирования задач
+@EnableScheduling 
+@EnableTransactionManagement
 public class LimitTransactsApiApplication {
 
 	public static void main(String[] args) {

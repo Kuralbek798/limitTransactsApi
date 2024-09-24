@@ -22,7 +22,7 @@ public class TransactionDTO {
     private BigDecimal exchangeRate;
     private BigDecimal convertedSum;
     private String convertedCurrency;
-    private boolean limitExceeded;
+    private boolean limitExceeded = false;
 
     public TransactionDTO(BigDecimal convertedSum,String convertedCurrency, String expenseCategory, Integer accountFrom, BigDecimal sum) {
       this.convertedSum = convertedSum;

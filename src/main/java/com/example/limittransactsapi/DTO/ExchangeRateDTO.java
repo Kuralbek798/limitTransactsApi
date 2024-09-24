@@ -1,6 +1,8 @@
 package com.example.limittransactsapi.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
@@ -8,6 +10,7 @@ import java.time.OffsetDateTime;
 
 @Getter
 @ToString
+
 public class ExchangeRateDTO {
 
     private final String currencyPair;
@@ -20,6 +23,8 @@ public class ExchangeRateDTO {
         this.rate = rate;
 
     }
+
+
 
     // Синхронизированный сеттер для dateTimeRate
     public synchronized void setDateTimeRate(OffsetDateTime dateTimeRate) {

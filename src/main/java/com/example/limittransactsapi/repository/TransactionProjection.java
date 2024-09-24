@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface TransactionProjection {
     UUID getId();
-    BigDecimal getAmount();
+    BigDecimal getSum();
     String getCurrency();
     Instant getDatetimeTransaction(); // Замените на Instant
     Integer getAccountFrom();
@@ -14,5 +14,5 @@ public interface TransactionProjection {
     String getExpenseCategory();
     Instant getTrDate(); // Замените на Instant
     BigDecimal getExchangeRate();
-    BigDecimal getSum();
+
 }

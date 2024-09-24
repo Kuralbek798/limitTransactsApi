@@ -24,7 +24,7 @@ public class HttpClientServiceUtil {
     private final Executor customExecutor;
     private final HttpClient httpClient;
 
-    public HttpClientServiceUtil(@Qualifier("taskExecutor") Executor customExecutor) {
+    public HttpClientServiceUtil(@Qualifier("customExecutor") Executor customExecutor) {
         this.customExecutor = customExecutor;
         this.httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
