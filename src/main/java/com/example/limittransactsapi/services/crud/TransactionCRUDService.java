@@ -38,8 +38,8 @@ private final TransactionRepository transactionRepository;
         while (attempt < maxAttempts) {
             try {
                 var savedTr = transactionRepository.save(transaction);
-                // Здесь мы убираем условие проверяющее savedTr на null
-                return TransactionMapper.INSTANCE.toDTO(savedTr); // Если метод завершился без исключений, возвращаем DTO
+
+                return TransactionMapper.INSTANCE.toDTO(savedTr);
             } catch (Exception e) {
                 lastException = e;
                 attempt++;

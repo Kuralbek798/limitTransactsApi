@@ -15,7 +15,7 @@ public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, UUID
     //            "ORDER BY e.dateField DESC, e.timeField DESC")
     //    Optional<YourEntity> findLatestData(@Param("date") OffsetDateTime date, @Param("time") OffsetDateTime time);
 
-        Optional<ExchangeRate> findTopByCurrencyPairOrderByDatetimeRateDesc(String currencyPair);
+        Optional<ExchangeRate> findTopByCurrencyPairOrderByDateTimeRateDesc(String currencyPair);
 
 
 

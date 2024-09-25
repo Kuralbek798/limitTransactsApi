@@ -92,7 +92,7 @@ public class ExchangeRateService {
     CompletableFuture<ExchangeRateDTO> fetchRateFromDatabase(String effectiveCurrencyPair, LocalDate dateNow) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                return exchangeRateRepository.findTopByCurrencyPairOrderByDatetimeRateDesc(effectiveCurrencyPair)
+                return exchangeRateRepository.findTopByCurrencyPairOrderByDateTimeRateDesc(effectiveCurrencyPair)
                         .filter(rate -> LocalDate.ofInstant(rate.getDateTimeRate().toInstant(), ZoneId.systemDefault()).equals(dateNow))
                         .map(rate -> {
                             log.info("Exchange rate found in database for currency pair: {}", effectiveCurrencyPair);
@@ -163,11 +163,13 @@ public class ExchangeRateService {
                         new ExchangeRate(
                                 UUID.randomUUID(),
                                 currencyPair,
-                                BigDecimal.valueOf(rateDataFromJson.getCloseRate()),
+                                rateDataFromJson.getCloseRate(),
                                 rateDataFromJson.getCloseRate(),
                                 rateDataFromJson.getDateTime()
                         );
-                exchangeRate.setRate(converterUtil.convertUsdToKztToKztToUsd(exchangeRate.getRate()));
+                if(currencyPair.equals(USD_KZT_PAIR)){
+                    exchangeRate.setRate(converterUtil.convertUsdToKztToKztToUsd(exchangeRate.getRate()));
+                }
                 log.info("Fetched exchange rate from API for currency pair: {}", currencyPair);
                 return exchangeRateRepository.save(exchangeRate);
             }
@@ -186,10 +188,11 @@ public class ExchangeRateService {
             // Process the array of values
             if (values.isArray() && values.size() > 0) {
                 for (JsonNode latestData : values) {
-                    double close = latestData.path(CLOSE).asDouble();
-                    String dateStr = latestData.path(DATETIME).asText();
+                    String strClose = latestData.get(CLOSE).asText();
+                    BigDecimal close = new BigDecimal(strClose);
+                    String dateStr = latestData.get(DATETIME).asText();
                     // Only use entries with non-zero close values
-                    if (close != 0) {
+                    if (close.compareTo(BigDecimal.ZERO) >0) {
                         rateDataFromJson.setCloseRate(close);
                         String formattedISODateTimeStr = dateStr.replace(" ", "T") + "Z";
                         rateDataFromJson.setDateTime(OffsetDateTime.parse(formattedISODateTimeStr));
@@ -228,9 +231,5 @@ public class ExchangeRateService {
         }
         throw new ServiceException("Failed to fetch valid exchange rate data in retry attempts");
     }
-    private ExchangeRate createExchangeRate(RateDataFromJson rateData, String currencyPair) {
-        return new ExchangeRate(UUID.randomUUID(), currencyPair,
-                BigDecimal.valueOf(rateData.getCloseRate()),
-                rateData.getCloseRate(), rateData.getDateTime());
-    }
+
 }

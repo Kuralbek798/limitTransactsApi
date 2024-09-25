@@ -40,7 +40,8 @@ public class TransactionController {
 //Don't forget to delete for testing purpose only!!!!!!!
     @GetMapping("/currancy")
     public CompletableFuture<ExchangeRateDTO> getExchangeRate(String currencyPair){
-        return exchangeRateService.getCurrencyRate(currencyPair);
+       var temp = exchangeRateService.getCurrencyRate(currencyPair);
+       return temp;
     }
 
     //Don't forget to delete for testing purpose only!!!!!!!

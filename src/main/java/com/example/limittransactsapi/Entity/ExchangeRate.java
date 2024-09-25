@@ -1,7 +1,8 @@
 package com.example.limittransactsapi.Entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -12,8 +13,6 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "exchange_rates")
-@AllArgsConstructor
-@NoArgsConstructor
 public class ExchangeRate {
 
     @Id
@@ -27,13 +26,20 @@ public class ExchangeRate {
     private BigDecimal rate;
 
     @Column(name = "close", nullable = false)
-    private Double close;
+    private BigDecimal close;
 
     @Column(name = "datetime_rate", nullable = false)
     private OffsetDateTime dateTimeRate;
 
 
+    public ExchangeRate(UUID id, String currencyPair, BigDecimal rate, BigDecimal close, OffsetDateTime dateTimeRate) {
+        this.id = id;
+        this.currencyPair = currencyPair;
+        this.rate = rate;
+        this.close = close;
+        this.dateTimeRate = dateTimeRate;
+    }
 
-
-
+    public ExchangeRate() {
+    }
 }

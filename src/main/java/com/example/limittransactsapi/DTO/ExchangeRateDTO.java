@@ -14,12 +14,15 @@ public final class ExchangeRateDTO {
 
     private final String currencyPair;
     private final BigDecimal rate;
+    private BigDecimal close;
     private final OffsetDateTime dateTimeRate;
+
 
     @JsonCreator
     public ExchangeRateDTO(
             @JsonProperty("currencyPair") String currencyPair,
             @JsonProperty("rate") BigDecimal rate,
+            @JsonProperty("close") BigDecimal close,
             @JsonProperty("dateTimeRate") OffsetDateTime dateTimeRate) {
         this.currencyPair = currencyPair;
         this.rate = rate;
