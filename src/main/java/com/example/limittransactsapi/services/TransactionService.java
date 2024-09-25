@@ -148,13 +148,14 @@ public class TransactionService {
         // Обрабатываем транзакции и передаем будущее
         return convertedDBTransactionsFuture
                 .thenCombine(clientsTransactionsMap, (dbConvertedTr, clientsTrMap) ->
-                        processTransactions(dbConvertedTr, clientsTrMap, limitDTO)) // Здесь мы должны вернуть CompletableFuture
+                        processTransactions(dbConvertedTr, clientsTrMap, limitDTO))
+                .thenCompose(Function.identity()) // Убедитесь, что идет компоновка без прямого разложения
                 .exceptionally(ex -> {
-                    // Логируем ошибку и возвращаем ответ 500 Internal Server Error
                     log.error("An error occurred: {}", ex.getMessage());
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body("An error occurred: " + ex.getMessage());
                 });
+
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,12 +195,14 @@ public class TransactionService {
         }
 
 
+        // Пример исправления с учетом исключений
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                 .thenApply(v -> ResponseEntity.ok("All categories processed successfully"))
                 .exceptionally(ex -> {
                     log.error("Error processing transactions: {}", ex.getMessage());
                     return ResponseEntity.internalServerError().body("Error while processing transactions");
                 });
+
     }
 
     @Async("customExecutor")
