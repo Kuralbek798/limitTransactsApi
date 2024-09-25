@@ -60,94 +60,105 @@ public class TransactionService {
         this.customExecutor = customExecutor;
         this.transactionCRUDService = transactionCRUDService;
     }
-
-
     @Async("customExecutor")
     public CompletableFuture<ResponseEntity<String>> setTransactionsToDB(List<TransactionDTO> transactionsListFromService) {
-        // Check if the transactions list is null or empty
+        // Check if the transaction list is null or empty
         if (transactionsListFromService == null || transactionsListFromService.isEmpty()) {
-            return CompletableFuture.completedFuture(ResponseEntity.badRequest().body("The list was empty"));
+            return CompletableFuture.completedFuture(ResponseEntity.badRequest().body("List is empty"));
         }
 
-        // Combine results of limit and transactions with rates to check validation
-        return limitService.getLatestLimitAsync() // receiving limit
-                .thenCompose(limit -> getTransactionsWithRates(limit) // receiving transactions with rates
-                        .thenApply(transactAndRates -> {
-                            log.info(" 1 method setTransactionsToDB, transactionsListFromService, transactAndRates, limit {} {} {}",
-                                    transactionsListFromService, transactAndRates, limit);
+        // Get currency exchange rates
+        CompletableFuture<Map<String, ExchangeRateDTO>> exchangeRatesMapFuture = getCurrencyRateAsMap();
 
-                            return checkTransactionsOnActiveLimit(transactionsListFromService, transactAndRates, limit);
-                        })
+        // Get the current limit
+        CompletableFuture<LimitDTO> limitFuture = limitService.getLatestLimitAsync();
+
+        // Get transactions with rates based on the current limit
+        CompletableFuture<List<TransactionDTO>> dbTransactionsWithRates = limitFuture.thenCompose(limit -> getTransactionsWithRates(limit));
+
+        // Group client transactions by expense categories
+        CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> groupedClientsTransactionsFuture =
+                groupTransactionsByExpenseCategory(transactionsListFromService)
+                        .thenCompose(groupedClients -> {
+                            // Save transactions that do not fall into categories to the database
+                            saveListTransactionsToDBAsync(groupedClients.get("notInCategories"));
+
+                            // Remove transactions outside of categories
+                            groupedClients.remove("notInCategories");
+
+                            // Return the modified map for further processing
+                            return CompletableFuture.completedFuture(groupedClients);
+                        });
+
+        // Combine results for conversion
+        CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedClientsTransactionsFuture =
+                groupedClientsTransactionsFuture.thenCombine(exchangeRatesMapFuture, (groupedClients, exchangeRates) ->
+                        convertTransactionsSumAndCurrencyByUSDAsync(groupedClients, exchangeRates)
+                ).thenCompose(Function.identity());
+
+        // Combine results and perform validity checks
+        return CompletableFuture.allOf(exchangeRatesMapFuture, convertedClientsTransactionsFuture, dbTransactionsWithRates, limitFuture)
+                .thenCompose(voidResult ->
+                        exchangeRatesMapFuture.thenCombine(convertedClientsTransactionsFuture, (exchangeRates, groupedClients) ->
+                                dbTransactionsWithRates.thenCompose(transactAndRates ->
+                                        limitFuture.thenCompose(limit ->
+                                                // Now all data is collected, we can pass it to the validation method
+                                                checkTransactionsOnActiveLimit(groupedClients, transactAndRates, exchangeRates, limit)
+                                        )
+                                )
+                        ).thenCompose(Function.identity()) // Unwrap the final CompletableFuture from the validation
                 )
-                .thenCompose(responseFuture -> responseFuture) // Распакуйте CompletableFuture<ResponseEntity<String>>
                 .exceptionally(ex -> {
-                    // Логирование ошибки и возвращение ответа 500 Internal Server Error
-                    log.error("Error occurred: {}", ex.getMessage());
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + ex.getMessage());
+                    // Log error and return a 500 Internal Server Error response
+                    log.error("An error occurred: {}", ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body("An error occurred: " + ex.getMessage());
                 });
     }
 
     //.....................................................................................................................................
 
-
     @Async("customExecutor")
-    public CompletableFuture<ResponseEntity<String>> checkTransactionsOnActiveLimit(List<TransactionDTO> clientsTransactions,
-                                                                                    List<TransactionDTO> dbTransactions, LimitDTO limitDTO) {
-        //receiving exchange rate.
-        CompletableFuture<Map<String, ExchangeRateDTO>> exchangeRatesMapFuture = getCurrencyRateAsMap();
-
+    public CompletableFuture<ResponseEntity<String>> checkTransactionsOnActiveLimit(
+            Map<String, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions,
+            List<TransactionDTO> dbTransactions,
+            Map<String, ExchangeRateDTO> exchangeRate,
+            LimitDTO limitDTO) {
 
         CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedDBTransactionsFuture;
-        if (dbTransactions != null && !dbTransactions.isEmpty()) {
-            //grouping DB transactions by expense categories product/service/notIncategories
-            convertedDBTransactionsFuture = groupTransactionsByExpenseCategory(dbTransactions)
-                    .thenApply(groupedDBTransactions -> {
-                        //removing from mpa transactiona out or categories
-                        groupedDBTransactions.remove("notInCategories");
-                        return groupedDBTransactions;
-                    })
-                    .thenCombine(exchangeRatesMapFuture, (groupedTransactions, exchangeRateMap) ->
-                            convertTransactionsSumAndCurrencyByUSDAsync(groupedTransactions, exchangeRateMap))//checking and converting transactions currency
-                    .thenCompose(future -> future);
-        } else {
 
+        if (dbTransactions != null && !dbTransactions.isEmpty()) {
+            // Grouping DB transactions by expense categories
+            convertedDBTransactionsFuture = groupTransactionsByExpenseCategory(dbTransactions)
+                    .thenCompose(groupedDBTransactions -> {
+                        // Remove transactions outside of categories
+                        groupedDBTransactions.remove("notInCategories");
+
+                        // Convert transactions sum and currency to USD
+                        return convertTransactionsSumAndCurrencyByUSDAsync(groupedDBTransactions, exchangeRate);
+                    });
+        } else {
+            // Return an empty map if there are no DB transactions
             convertedDBTransactionsFuture = CompletableFuture.completedFuture(Collections.emptyMap());
         }
-       ///------------------------------------------------------------------------------------------------------------------------------
-        //grouping clients transactions by expense categories product/service/notIncategories
-        CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> groupedClientsTransactionsFuture = groupTransactionsByExpenseCategory(clientsTransactions);
-        CompletableFuture<Void> outCategoryClientsTransactionsFuture = groupedClientsTransactionsFuture.thenCompose(groupedClients -> {
-            //saving clients transactions out of categories to DB
-            saveListTransactionsToDBAsync(groupedClients.get("notInCategories"));
-            //removing from mpa transactiona out or categories
-            groupedClients.remove("notInCategories");
 
-        });
-
-        CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedClientsTransactionsFuture = groupedClientsTransactionsFuture
-                .thenCombine(exchangeRatesMapFuture, (groupedTransactions, exchangeRateMap) -> convertTransactionsSumAndCurrencyByUSDAsync(groupedTransactions, exchangeRateMap))
-                .thenCompose(future -> future);
-         //------------------------------------------------------------------------------------------------------------------------------------------------------------
-        CompletableFuture<Void> processTransactionsFuture = convertedClientsTransactionsFuture.thenCombine(convertedDBTransactionsFuture, (convertedClientsTr, convertedDBTr) -> {
-            processTransactions(convertedClientsTr, convertedDBTr, limitDTO);
-            return CompletableFuture.<Void>completedFuture(null); // Avoid returning null directly
-        }).thenCompose(future -> future);
-
-        return CompletableFuture.allOf(outCategoryClientsTransactionsFuture, convertedClientsTransactionsFuture, convertedDBTransactionsFuture, processTransactionsFuture)
-                .thenCompose(v -> CompletableFuture.completedFuture(ResponseEntity.ok("Transactions processed successfully")))
+        // Process transactions and propagate the future
+        return convertedDBTransactionsFuture
+                .thenCompose(dbConvertedTr -> processTransactions(dbConvertedTr, clientsTransactions, limitDTO))
                 .exceptionally(ex -> {
-                    log.error("14 An error occurred during transaction processing: {}", ex.getMessage());
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("15 An error occurred during transaction processing: " + ex.getMessage());
+                    log.error("An error occurred during transaction processing: {}", ex.getMessage());
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during transaction processing: " + ex.getMessage());
                 });
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public CompletableFuture<ResponseEntity<String>> processTransactions(
-            Map<String, List<TransactionDTO>> clientsTransactMap,
-            Map<String, List<TransactionDTO>> dbTransactMap,
+            Map<String, ConcurrentLinkedQueue<TransactionDTO>> dbTransactMap,
+            Map<String, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactMap,
             LimitDTO limitDTO) {
 
-        log.info("1111111111processTransactions{} {} {}", clientsTransactMap.entrySet(), dbTransactMap.entrySet(), limitDTO);
+
 
         List<String> categories = List.of("service", "product");
         List<CompletableFuture<Void>> futures = new ArrayList<>(); // Collecting futures
@@ -397,7 +408,6 @@ public class TransactionService {
     }
 
 
-
     @Async("customExecutor")
     CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> groupTransactionsByExpenseCategory(List<TransactionDTO> transactions) {
         return CompletableFuture.supplyAsync(() -> {
@@ -435,7 +445,7 @@ public class TransactionService {
     }
 
     @Async("customExecutor")
-     CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertTransactionsSumAndCurrencyByUSDAsync(
+    CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertTransactionsSumAndCurrencyByUSDAsync(
             Map<String, ConcurrentLinkedQueue<TransactionDTO>> groupedTransactions,
             Map<String, ExchangeRateDTO> exchangeRateMap) {
 
@@ -544,8 +554,6 @@ public class TransactionService {
             }
         });
     }
-
-
 
 
 }
