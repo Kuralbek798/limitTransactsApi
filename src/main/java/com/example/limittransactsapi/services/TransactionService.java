@@ -82,8 +82,7 @@ public class TransactionService {
                         .thenCompose(groupedClients -> {
                             // Save transactions that do not fall into categories to the database
                             saveListTransactionsToDBAsync(groupedClients.get("notInCategories"));
-
-                            // Remove transactions outside of categories
+                             // Remove transactions outside of categories
                             groupedClients.remove("notInCategories");
 
                             // Return the modified map for further processing
@@ -124,28 +123,34 @@ public class TransactionService {
             Map<String, ExchangeRateDTO> exchangeRate,
             LimitDTO limitDTO) {
 
+        log.info("Method checkTransactionsOnActiveLimit called with parameters:");
+        log.info("Clients Transactions: {}", _describeClientsTransactions(clientsTransactions));
+        log.info("Database Transactions: {}", describeDbTransactions(dbTransactions));
+        log.info("Exchange Rates: {}", describeExchangeRates(exchangeRate));
+        log.info("Limit DTO: {}", limitDTO);
+        ///===============================================================================================================
+
+        ///===================================================================================================================
+
         CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedDBTransactionsFuture;
 
         if (dbTransactions != null && !dbTransactions.isEmpty()) {
-            // Группировка транзакций по категориям расходов
+
             convertedDBTransactionsFuture = groupTransactionsByExpenseCategory(dbTransactions)
                     .thenCompose(groupedDBTransactions -> {
-                        // Удаление транзакций вне категорий
+
                         groupedDBTransactions.remove("notInCategories");
 
-                        // Конвертация суммы транзакций и валюты в USD
                         return convertTransactionsSumAndCurrencyByUSDAsync(groupedDBTransactions, exchangeRate);
                     });
         } else {
-            // Возвращаем пустую карту, если нет транзакций в БД
+
             convertedDBTransactionsFuture = CompletableFuture.completedFuture(Collections.emptyMap());
         }
 
-        // Получаем асинхронный результат группировки транзакций клиентов
         CompletableFuture<Map<String, Map<Integer, ConcurrentLinkedQueue<TransactionDTO>>>>
                 clientsTransactionsMap = groupClientTransactionsByCategory(clientsTransactions);
 
-        // Обрабатываем транзакции и передаем будущее
         return convertedDBTransactionsFuture
                 .thenCombine(clientsTransactionsMap, (dbConvertedTr, clientsTrMap) ->
                         processTransactions(dbConvertedTr, clientsTrMap, limitDTO))
@@ -157,14 +162,49 @@ public class TransactionService {
                 });
 
     }
+    ///000000000000000000000000000000000000000000000000000000000000000000000000
+    private String _describeClientsTransactions(Map<String, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions) {
+        if (clientsTransactions == null) {
+            return "null";
+        }
+        return clientsTransactions.entrySet().stream()
+                .map(e -> e.getKey() + " has [" + e.getValue().size() + " transactions: " +
+                        e.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
+                .collect(Collectors.joining(", ", "{", "}"));
+    }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private String describeDbTransactions(List<TransactionDTO> dbTransactions) {
+        if (dbTransactions == null) {
+            return "null";
+        }
+        return dbTransactions.stream()
+                .map(TransactionDTO::toString)
+                .collect(Collectors.joining(", ", "[", "]"));
+    }
+
+    private String describeExchangeRates(Map<String, ExchangeRateDTO> exchangeRate) {
+        if (exchangeRate == null) {
+            return "null";
+        }
+        return exchangeRate.entrySet().stream()
+                .map(e -> e.getKey() + "=" + e.getValue().toString())
+                .collect(Collectors.joining(", ", "{", "}"));
+    }
+    /// 00000000000000000000000000000000000000000000000000000000000000000000000
+
     @Async("customExecutor")
     public CompletableFuture<ResponseEntity<String>> processTransactions(
             Map<String, ConcurrentLinkedQueue<TransactionDTO>> dbTransactMap,
             Map<String, Map<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactMap,
             LimitDTO limitDTO) {
+        ///-----------------------------------------------------------------------------
 
+        // Логирование входных данных
+        log.info("Method processTransactions called with parameters:");
+        log.info("Database Transactions Map: {}", describeDbTransactMap(dbTransactMap));
+        log.info("Clients Transactions Map: {}", describeClientsTransactMap(clientsTransactMap));
+        log.info("Limit DTO: {}", limitDTO);
+        ///-----------------------------------------------------------------------------
         List<String> categories = List.of("service", "product");
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
@@ -204,11 +244,44 @@ public class TransactionService {
                 });
 
     }
+    ///===========================================================================
+    // Вспомогательный метод для составления описания карты транзакций из БД
+    private String describeDbTransactMap(Map<String, ConcurrentLinkedQueue<TransactionDTO>> dbTransactMap) {
+        if (dbTransactMap == null) {
+            return "null";
+        }
+        return dbTransactMap.entrySet().stream()
+                .map(entry -> entry.getKey() + " : " + entry.getValue().size() + " transactions [" +
+                        entry.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
+                .collect(Collectors.joining(", ", "{", "}"));
+    }
+
+    // Вспомогательный метод для составления описания карты клиентовских транзакций
+    private String describeClientsTransactMap(Map<String, Map<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactMap) {
+        if (clientsTransactMap == null) {
+            return "null";
+        }
+        return clientsTransactMap.entrySet().stream()
+                .map(entry -> entry.getKey() + " : " + entry.getValue().entrySet().stream()
+                        .map(e -> e.getKey() + " has [" + e.getValue().size() + " transactions: " +
+                                e.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
+                        .collect(Collectors.joining(", ")))
+                .collect(Collectors.joining(", ", "{", "}"));
+    }
+    /// //========================================================================
 
     @Async("customExecutor")
     public CompletableFuture<Void> additionTransactionsWithComparisonOnLimit(Map<Integer,BigDecimal > comparerExamplesDB,
                                                                              Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions ,
                                                                              LimitDTO limitDTO) {
+
+
+        // Логирование входных данных
+        log.info("Method additionTransactionsWithComparisonOnLimit called with parameters:");
+        log.info("Comparer Examples DB: {}", describeComparerExamplesDB(comparerExamplesDB));
+        log.info("Clients Transactions: {}", describeClientsTransactions(clientsTransactions));
+        log.info("Limit DTO: {}", limitDTO);
+        ///
 
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
@@ -263,6 +336,26 @@ public class TransactionService {
         }
 
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+    }
+    // Вспомогательный метод для составления описания comparerExamplesDB
+    private String describeComparerExamplesDB(Map<Integer, BigDecimal> comparerExamplesDB) {
+        if (comparerExamplesDB == null) {
+            return "null";
+        }
+        return comparerExamplesDB.entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + entry.getValue())
+                .collect(Collectors.joining(", ", "{", "}"));
+    }
+
+    // Вспомогательный метод для составления описания клиентовских транзакций
+    private String describeClientsTransactions(Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions) {
+        if (clientsTransactions == null) {
+            return "null";
+        }
+        return clientsTransactions.entrySet().stream()
+                .map(entry -> entry.getKey() + " has [" + entry.getValue().size() + " transactions: " +
+                        entry.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
+                .collect(Collectors.joining(", ", "{", "}"));
     }
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -390,9 +483,9 @@ public class TransactionService {
                 }
             }
 
-            // Мы не должны достичь этого участка кода
+
             return Collections.emptyList();
-        }, customExecutor);
+        });
     }
 
     @Async("customExecutor")
@@ -415,7 +508,6 @@ public class TransactionService {
             }
         });
     }
-
 
     @Async("customExecutor")
     CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> groupTransactionsByExpenseCategory(List<TransactionDTO> transactions) {
@@ -484,7 +576,6 @@ public class TransactionService {
                 resultMap.put(key, convertedQueue);
 
                 transactionQueue.forEach(transaction -> {
-                    // Асинхронно конвертируем каждую транзакцию и добавляем в очередь
                     CompletableFuture<Void> future = convertTransactionToUSDAsync(transaction, rubUsdRate, kztUsdRate)
                             .thenAccept(convertedTransaction -> {
                                 if (convertedTransaction != null) {
@@ -499,7 +590,7 @@ public class TransactionService {
             return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                     .thenApply(v -> {
                         log.info("Транзакции успешно преобразованы в USD. Количество групп: {}", resultMap.size());
-                        return resultMap; // Возвращаем итоговую карту преобразованных транзакций
+                        return resultMap;
                     });
         });
     }
@@ -574,10 +665,9 @@ public class TransactionService {
 
         List<String> categories = List.of("service", "product");
 
-        // Начальное значение для всех futures
         CompletableFuture<Void> allFutures = CompletableFuture.completedFuture(null);
 
-        // Обработка транзакций для каждой категории
+
         for (String category : categories) {
             ConcurrentLinkedQueue<TransactionDTO> concurrentLinkedQueueMap = clientsTransactions.get(category);
             if (concurrentLinkedQueueMap != null) {
@@ -590,8 +680,7 @@ public class TransactionService {
             }
         }
 
-        // Возвращаем CompletableFuture, который завершится, когда все асинхронные операции будут выполнены
-        return allFutures.thenApply(v -> clientsTransactionsMap); // завершаем CompletableFuture и возвращаем итоговую карту
+        return allFutures.thenApply(v -> clientsTransactionsMap);
     }
 
 }
