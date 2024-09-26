@@ -1,9 +1,10 @@
 package com.example.limittransactsapi.controllers;
 
 
-
-import com.example.limittransactsapi.DTO.LimitDTO;
+import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
 import com.example.limittransactsapi.DTO.LimitDtoFromClient;
+import com.example.limittransactsapi.DTO.TransactionLimitDTO;
+import com.example.limittransactsapi.services.CheckedOnLimitService;
 import com.example.limittransactsapi.services.LimitService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/limits")
 public class ClientController {
 
-    @Autowired
-    private LimitService limitService;
 
+    private LimitService limitService;
+    private CheckedOnLimitService checkedOnLimitService;
+
+    @Autowired
+    public ClientController(LimitService limitService, CheckedOnLimitService checkedOnLimitService) {
+        this.limitService = limitService;
+        this.checkedOnLimitService = checkedOnLimitService;
+    }
 
 
     // Setting a new spending limit
@@ -38,19 +46,8 @@ public class ClientController {
                 });
     }
 
- @GetMapping("/limit")
-    public CompletableFuture<LimitDTO> getLimit(String s) {
-
-     CompletableFuture<LimitDTO> n;
-     if(s.equals("s")){
-
-        //  n = limitService.getLatestLimitAsync();
-          n = limitService.getLatestLimitAsync();
-         return n ;
-     }else {
-         return null;
-     }
-
-
- }
+    @GetMapping("/ExceededLimits")
+    public List<TransactionLimitDTO> getLimit() {
+        return checkedOnLimitService.getExceededLimits();
+    }
 }

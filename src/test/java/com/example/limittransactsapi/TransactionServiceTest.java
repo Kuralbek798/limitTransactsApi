@@ -77,7 +77,7 @@ public class TransactionServiceTest {
 
         // Настраиваем возвращаемое значение для saveCheckedOnLimitAsync
         when(checkedOnLimitService.saveCheckedOnLimitAsync(any())).thenReturn(CompletableFuture.completedFuture(
-                new CheckedOnLimitDTO(UUID.randomUUID(), transaction1.getId(), limitDTO.getId(), false, OffsetDateTime.now())
+                new CheckedOnLimitDTO(UUID.randomUUID(), transaction1.getId(), limitDTO.getId(), false, null)
         ));
 
         // Выполнение тестируемого метода
@@ -120,7 +120,7 @@ public class TransactionServiceTest {
 
         // Настраиваем возвращаемое значение для saveCheckedOnLimitAsync с превышением лимита
         when(checkedOnLimitService.saveCheckedOnLimitAsync(any())).thenReturn(CompletableFuture.completedFuture(
-                new CheckedOnLimitDTO(UUID.randomUUID(), transaction1.getId(), limitDTO.getId(), true, OffsetDateTime.now())
+                new CheckedOnLimitDTO(UUID.randomUUID(), transaction1.getId(), limitDTO.getId(), false, null)
         ));
 
         // Выполнение тестируемого метода

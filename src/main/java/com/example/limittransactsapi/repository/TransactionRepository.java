@@ -2,8 +2,9 @@ package com.example.limittransactsapi.repository;
 
 
 
-import com.example.limittransactsapi.DTO.TransactionDTO;
+import com.example.limittransactsapi.DTO.TransactionLimitDTO;
 import com.example.limittransactsapi.Entity.Transaction;
+import com.example.limittransactsapi.repository.projections.TransactionProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

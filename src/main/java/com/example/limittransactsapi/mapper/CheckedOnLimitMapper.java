@@ -1,5 +1,6 @@
 package com.example.limittransactsapi.mapper;
 
+
 import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
 import com.example.limittransactsapi.Entity.CheckedOnLimit;
 import org.mapstruct.Mapper;
@@ -11,17 +12,16 @@ public interface CheckedOnLimitMapper {
 
     CheckedOnLimitMapper INSTANCE = Mappers.getMapper(CheckedOnLimitMapper.class);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "transactionId", target = "transactionId")
-    @Mapping(source = "limitId", target = "limitId")
-    @Mapping(source = "limitExceeded", target = "limitExceeded")
-    @Mapping(source = "datetime", target = "datetime")
-    CheckedOnLimitDTO toDTO(CheckedOnLimit checkedOnLimit);
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "transactionId", source = "transactionId")
+    @Mapping(target = "limitId", source = "limitId")
+    @Mapping(target = "limitExceeded", source = "limitExceeded")
+    @Mapping(target = "datetime", source = "datetime")
+    CheckedOnLimitDTO toDTO(CheckedOnLimit CheckedOnLimit);
 
-    @Mapping(source = "id", target = "id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "transactionId", target = "transactionId")
     @Mapping(source = "limitId", target = "limitId")
     @Mapping(source = "limitExceeded", target = "limitExceeded")
-    @Mapping(source = "datetime", target = "datetime")
     CheckedOnLimit toEntity(CheckedOnLimitDTO checkedOnLimitDTO);
 }

@@ -1,12 +1,14 @@
 package com.example.limittransactsapi.services;
 
 import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
+import com.example.limittransactsapi.DTO.TransactionLimitDTO;
 import com.example.limittransactsapi.Entity.CheckedOnLimit;
 import com.example.limittransactsapi.Entity.Limit;
 import com.example.limittransactsapi.exceptions.CustomDataAccessException;
 import com.example.limittransactsapi.exceptions.CustomGenericException;
 import com.example.limittransactsapi.mapper.CheckedOnLimitMapper;
 import com.example.limittransactsapi.repository.CheckedOnLimitRepository;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,17 +29,24 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-
 public class CheckedOnLimitService {
 
     private final CheckedOnLimitRepository checkedOnLimitRepository;
     private final Executor customExecutor;
+
 
     @Autowired
     public CheckedOnLimitService(CheckedOnLimitRepository checkedOnLimitRepository, @Qualifier("customExecutor") Executor customExecutor) {
         this.checkedOnLimitRepository = checkedOnLimitRepository;
         this.customExecutor = customExecutor;
     }
+
+
+
+    public List<TransactionLimitDTO> getExceededLimits() {
+        return checkedOnLimitRepository.findExceededLimits();
+    }
+
 
     // Retrieve all records
     @Async("customExecutor")

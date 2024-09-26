@@ -1,13 +1,12 @@
 package com.example.limittransactsapi.services;
 
-import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
 import com.example.limittransactsapi.DTO.ExchangeRateDTO;
 import com.example.limittransactsapi.DTO.LimitDTO;
 import com.example.limittransactsapi.DTO.TransactionDTO;
 import com.example.limittransactsapi.Entity.CheckedOnLimit;
 
 import com.example.limittransactsapi.mapper.TransactionMapper;
-import com.example.limittransactsapi.repository.TransactionProjection;
+import com.example.limittransactsapi.repository.projections.TransactionProjection;
 import com.example.limittransactsapi.repository.TransactionRepository;
 import com.example.limittransactsapi.services.crud.TransactionCRUDService;
 import com.example.limittransactsapi.util.ConverterUtil;

@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.repository;
+package com.example.limittransactsapi.repository.projections;
 
 import java.math.BigDecimal;
 import java.time.Instant;
