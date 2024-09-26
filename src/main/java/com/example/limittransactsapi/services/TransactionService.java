@@ -114,7 +114,6 @@ public class TransactionService {
                             .body("An error occurred: " + ex.getMessage());
                 });
     }
-
     //.....................................................................................................................................
     @Async("customExecutor")
     public CompletableFuture<ResponseEntity<String>> checkTransactionsOnActiveLimit(
@@ -123,14 +122,6 @@ public class TransactionService {
             Map<String, ExchangeRateDTO> exchangeRate,
             LimitDTO limitDTO) {
 
-        log.info("Method checkTransactionsOnActiveLimit called with parameters:");
-        log.info("Clients Transactions: {}", _describeClientsTransactions(clientsTransactions));
-        log.info("Database Transactions: {}", describeDbTransactions(dbTransactions));
-        log.info("Exchange Rates: {}", describeExchangeRates(exchangeRate));
-        log.info("Limit DTO: {}", limitDTO);
-        ///===============================================================================================================
-
-        ///===================================================================================================================
 
         CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedDBTransactionsFuture;
 
@@ -162,49 +153,13 @@ public class TransactionService {
                 });
 
     }
-    ///000000000000000000000000000000000000000000000000000000000000000000000000
-    private String _describeClientsTransactions(Map<String, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions) {
-        if (clientsTransactions == null) {
-            return "null";
-        }
-        return clientsTransactions.entrySet().stream()
-                .map(e -> e.getKey() + " has [" + e.getValue().size() + " transactions: " +
-                        e.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
-                .collect(Collectors.joining(", ", "{", "}"));
-    }
-
-    private String describeDbTransactions(List<TransactionDTO> dbTransactions) {
-        if (dbTransactions == null) {
-            return "null";
-        }
-        return dbTransactions.stream()
-                .map(TransactionDTO::toString)
-                .collect(Collectors.joining(", ", "[", "]"));
-    }
-
-    private String describeExchangeRates(Map<String, ExchangeRateDTO> exchangeRate) {
-        if (exchangeRate == null) {
-            return "null";
-        }
-        return exchangeRate.entrySet().stream()
-                .map(e -> e.getKey() + "=" + e.getValue().toString())
-                .collect(Collectors.joining(", ", "{", "}"));
-    }
-    /// 00000000000000000000000000000000000000000000000000000000000000000000000
 
     @Async("customExecutor")
     public CompletableFuture<ResponseEntity<String>> processTransactions(
             Map<String, ConcurrentLinkedQueue<TransactionDTO>> dbTransactMap,
             Map<String, Map<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactMap,
             LimitDTO limitDTO) {
-        ///-----------------------------------------------------------------------------
 
-        // Логирование входных данных
-        log.info("Method processTransactions called with parameters:");
-        log.info("Database Transactions Map: {}", describeDbTransactMap(dbTransactMap));
-        log.info("Clients Transactions Map: {}", describeClientsTransactMap(clientsTransactMap));
-        log.info("Limit DTO: {}", limitDTO);
-        ///-----------------------------------------------------------------------------
         List<String> categories = List.of("service", "product");
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
@@ -245,43 +200,17 @@ public class TransactionService {
 
     }
     ///===========================================================================
-    // Вспомогательный метод для составления описания карты транзакций из БД
-    private String describeDbTransactMap(Map<String, ConcurrentLinkedQueue<TransactionDTO>> dbTransactMap) {
-        if (dbTransactMap == null) {
-            return "null";
-        }
-        return dbTransactMap.entrySet().stream()
-                .map(entry -> entry.getKey() + " : " + entry.getValue().size() + " transactions [" +
-                        entry.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
-                .collect(Collectors.joining(", ", "{", "}"));
-    }
-
-    // Вспомогательный метод для составления описания карты клиентовских транзакций
-    private String describeClientsTransactMap(Map<String, Map<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactMap) {
-        if (clientsTransactMap == null) {
-            return "null";
-        }
-        return clientsTransactMap.entrySet().stream()
-                .map(entry -> entry.getKey() + " : " + entry.getValue().entrySet().stream()
-                        .map(e -> e.getKey() + " has [" + e.getValue().size() + " transactions: " +
-                                e.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
-                        .collect(Collectors.joining(", ")))
-                .collect(Collectors.joining(", ", "{", "}"));
-    }
-    /// //========================================================================
 
     @Async("customExecutor")
     public CompletableFuture<Void> additionTransactionsWithComparisonOnLimit(Map<Integer,BigDecimal > comparerExamplesDB,
                                                                              Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions ,
                                                                              LimitDTO limitDTO) {
-
-
         // Логирование входных данных
         log.info("Method additionTransactionsWithComparisonOnLimit called with parameters:");
         log.info("Comparer Examples DB: {}", describeComparerExamplesDB(comparerExamplesDB));
         log.info("Clients Transactions: {}", describeClientsTransactions(clientsTransactions));
         log.info("Limit DTO: {}", limitDTO);
-        ///
+
 
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
@@ -561,7 +490,7 @@ public class TransactionService {
             Map<String, ConcurrentLinkedQueue<TransactionDTO>> groupedTransactions,
             Map<String, ExchangeRateDTO> exchangeRateMap) {
 
-        // Сначала проверяем курсы обмена в отдельном асинхронном блоке.
+        // checking the exchange rates.
         return CompletableFuture.supplyAsync(() -> {
             ExchangeRateDTO rubUsdRate = exchangeRateMap.get(RUB_USD_PAIR);
             ExchangeRateDTO kztUsdRate = exchangeRateMap.get(KZT_USD_PAIR);
@@ -577,11 +506,11 @@ public class TransactionService {
             ExchangeRateDTO rubUsdRate = entry.getValue()[0];
             ExchangeRateDTO kztUsdRate = entry.getValue()[1];
 
-            // Создаем очередь для хранения CompletableFuture.
+            // create queue for saving CompletableFuture.
             ConcurrentLinkedQueue<CompletableFuture<Void>> futures = new ConcurrentLinkedQueue<>();
             Map<String, ConcurrentLinkedQueue<TransactionDTO>> resultMap = new ConcurrentHashMap<>();
 
-            // Итерация по группе транзакций
+            // loop over transactions group
             map.forEach((key, transactionQueue) -> {
                 ConcurrentLinkedQueue<TransactionDTO> convertedQueue = new ConcurrentLinkedQueue<>();
                 resultMap.put(key, convertedQueue);
@@ -597,7 +526,7 @@ public class TransactionService {
                 });
             });
 
-            // Ждем завершения всех CompletableFuture
+
             return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
                     .thenApply(v -> {
                         log.info("Транзакции успешно преобразованы в USD. Количество групп: {}", resultMap.size());
@@ -677,7 +606,6 @@ public class TransactionService {
         List<String> categories = List.of("service", "product");
 
         CompletableFuture<Void> allFutures = CompletableFuture.completedFuture(null);
-
 
         for (String category : categories) {
             ConcurrentLinkedQueue<TransactionDTO> concurrentLinkedQueueMap = clientsTransactions.get(category);
