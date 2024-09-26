@@ -53,8 +53,6 @@ public class TransactionDTO {
     }
 
 
-
-    // Геттеры
     public UUID getId() {
         return id;
     }
@@ -94,7 +92,6 @@ public class TransactionDTO {
     public BigDecimal getConvertedSum() {
         return convertedSum;
     }
-
     public String getConvertedCurrency() {
         return convertedCurrency;
     }

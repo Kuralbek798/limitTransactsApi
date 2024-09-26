@@ -53,9 +53,8 @@ private final TransactionRepository transactionRepository;
             }
         }
 
-        // Ошибка не была обработана после трех попыток
         log.error("Error saving transaction after " + maxAttempts + " attempts: " + lastException.getMessage());
-        return null; // Если мы доходим сюда, значит сохранение не удалось
+        return null;
     }
 
 

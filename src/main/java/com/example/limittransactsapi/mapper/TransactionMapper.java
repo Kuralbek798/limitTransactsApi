@@ -11,7 +11,6 @@ import org.mapstruct.factory.Mappers;
 public interface TransactionMapper {
     TransactionMapper INSTANCE = Mappers.getMapper(TransactionMapper.class);
 
-    // Map entity to DTO, ignoring fields that are not present in the entity
     @Mapping(target = "id", source = "id")
     @Mapping(target = "sum", source = "sum")
     @Mapping(target = "currency", source = "currency")
@@ -19,14 +18,14 @@ public interface TransactionMapper {
     @Mapping(target = "accountFrom", source = "accountFrom")
     @Mapping(target = "accountTo", source = "accountTo")
     @Mapping(target = "expenseCategory", source = "expenseCategory")
-    @Mapping(target = "trDate", ignore = true)  // Ignored as it is not present in the entity
-    @Mapping(target = "exchangeRate", ignore = true) // Ignored as it is not present in the entity
-    @Mapping(target = "convertedSum", ignore = true) // Ignored as it is not present in the entity
-    @Mapping(target = "convertedCurrency", ignore = true) // Ignored as it is not present in the entity
-    @Mapping(target = "limitExceeded", ignore = true) // Ignored as it is not present in the entity
+    @Mapping(target = "trDate", ignore = true)
+    @Mapping(target = "exchangeRate", ignore = true)
+    @Mapping(target = "convertedSum", ignore = true)
+    @Mapping(target = "convertedCurrency", ignore = true)
+    @Mapping(target = "limitExceeded", ignore = true)
     TransactionDTO toDTO(Transaction transaction);
 
-    // Map DTO to entity, ignoring fields that are not present in the DTO
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "sum", source = "sum")
     @Mapping(target = "currency", source = "currency")
@@ -34,6 +33,6 @@ public interface TransactionMapper {
     @Mapping(target = "accountFrom", source = "accountFrom")
     @Mapping(target = "accountTo", source = "accountTo")
     @Mapping(target = "expenseCategory", source = "expenseCategory")
-    // Fields that are not present in the DTO and should be ignored during mapping
+
     Transaction toEntity(TransactionDTO transactionDTO);
 }

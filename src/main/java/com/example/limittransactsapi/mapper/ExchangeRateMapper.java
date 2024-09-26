@@ -12,16 +12,12 @@ public interface ExchangeRateMapper {
 
     ExchangeRateMapper INSTANCE = Mappers.getMapper(ExchangeRateMapper.class);
 
-    // Mapping fields explicitly where necessary
-
-    // Сопоставление из сущности в DTO
     @Mapping(target = "currencyPair", source = "currencyPair")
     @Mapping(target = "rate", source = "rate")
     @Mapping(target = "close", source = "close")
     @Mapping(target = "dateTimeRate", source = "dateTimeRate")
     ExchangeRateDTO toDTO(ExchangeRate exchangeRate);
 
-    // Сопоставление из DTO в сущность
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "currencyPair", source = "currencyPair")
     @Mapping(target = "rate", source = "rate")

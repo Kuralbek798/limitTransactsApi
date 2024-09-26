@@ -51,7 +51,7 @@ public class LimitService {
     @Async("customExecutor")
     public CompletableFuture<ResponseEntity<LimitDtoFromClient>> setLimitAsync(LimitDtoFromClient limitDtoFromClient) {
 
-        var futureConvertedClientsLimit = checkCurrencyTypeAndSetToUSAsync(limitDtoFromClient);
+        var futureConvertedClientsLimit = checkCurrencyTypeAndSetToUSDAsync(limitDtoFromClient);
         var futureCurrentDBLimit = getLatestLimitAsync();
 
         return futureConvertedClientsLimit.thenCombine(futureCurrentDBLimit, (clientsLimit, optionalDBLimit) -> {
@@ -74,9 +74,8 @@ public class LimitService {
         });
     }
 
-
     @Async("customExecutor")
-    public CompletableFuture<LimitDtoFromClient> checkCurrencyTypeAndSetToUSAsync(LimitDtoFromClient limitDtoFromClient) {
+    public CompletableFuture<LimitDtoFromClient> checkCurrencyTypeAndSetToUSDAsync(LimitDtoFromClient limitDtoFromClient) {
         // Check currency type for RUB
         if (limitDtoFromClient.getCurrency().equals(RUB)) {
             return exchangeRateService.getCurrencyRate(RUB_USD_PAIR)

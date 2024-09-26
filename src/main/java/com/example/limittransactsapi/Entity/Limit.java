@@ -13,7 +13,6 @@ import java.util.UUID;
 @Entity
 @Data
 @AllArgsConstructor
-// @NoArgsConstructor чтобы JPA мог создавать экземпляры сущностей посредством рефлексии и для Jackson
 
 @NoArgsConstructor
 @Table(name = "limits")

@@ -39,12 +39,4 @@ public class Transaction {
     @Column(name = "expense_category", length = 50)
     private String expenseCategory;
 
-//    @Transient
-//    private OffsetDateTime tr_date; // Поле, не сохраняемое в таблице
-//
-//    @Transient
-//
-//    private BigDecimal exchange_rate; // Поле, не сохраняемое в таблице
-
-
 }

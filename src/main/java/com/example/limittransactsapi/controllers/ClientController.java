@@ -37,23 +37,6 @@ public class ClientController {
                     }
                 });
     }
-/*
-
-    // Getting all limits
-    @GetMapping("/limits")
-    public ResponseEntity<List<Limit>> getAllLimits() {
-        List<Limit> limits = limitService.getAllLimits();
-        return ResponseEntity.ok(limits);
-    }
-
-    // Getting transactions that exceed the limit
-    @GetMapping("/transactions/exceeding")
-    public ResponseEntity<List<Transaction>> getTransactionsExceedingLimit() {
-        List<Transaction> transactions = transactionService.getTransactionsExceedingLimit();
-        return ResponseEntity.ok(transactions);
-    }
-*/
-
 
  @GetMapping("/limit")
     public CompletableFuture<LimitDTO> getLimit(String s) {

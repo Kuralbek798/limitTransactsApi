@@ -16,8 +16,7 @@ import java.util.UUID;
 public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
 
 
-/*   @Query(value = "SELECT * FROM get_transactions_with_rates(:limitId)", nativeQuery = true)
-   List<TransactionProjection> getTransactionsWithRates(UUID limitId);*/
+
 
    @Query(value = "SELECT " +
            "id AS id, " +

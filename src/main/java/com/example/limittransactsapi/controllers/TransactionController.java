@@ -32,29 +32,6 @@ public class TransactionController {
     }
 
 
-    @PostMapping
-/*    public ResponseEntity<TransactionDTO> setTransactions(@RequestBody TransactionDTO transactionDTO) {
-        return transactionService.createTransaction(transactionDTO);
-    }*/
-
-//Don't forget to delete for testing purpose only!!!!!!!
-    @GetMapping("/currancy")
-    public CompletableFuture<ExchangeRateDTO> getExchangeRate(String currencyPair){
-       var temp = exchangeRateService.getCurrencyRate(currencyPair);
-       return temp;
-    }
-
-    //Don't forget to delete for testing purpose only!!!!!!!
-    @GetMapping("/{limitId}")
-    public CompletableFuture<List<TransactionDTO>> getTransactions(@PathVariable LimitDTO limitDTO) {
-       var a = transactionService.getTransactionsWithRates(limitDTO);
-       //var b = transactionService.getTransactionsWithCalculatedSum(a);
-
-        //return transactionService.groupAndSummarizeTransactions(b);
-        return a;
-    }
-
-
     @PostMapping("/process")
     public CompletableFuture<ResponseEntity<String>> setTransactions(@RequestBody List<TransactionDTO> transactions) {
         // Directly delegate the processing to the service

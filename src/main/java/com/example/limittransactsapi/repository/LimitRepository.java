@@ -13,7 +13,6 @@ import java.util.UUID;
 public interface LimitRepository extends JpaRepository<Limit, UUID> {
 
     Optional<Limit> findTopByOrderByDatetimeDesc();
-    // Optional<Limit>findTopByLimitSum(BigDecimal limitSum);
 
     default Optional<Limit> saveWithOptional(Limit limit) {
         return Optional.ofNullable(save(limit));}
