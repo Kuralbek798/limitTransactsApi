@@ -41,93 +41,103 @@ public class TransactionServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Создаем LimitDTO с использованием конструктора
+
         limitDTO = new LimitDTO(UUID.randomUUID(), new BigDecimal("1000.00"), "USD", OffsetDateTime.now());
     }
 
     @Test
     void testAdditionTransactionsWhenWithinLimit() {
-        // Параметры теста
+
         Map<Integer, BigDecimal> comparerExamplesDB = Map.of(1, BigDecimal.ZERO);
         ConcurrentLinkedQueue<TransactionDTO> transactions = new ConcurrentLinkedQueue<>();
 
-        // Создание TransactionDTO с использованием всех необходимых параметров
+
         TransactionDTO transaction1 = new TransactionDTO(
-                UUID.randomUUID(),  // ID транзакции
-                new BigDecimal("500.00"),  // Сумма в пределах лимита
-                "USD",  // Валюта
-                OffsetDateTime.now(),  // Текущее время
-                1,  // accountFrom
-                2,  // accountTo
-                "Category1",  // expenseCategory
-                OffsetDateTime.now(),  // trDate
-                new BigDecimal("1.0"),  // exchangeRate
-                new BigDecimal("500.00"),  // convertedSum
-                "USD",  // convertedCurrency
-                false  // limitExceeded
+                UUID.randomUUID(),
+                new BigDecimal("500.00"),
+                "USD",
+                OffsetDateTime.now(),
+                1,
+                2,
+                "Category1",
+                OffsetDateTime.now(),
+                new BigDecimal("1.0"),
+                new BigDecimal("500.00"),
+                "USD",
+                false
         );
 
         transactions.add(transaction1);
 
-        // Подготовка входящих данных
+
         Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions = Map.of(1, transactions);
 
-        // Настраиваем возвращаемое значение для saveTransactionalAsync
+
         when(transactionCRUDService.saveTransactionWithHandling(any())).thenReturn(transaction1);
 
-        // Настраиваем возвращаемое значение для saveCheckedOnLimitAsync
+
         when(checkedOnLimitService.saveCheckedOnLimitAsync(any())).thenReturn(CompletableFuture.completedFuture(
                 new CheckedOnLimitDTO(UUID.randomUUID(), transaction1.getId(), limitDTO.getId(), false, null)
         ));
 
-        // Выполнение тестируемого метода
+
         CompletableFuture<Void> result = transactionService.additionTransactionsWithComparisonOnLimit(comparerExamplesDB, clientsTransactions, limitDTO);
 
-        // Проверка, что операции сохранения были вызваны
+
+        result.join();
+
+
         verify(checkedOnLimitService, times(1)).saveCheckedOnLimitAsync(any());
         verify(transactionCRUDService, times(1)).saveTransactionWithHandling(any());
     }
 
     @Test
     void testAdditionTransactionsWhenExceedsLimit() {
-        // Параметры теста
+
         Map<Integer, BigDecimal> comparerExamplesDB = Map.of(1, BigDecimal.ZERO);
         ConcurrentLinkedQueue<TransactionDTO> transactions = new ConcurrentLinkedQueue<>();
 
-        // Создание TransactionDTO с использованием всех необходимых параметров (для превышения лимита)
+
         TransactionDTO transaction1 = new TransactionDTO(
-                UUID.randomUUID(),  // ID транзакции
-                new BigDecimal("1200.00"),  // Сумма превышает лимит
-                "USD",  // Валюта
-                OffsetDateTime.now(),  // Текущее время
-                1,  // accountFrom
-                2,  // accountTo
-                "Category2",  // expenseCategory
-                OffsetDateTime.now(),  // trDate
-                new BigDecimal("1.0"),  // exchangeRate
-                new BigDecimal("1200.00"),  // convertedSum
-                "USD",  // convertedCurrency
-                false  // limitExceeded
+                UUID.randomUUID(),
+                new BigDecimal("1200.00"),
+                "USD",
+                OffsetDateTime.now(),
+                1,
+                2,
+                "Category2",
+                OffsetDateTime.now(),
+                new BigDecimal("1.0"),
+                new BigDecimal("1200.00"),
+                "USD",
+                false
         );
 
         transactions.add(transaction1);
 
-        // Подготовка входящих данных
+
         Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions = Map.of(1, transactions);
 
-        // Настраиваем возвращаемое значение для сохраненной транзакции
+
         when(transactionCRUDService.saveTransactionWithHandling(any())).thenReturn(transaction1);
 
-        // Настраиваем возвращаемое значение для saveCheckedOnLimitAsync с превышением лимита
-        when(checkedOnLimitService.saveCheckedOnLimitAsync(any())).thenReturn(CompletableFuture.completedFuture(
-                new CheckedOnLimitDTO(UUID.randomUUID(), transaction1.getId(), limitDTO.getId(), false, null)
+
+        lenient().when(checkedOnLimitService.saveCheckedOnLimitAsync(any())).thenReturn(CompletableFuture.completedFuture(
+                new CheckedOnLimitDTO(UUID.randomUUID(), transaction1.getId(), limitDTO.getId(), true, null)
         ));
 
-        // Выполнение тестируемого метода
+
         CompletableFuture<Void> result = transactionService.additionTransactionsWithComparisonOnLimit(comparerExamplesDB, clientsTransactions, limitDTO);
+
+
+        result.join();
 
         // Проверка, что сохранение с превышением лимита было вызвано
         verify(checkedOnLimitService, times(1)).saveCheckedOnLimitAsync(any(CheckedOnLimit.class));
         verify(transactionCRUDService, times(1)).saveTransactionWithHandling(any());
     }
+
+
+
+
 }
