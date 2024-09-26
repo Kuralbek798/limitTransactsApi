@@ -16,7 +16,7 @@ public interface LimitMapper {
     @Mapping(target = "datetime", source = "datetime")
     LimitDTO toDTO(Limit limit);
 
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "limitSum", source = "limitSum")
     @Mapping(target = "currency", source = "currency")
     @Mapping(target = "datetime", source = "datetime")

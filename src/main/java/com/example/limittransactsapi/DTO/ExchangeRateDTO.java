@@ -26,8 +26,10 @@ public final class ExchangeRateDTO {
             @JsonProperty("dateTimeRate") OffsetDateTime dateTimeRate) {
         this.currencyPair = currencyPair;
         this.rate = rate;
+        this.close = close;
         this.dateTimeRate = dateTimeRate;
     }
+
 
 
 }

@@ -223,7 +223,7 @@ public class TransactionService {
                 dbSummarizedFuture = CompletableFuture.completedFuture(Collections.emptyMap());
             }
 
-            // Включает обертку clientsGroupedFuture в CompletableFuture
+
             CompletableFuture<Void> future = dbSummarizedFuture
                     .thenCompose(dbSummaries ->
                             additionTransactionsWithComparisonOnLimit(dbSummaries, clientsGroupedFuture, limitDTO))
@@ -291,11 +291,15 @@ public class TransactionService {
             ConcurrentLinkedQueue<TransactionDTO> clientsTransactionsList = entry.getValue();
 
             BigDecimal limit = limitDTO.getLimitSum();
-            AtomicReference<BigDecimal> dbSum = new AtomicReference<>(comparerExamplesDB.getOrDefault(accountFrom, BigDecimal.ZERO));
+            log.info("limit sum: {}", limit);
+             AtomicReference<BigDecimal> dbSum = new AtomicReference<>(comparerExamplesDB.getOrDefault(accountFrom, BigDecimal.ZERO));
+
 
             for (TransactionDTO tr : clientsTransactionsList) {
                 CompletableFuture<Void> future;
-                if (dbSum.get().add(tr.getConvertedSum()).compareTo(limit) <= 0) {
+                log.info("Проверка ПЕРЕД сравнением: dbSum={}, tr.getConvertedSum()={}, limit={}", dbSum.get(), tr.getConvertedSum(), limit);
+                if (dbSum.updateAndGet(v->v.add(tr.getConvertedSum())).compareTo(limit) <= 0) {
+                    log.info("ПРОВЕРКА после dbSum {}", dbSum);
                     CompletableFuture<CheckedOnLimitDTO> savedCheckFuture = checkedOnLimitService
                             .saveCheckedOnLimitAsync(new CheckedOnLimit(tr.getId(), limitDTO.getId(), false));
                     log.info("method additionTransactionsWithComparisonOnLimit savedCheckFuture {}", savedCheckFuture);
@@ -304,12 +308,12 @@ public class TransactionService {
                     );
                     log.info("24 method additionTransactionsWithComparisonOnLimit savedTransactionFuture {}", savedTransactionFuture);
                     future = savedCheckFuture.thenCombine(savedTransactionFuture, (checkedResult, savedTransaction) -> {
-                                if (savedTransaction != null && checkedResult != null) {
+                               // if (savedTransaction != null && checkedResult != null) {
                                     dbSum.updateAndGet(value -> value.add(tr.getConvertedSum()));
                                     log.info("method additionTransactionsWithComparisonOnLimit dbSum {}", dbSum);
-                                } else {
-                                    throw new IllegalStateException("Failed to save transaction or checked limit.");
-                                }
+//                                } else {
+//                                    throw new IllegalStateException("Failed to save transaction or checked limit.");
+//                                }
                                 return null;
                             }).thenRun(() -> {
                             }) // This ensures Void is returned
@@ -319,8 +323,11 @@ public class TransactionService {
                             });
 
                 } else {
-                    future = checkedOnLimitService.saveCheckedOnLimitAsync(new CheckedOnLimit(tr.getId(), limitDTO.getId(), true))
+                    CheckedOnLimit checkedOnLimitExceeded = new CheckedOnLimit(tr.getId(), limitDTO.getId(), true);
+                    log.info("СОХРАНЯЕМ CheckedOnLimit с превышением лимита: {} {}",checkedOnLimitExceeded.getTransactionId(), checkedOnLimitExceeded.isLimitExceeded());
+                    future = checkedOnLimitService.saveCheckedOnLimitAsync(checkedOnLimitExceeded)
                             .handle((result, ex) -> {
+                                log.info("method additionTransactionsWithComparisonOnLimit result {},{},{}", result.toString(),result.isLimitExceeded(),result.getTransactionId());
                                 if (ex != null) {
                                     log.error("Error saving checked on limit for transaction ID {}: {}", tr.getId(), ex.getMessage());
                                 } else {
@@ -337,6 +344,10 @@ public class TransactionService {
 
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
     }
+
+    ///----------------------------------------------------------------------------------------------------
+
+
     // Вспомогательный метод для составления описания comparerExamplesDB
     private String describeComparerExamplesDB(Map<Integer, BigDecimal> comparerExamplesDB) {
         if (comparerExamplesDB == null) {

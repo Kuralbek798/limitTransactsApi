@@ -1,5 +1,6 @@
 package com.example.limittransactsapi.mapper;
 
+
 import com.example.limittransactsapi.DTO.TransactionDTO;
 import com.example.limittransactsapi.Entity.Transaction;
 import org.mapstruct.Mapper;
@@ -26,7 +27,7 @@ public interface TransactionMapper {
     TransactionDTO toDTO(Transaction transaction);
 
     // Map DTO to entity, ignoring fields that are not present in the DTO
-    @Mapping(target = "id", source = "id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "sum", source = "sum")
     @Mapping(target = "currency", source = "currency")
     @Mapping(target = "datetimeTransaction", source = "datetimeTransaction")

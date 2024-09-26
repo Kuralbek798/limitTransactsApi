@@ -85,8 +85,9 @@ public class CheckedOnLimitService {
 
         return CompletableFuture.supplyAsync(() -> {
             try {
+                log.info("Saving CheckedOnLimit entity:{}, isLimitExceeded {}", entity.getTransactionId().toString(),entity.isLimitExceeded());
                 var savedEntity = checkedOnLimitRepository.save(entity);
-                log.info("CheckedOnLimit entity saved: {}", savedEntity.getId().toString());
+                log.info("CheckedOnLimit entity saved: {} isLimitExceeded {}", savedEntity.getId().toString(),savedEntity.isLimitExceeded());
                 return CheckedOnLimitMapper.INSTANCE.toDTO(savedEntity);
             } catch (DataAccessException dae) {
                 log.error("Data access error while saving CheckedOnLimit: {}", dae.getMessage());

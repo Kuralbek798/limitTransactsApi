@@ -121,9 +121,9 @@ public class ExchangeRateService {
                 })
                 .thenCompose(apiKey -> getResponseFromHttpRequest(apiKey, effectiveCurrencyPair, dateNow))
                 .thenApply(jsonRoot -> fetchAndSaveExchangeRate(jsonRoot, effectiveCurrencyPair))
-                .thenApply(exchangeRate -> {
+                .thenApply(exchangeRateDTO -> {
                     log.info("Exchange rate successfully fetched and saved from API for currency pair: {}", effectiveCurrencyPair);
-                    return ExchangeRateMapper.INSTANCE.toDTO(exchangeRate);
+                    return exchangeRateDTO;
                 })
                 .exceptionally(ex -> {
                     log.error("Error occurred while fetching the exchange rate from API for currency pair: {}", effectiveCurrencyPair, ex);
@@ -154,24 +154,29 @@ public class ExchangeRateService {
         });
     }
     // Fetches the exchange rate data from the JSON response and saves it
-    private ExchangeRate fetchAndSaveExchangeRate(JsonNode jsonRoot, String currencyPair) {
+    private ExchangeRateDTO fetchAndSaveExchangeRate(JsonNode jsonRoot, String currencyPair) {
         try {
             RateDataFromJson rateDataFromJson = extractRateFromJsonRoot(jsonRoot);
             currencyPair = getEffectiveCurrencyPair(currencyPair);
             if (rateDataFromJson != null && rateDataFromJson.getCloseRate() != null) {
-                ExchangeRate exchangeRate =
-                        new ExchangeRate(
-                                UUID.randomUUID(),
+                ExchangeRateDTO exchangeRateDTO =
+                        new ExchangeRateDTO(
                                 currencyPair,
                                 rateDataFromJson.getCloseRate(),
                                 rateDataFromJson.getCloseRate(),
                                 rateDataFromJson.getDateTime()
                         );
                 if(currencyPair.equals(USD_KZT_PAIR)){
-                    exchangeRate.setRate(converterUtil.convertUsdToKztToKztToUsd(exchangeRate.getRate()));
+                    new ExchangeRateDTO(
+                            exchangeRateDTO.getCurrencyPair(),
+                            converterUtil.convertUsdToKztToKztToUsd(exchangeRateDTO.getRate()),
+                            converterUtil.convertUsdToKztToKztToUsd(exchangeRateDTO.getRate()),
+                            exchangeRateDTO.getDateTimeRate()
+                    );
                 }
                 log.info("Fetched exchange rate from API for currency pair: {}", currencyPair);
-                return exchangeRateRepository.save(exchangeRate);
+                var exchageRate = exchangeRateRepository.save(ExchangeRateMapper.INSTANCE.toEntity(exchangeRateDTO));
+                return ExchangeRateMapper.INSTANCE.toDTO(exchageRate) ;
             }
             log.warn("No exchange rate found for currency pair: {}", currencyPair);
             return null;
