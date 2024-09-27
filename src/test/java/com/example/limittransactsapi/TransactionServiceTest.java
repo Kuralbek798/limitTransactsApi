@@ -45,8 +45,8 @@ public class TransactionServiceTest {
     @Test
     void testAdditionTransactionsWithConditionalMocking() {
         List<TransactionDTO> transactionsList = List.of(
-                new TransactionDTO(UUID.randomUUID(), new BigDecimal("500.00"), "USD", OffsetDateTime.now(), 1, 2, "Category1", OffsetDateTime.now(), new BigDecimal("1.0"), new BigDecimal("500.00"), "USD", false),
-                new TransactionDTO(UUID.randomUUID(), new BigDecimal("1200.00"), "USD", OffsetDateTime.now(), 1, 2, "Category2", OffsetDateTime.now(), new BigDecimal("1.0"), new BigDecimal("1200.00"), "USD", false)
+                new TransactionDTO(UUID.randomUUID(), new BigDecimal("500.00"), "USD", OffsetDateTime.now(), 1, 2, "product", OffsetDateTime.now(), new BigDecimal("1.0"), new BigDecimal("500.00"), "USD", false),
+                new TransactionDTO(UUID.randomUUID(), new BigDecimal("1200.00"), "USD", OffsetDateTime.now(), 1, 2, "service", OffsetDateTime.now(), new BigDecimal("1.0"), new BigDecimal("1200.00"), "USD", false)
         );
 
         for (TransactionDTO transactionDTO : transactionsList) {
