@@ -24,12 +24,18 @@ public class Limit {
     private UUID id;
 
     @Column(name = "limit_sum", nullable = false)
-    private BigDecimal limitSum ;
+    private BigDecimal limitSum;
 
     @Column(name = "currency", nullable = false, length = 3)
     private String currency = "USD";
 
     @Column(name = "datetime", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private OffsetDateTime datetime;
+
+    @Column(name = "client_id")
+    private UUID clientId;
+
+    @Column(name = "is_base_limit")
+    private boolean isBaseLimit;
 
 }

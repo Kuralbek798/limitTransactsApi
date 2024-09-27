@@ -3,7 +3,6 @@ package com.example.limittransactsapi.services;
 import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
 import com.example.limittransactsapi.DTO.TransactionLimitDTO;
 import com.example.limittransactsapi.Entity.CheckedOnLimit;
-import com.example.limittransactsapi.Entity.Limit;
 import com.example.limittransactsapi.exceptions.CustomDataAccessException;
 import com.example.limittransactsapi.exceptions.CustomGenericException;
 import com.example.limittransactsapi.mapper.CheckedOnLimitMapper;
@@ -43,7 +42,7 @@ public class CheckedOnLimitService {
 
 
 
-    public List<TransactionLimitDTO> getExceededLimits() {
+    public List<TransactionLimitDTO> getExceededLimitsTransactions() {
         return checkedOnLimitRepository.findExceededLimits();
     }
 

@@ -1,3 +1,4 @@
+/*
 package com.example.limittransactsapi.mapper;
 
 import com.example.limittransactsapi.DTO.LimitDtoFromClient;
@@ -18,4 +19,4 @@ public interface ClientLimitMapper {
     @Mapping(source = "limitSum", target = "limitSum")
     @Mapping(source = "currency", target = "currency")
     Limit toEntity(LimitDtoFromClient limitDTO);
-}
+}*/

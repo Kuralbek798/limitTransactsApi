@@ -2,9 +2,9 @@ package com.example.limittransactsapi.services;
 
 
 import com.example.limittransactsapi.DTO.LimitDTO;
-import com.example.limittransactsapi.DTO.LimitDtoFromClient;
+
 import com.example.limittransactsapi.Entity.Limit;
-import com.example.limittransactsapi.mapper.ClientLimitMapper;
+
 import com.example.limittransactsapi.mapper.LimitMapper;
 import com.example.limittransactsapi.repository.LimitRepository;
 import com.example.limittransactsapi.util.ConverterUtil;
@@ -47,9 +47,8 @@ public class LimitService {
         this.converterUtil = converterUtil;
         this.customExecutor = customExecutor;
     }
-
     @Async("customExecutor")
-    public CompletableFuture<ResponseEntity<LimitDtoFromClient>> setLimitAsync(LimitDtoFromClient limitDtoFromClient) {
+    public CompletableFuture<ResponseEntity<LimitDTO>> setLimitAsync(LimitDTO limitDtoFromClient) {
 
         var futureConvertedClientsLimit = checkCurrencyTypeAndSetToUSDAsync(limitDtoFromClient);
         var futureCurrentDBLimit = getLatestLimitAsync();
@@ -75,7 +74,7 @@ public class LimitService {
     }
 
     @Async("customExecutor")
-    public CompletableFuture<LimitDtoFromClient> checkCurrencyTypeAndSetToUSDAsync(LimitDtoFromClient limitDtoFromClient) {
+    public CompletableFuture<LimitDTO> checkCurrencyTypeAndSetToUSDAsync(LimitDTO limitDtoFromClient) {
         // Check currency type for RUB
         if (limitDtoFromClient.getCurrency().equals(RUB)) {
             return exchangeRateService.getCurrencyRate(RUB_USD_PAIR)
@@ -85,11 +84,15 @@ public class LimitService {
                             throw new IllegalArgumentException("Недопустимый курс для RUB.");
                         }
                         BigDecimal convertedCurrency = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
-                        LimitDtoFromClient limiDTOFromClient = new LimitDtoFromClient(
+                        LimitDTO limiDTO = new LimitDTO(
+                                null,
                                 convertedCurrency
                                 , "USD"
+                                ,null
+                                ,limitDtoFromClient.getClientId()
+                                ,false
                         );
-                        return CompletableFuture.completedFuture(limitDtoFromClient);
+                        return CompletableFuture.completedFuture(limiDTO);
                     });
 
             // Check currency type for KZT
@@ -101,11 +104,15 @@ public class LimitService {
                             throw new IllegalArgumentException("Недопустимый курс для KZT.");
                         }
                         BigDecimal convertedCurrency = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
-                        LimitDtoFromClient limiDTOFromClient = new LimitDtoFromClient(
+                        LimitDTO limiDTO = new LimitDTO(
+                                null,
                                 convertedCurrency
-                                ,"USD"
+                                , "USD"
+                                ,null
+                                ,limitDtoFromClient.getClientId()
+                                ,false
                         );
-                        return CompletableFuture.completedFuture(limitDtoFromClient);
+                        return CompletableFuture.completedFuture(limiDTO);
                     });
         } else {
             throw new IllegalArgumentException("Недопустимая валюта конвертации.");
@@ -142,28 +149,30 @@ public class LimitService {
         return n;
     }
 
-    public boolean setMonthlyLimitByDefault() {
-        try {
-            Limit limit = new Limit();
-            limit.setCurrency(USD);
-            limit.setLimitSum(BigDecimal.valueOf(1000));
 
-            Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);
-            if (savedLimit.isPresent() && savedLimit.get().getId() != null && savedLimit.get().getLimitSum().equals(BigDecimal.valueOf(1000))) {
-                log.info("Default limit saved successfully: {}", savedLimit);
-                return true;
-            } else {
-                log.warn("Limit was not saved: {}", limit);
-                return false;
-            }
-        } catch (Exception e) {
-            log.error("Unexpected error in method insertMonthlyLimit: {}", e.getMessage(), e);
-            return false;
-        }
-    }
 
     //synchrony private method
     private boolean isLimitExist(LimitDtoFromClient limitDtoFromClient, LimitDTO limitDto) {
         return limitDto.getLimitSum().equals(limitDtoFromClient.getLimitSum());
     }
+
+public boolean setMonthlyLimitByDefault() {
+    try {
+        Limit limit = new Limit();
+        limit.setCurrency(USD);
+        limit.setLimitSum(BigDecimal.valueOf(1000));
+
+        Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);
+        if (savedLimit.isPresent() && savedLimit.get().getId() != null && savedLimit.get().getLimitSum().equals(BigDecimal.valueOf(1000))) {
+            log.info("Default limit saved successfully: {}", savedLimit);
+            return true;
+        } else {
+            log.warn("Limit was not saved: {}", limit);
+            return false;
+        }
+    } catch (Exception e) {
+        log.error("Unexpected error in method insertMonthlyLimit: {}", e.getMessage(), e);
+        return false;
+    }
+}
 }

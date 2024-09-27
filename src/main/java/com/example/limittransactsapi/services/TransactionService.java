@@ -1,3 +1,4 @@
+/*
 package com.example.limittransactsapi.services;
 
 import com.example.limittransactsapi.DTO.ExchangeRateDTO;
@@ -69,7 +70,6 @@ public class TransactionService {
         if (transactionsListFromService == null || transactionsListFromService.isEmpty()) {
             return CompletableFuture.completedFuture(ResponseEntity.badRequest().body("List is empty"));
         }
-
         // Get currency exchange rates
         CompletableFuture<Map<String, ExchangeRateDTO>> exchangeRatesMapFuture = getCurrencyRateAsMap();
 
@@ -128,14 +128,14 @@ public class TransactionService {
 
 
         CompletableFuture<Map<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedDBTransactionsFuture;
-
+        //if not empty then groping DB transactions by expense category
         if (dbTransactions != null && !dbTransactions.isEmpty()) {
 
             convertedDBTransactionsFuture = groupTransactionsByExpenseCategory(dbTransactions)
                     .thenCompose(groupedDBTransactions -> {
 
                         groupedDBTransactions.remove("notInCategories");
-
+                           //converting grouped DB transactions  currency to USD
                         return convertTransactionsSumAndCurrencyByUSDAsync(groupedDBTransactions, exchangeRate);
                     });
         } else {
@@ -203,16 +203,19 @@ public class TransactionService {
                 });
 
     }
+
     /// ===========================================================================
     @Async("customExecutor")
     public CompletableFuture<Void> additionTransactionsWithComparisonOnLimit(Map<Integer, BigDecimal> comparerExamplesDB,
                                                                              Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions,
                                                                              LimitDTO limitDTO) {
-     /*   // Логирование входных данных
+     */
+/*   // Логирование входных данных
         log.info("Method additionTransactionsWithComparisonOnLimit called with parameters:");
         log.info("Comparer Examples DB: {}", ForLogsMethods.describeComparerExamplesDB(comparerExamplesDB));
         log.info("Clients Transactions: {}", ForLogsMethods.describeClientsTransactions(clientsTransactions));
-        log.info("Limit DTO: {}", limitDTO);*/
+        log.info("Limit DTO: {}", limitDTO);*//*
+
 
 
         List<CompletableFuture<Void>> futures = new ArrayList<>();
@@ -600,4 +603,4 @@ public class TransactionService {
         return allFutures.thenApply(v -> clientsTransactionsMap);
     }
 
-}
+}*/

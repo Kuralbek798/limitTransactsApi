@@ -1,3 +1,4 @@
+/*
 package com.example.limittransactsapi.DTO;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,4 +29,4 @@ public final class LimitDtoFromClient {
     public String getCurrency() {
         return currency;
     }
-}
+}*/
