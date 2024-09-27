@@ -12,6 +12,7 @@ import com.example.limittransactsapi.services.crud.TransactionCRUDService;
 import com.example.limittransactsapi.util.ConverterUtil;
 
 
+import com.example.limittransactsapi.util.ForLogsMethods;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +34,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.example.limittransactsapi.util.ForLogsMethods.describeClientsTransactions;
+
 @Slf4j
 @Service
 public class TransactionService {
@@ -47,6 +50,7 @@ public class TransactionService {
     private final ExchangeRateService exchangeRateService;
     private final Executor customExecutor;
     private final TransactionCRUDService transactionCRUDService;
+
 
     @Autowired
     public TransactionService(TransactionRepository transactionRepository, LimitService limitService, CheckedOnLimitService checkedOnLimitService, ConverterUtil converterUtil, ExchangeRateService exchangeRateService, @Qualifier("customExecutor") Executor customExecutor, TransactionCRUDService transactionCRUDService) {
@@ -199,18 +203,16 @@ public class TransactionService {
                 });
 
     }
-
     /// ===========================================================================
-
     @Async("customExecutor")
     public CompletableFuture<Void> additionTransactionsWithComparisonOnLimit(Map<Integer, BigDecimal> comparerExamplesDB,
                                                                              Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions,
                                                                              LimitDTO limitDTO) {
-        // Логирование входных данных
+     /*   // Логирование входных данных
         log.info("Method additionTransactionsWithComparisonOnLimit called with parameters:");
-        log.info("Comparer Examples DB: {}", describeComparerExamplesDB(comparerExamplesDB));
-        log.info("Clients Transactions: {}", describeClientsTransactions(clientsTransactions));
-        log.info("Limit DTO: {}", limitDTO);
+        log.info("Comparer Examples DB: {}", ForLogsMethods.describeComparerExamplesDB(comparerExamplesDB));
+        log.info("Clients Transactions: {}", ForLogsMethods.describeClientsTransactions(clientsTransactions));
+        log.info("Limit DTO: {}", limitDTO);*/
 
 
         List<CompletableFuture<Void>> futures = new ArrayList<>();
@@ -276,33 +278,6 @@ public class TransactionService {
 
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
     }
-
-    /// ----------------------------------------------------------------------------------------------------
-
-
-    // Вспомогательный метод для составления описания comparerExamplesDB
-    private String describeComparerExamplesDB(Map<Integer, BigDecimal> comparerExamplesDB) {
-        if (comparerExamplesDB == null) {
-            return "null";
-        }
-        return comparerExamplesDB.entrySet().stream()
-                .map(entry -> entry.getKey() + ": " + entry.getValue())
-                .collect(Collectors.joining(", ", "{", "}"));
-    }
-
-    // Вспомогательный метод для составления описания клиентовских транзакций
-    private String describeClientsTransactions(Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions) {
-        if (clientsTransactions == null) {
-            return "null";
-        }
-        return clientsTransactions.entrySet().stream()
-                .map(entry -> entry.getKey() + " has [" + entry.getValue().size() + " transactions: " +
-                        entry.getValue().stream().map(TransactionDTO::toString).collect(Collectors.joining(", ")) + "]")
-                .collect(Collectors.joining(", ", "{", "}"));
-    }
-
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Async("customExecutor")
     public CompletableFuture<Map<Integer, ConcurrentLinkedQueue<TransactionDTO>>> groupTransactionsByAccount(ConcurrentLinkedQueue<TransactionDTO> transactionsList) {
