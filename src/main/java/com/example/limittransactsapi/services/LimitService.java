@@ -1,26 +1,26 @@
 package com.example.limittransactsapi.services;
 
 
-import com.example.limittransactsapi.DTO.LimitDTO;
+import com.example.limittransactsapi.Helpers.mapper.LimitMapper;
+import com.example.limittransactsapi.Models.DTO.LimitDTO;
 
-import com.example.limittransactsapi.Entity.Limit;
+import com.example.limittransactsapi.Models.Entity.Limit;
 
-import com.example.limittransactsapi.mapper.LimitMapper;
 import com.example.limittransactsapi.repository.LimitRepository;
-import com.example.limittransactsapi.util.ConverterUtil;
+import com.example.limittransactsapi.Helpers.Converter;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
 @Slf4j
@@ -36,22 +36,22 @@ public class LimitService {
 
     private final LimitRepository limitRepository;
     private final ExchangeRateService exchangeRateService;
-    private final ConverterUtil converterUtil;
+    private final Converter converter;
     private final Executor customExecutor;
 
     @Autowired
     public LimitService(LimitRepository limitRepository, ExchangeRateService exchangeRateService,
-                        ConverterUtil converterUtil, @Qualifier("customExecutor") Executor customExecutor) {
+                        Converter converter, @Qualifier("customExecutor") Executor customExecutor) {
         this.limitRepository = limitRepository;
         this.exchangeRateService = exchangeRateService;
-        this.converterUtil = converterUtil;
+        this.converter = converter;
         this.customExecutor = customExecutor;
     }
-    @Async("customExecutor")
+  /*  @Async("customExecutor")
     public CompletableFuture<ResponseEntity<LimitDTO>> setLimitAsync(LimitDTO limitDtoFromClient) {
 
         var futureConvertedClientsLimit = checkCurrencyTypeAndSetToUSDAsync(limitDtoFromClient);
-        var futureCurrentDBLimit = getLatestLimitAsync();
+        var futureCurrentDBLimit = getLatestLimitAsync(LimitDTO limitDtoFromClient);
 
         return futureConvertedClientsLimit.thenCombine(futureCurrentDBLimit, (clientsLimit, optionalDBLimit) -> {
             if (isLimitExist(clientsLimit, optionalDBLimit)) {
@@ -71,9 +71,9 @@ public class LimitService {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             }
         });
-    }
+    }*/
 
-    @Async("customExecutor")
+    /*@Async("customExecutor")
     public CompletableFuture<LimitDTO> checkCurrencyTypeAndSetToUSDAsync(LimitDTO limitDtoFromClient) {
         // Check currency type for RUB
         if (limitDtoFromClient.getCurrency().equals(RUB)) {
@@ -120,7 +120,7 @@ public class LimitService {
     }
 
     @Async("customExecutor")
-    public CompletableFuture<LimitDTO> getLatestLimitAsync() {
+    public CompletableFuture<LimitDTO> getLatestLimitAsync(LimitDTO  limitDtoFromClient) {
         return CompletableFuture
                 .supplyAsync(() -> {
                     // Fetch the latest limit from the repository
@@ -154,25 +154,43 @@ public class LimitService {
     //synchrony private method
     private boolean isLimitExist(LimitDtoFromClient limitDtoFromClient, LimitDTO limitDto) {
         return limitDto.getLimitSum().equals(limitDtoFromClient.getLimitSum());
-    }
+    }*/
+    @Transactional
+    public boolean setMonthlyLimitByDefault() {
+        try {
+            Limit limit = new Limit();
+            limit.setLimitSum(BigDecimal.valueOf(1000));
+            limit.setCurrency(USD);
+            limit.setBaseLimit(true);
+            limit.setActive(true);
 
-public boolean setMonthlyLimitByDefault() {
-    try {
-        Limit limit = new Limit();
-        limit.setCurrency(USD);
-        limit.setLimitSum(BigDecimal.valueOf(1000));
-
-        Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);
-        if (savedLimit.isPresent() && savedLimit.get().getId() != null && savedLimit.get().getLimitSum().equals(BigDecimal.valueOf(1000))) {
-            log.info("Default limit saved successfully: {}", savedLimit);
-            return true;
-        } else {
-            log.warn("Limit was not saved: {}", limit);
+            Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);
+            if (savedLimit.isPresent() && savedLimit.get().getId() != null && savedLimit.get().getLimitSum().equals(BigDecimal.valueOf(1000))) {
+                log.info("Default limit saved successfully: {}", savedLimit);
+                return true;
+            } else {
+                log.warn("Limit was not saved: {}", limit);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Unexpected error in method insertMonthlyLimit: {}", e.getMessage(), e);
             return false;
         }
-    } catch (Exception e) {
-        log.error("Unexpected error in method insertMonthlyLimit: {}", e.getMessage(), e);
-        return false;
     }
-}
+
+    public LimitDTO getLimitById(UUID id) {
+        return limitRepository.findTopByClientIdAndIsActiveTrueOrderByDatetimeDesc(id)
+                .map(limit -> LimitMapper.INSTANCE.toDTO(limit))
+                .orElse(null);
+    }
+
+
+    @Transactional
+    public void updateStatusIsActive() {
+        limitRepository.updateStatusIsActive();
+    }
+
+    public CompletableFuture<ResponseEntity<LimitDTO>> setLimitAsync(@Valid LimitDTO limit) {
+        return null;
+    }
 }

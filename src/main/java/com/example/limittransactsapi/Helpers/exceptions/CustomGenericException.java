@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.exceptions;
+package com.example.limittransactsapi.Helpers.exceptions;
 
 // Общий класс исключения
 public class CustomGenericException extends RuntimeException {

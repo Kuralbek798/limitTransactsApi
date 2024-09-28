@@ -1,8 +1,8 @@
-package com.example.limittransactsapi.mapper;
+package com.example.limittransactsapi.Helpers.mapper;
 
 
-import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
-import com.example.limittransactsapi.Entity.CheckedOnLimit;
+import com.example.limittransactsapi.Models.DTO.CheckedOnLimitDTO;
+import com.example.limittransactsapi.Models.Entity.CheckedOnLimit;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

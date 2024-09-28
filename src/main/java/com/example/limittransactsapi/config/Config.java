@@ -3,6 +3,7 @@ package com.example.limittransactsapi.config;
 
 import com.example.limittransactsapi.services.LimitService;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.Executor;
-
+@Slf4j
 @Data
 @Configuration
 @EnableScheduling
@@ -42,13 +43,16 @@ public class Config {
         if (schedulerEnabled) {
             int attempts = 0;
             boolean success = false;
-
+               limitService.setMonthlyLimitByDefault();
             // Цикл, который будет продолжать выполняться до получения положительного ответа
             while (!success && attempts < maxAttempts) {
                 success = limitService.setMonthlyLimitByDefault(); // Попытка вставить лимит
+                if(success){
+                    log.info("Scheduler task successfully executed.");
+                }
                 if (!success) {
                     attempts++;
-                    System.err.println("Attempt " + attempts + " failed. Retrying...");
+                    log.error("Attempt " + attempts + " failed. Retrying...");
                     try {
                         Thread.sleep(2000); // Ждем 2 секунды перед следующей попыткой
                     } catch (InterruptedException ie) {
@@ -57,7 +61,7 @@ public class Config {
                 }
             }
         } else {
-            System.out.println("Scheduler is disabled, task will not execute.");
+            log.warn("Scheduler is disabled, task will not execute.");
         }
     }
 

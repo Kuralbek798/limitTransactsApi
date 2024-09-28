@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.DTO;
+package com.example.limittransactsapi.Models.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

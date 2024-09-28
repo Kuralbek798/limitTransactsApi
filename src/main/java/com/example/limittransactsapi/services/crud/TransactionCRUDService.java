@@ -1,18 +1,15 @@
 package com.example.limittransactsapi.services.crud;
 
-import com.example.limittransactsapi.DTO.TransactionDTO;
-import com.example.limittransactsapi.Entity.Transaction;
-import com.example.limittransactsapi.mapper.TransactionMapper;
+import com.example.limittransactsapi.Models.DTO.TransactionDTO;
+import com.example.limittransactsapi.Models.Entity.Transaction;
+import com.example.limittransactsapi.Helpers.mapper.TransactionMapper;
 import com.example.limittransactsapi.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 public class TransactionCRUDService {

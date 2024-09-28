@@ -10,7 +10,7 @@ import com.example.limittransactsapi.mapper.TransactionMapper;
 import com.example.limittransactsapi.repository.projections.TransactionProjection;
 import com.example.limittransactsapi.repository.TransactionRepository;
 import com.example.limittransactsapi.services.crud.TransactionCRUDService;
-import com.example.limittransactsapi.util.ConverterUtil;
+import com.example.limittransactsapi.Helpers.ConverterUtil;
 
 
 import com.example.limittransactsapi.util.ForLogsMethods;

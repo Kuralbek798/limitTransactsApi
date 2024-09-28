@@ -1,15 +1,14 @@
 package com.example.limittransactsapi.services;
 
 
-import com.example.limittransactsapi.DTO.ExchangeRateDTO;
-import com.example.limittransactsapi.Entity.ExchangeRate;
-import com.example.limittransactsapi.Model.RateDataFromJson;
-import com.example.limittransactsapi.mapper.ExchangeRateMapper;
+import com.example.limittransactsapi.Helpers.HttpClientService;
+import com.example.limittransactsapi.Models.DTO.ExchangeRateDTO;
+import com.example.limittransactsapi.Models.RateDataFromJson;
+import com.example.limittransactsapi.Helpers.mapper.ExchangeRateMapper;
 import com.example.limittransactsapi.repository.ExchangeRateRepository;
-import com.example.limittransactsapi.util.BuildUrlAndDateUtil;
-import com.example.limittransactsapi.util.ConverterUtil;
-import com.example.limittransactsapi.util.HttpClientServiceUtil;
-import com.example.limittransactsapi.util.PathForApiServisUtil;
+import com.example.limittransactsapi.Helpers.BuildUrlAndDate;
+import com.example.limittransactsapi.Helpers.Converter;
+import com.example.limittransactsapi.Helpers.PathForApiServis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +25,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -46,10 +44,10 @@ public class ExchangeRateService {
     @Value("${app.twelveURL}")
     private String baseUrl;
 
-    private final PathForApiServisUtil pathForApiServisUtil;
+    private final PathForApiServis pathForApiServis;
     private final ExchangeRateRepository exchangeRateRepository;
-    private final HttpClientServiceUtil httpClientServiceUtil;
-    private final ConverterUtil converterUtil;
+    private final HttpClientService httpClientService;
+    private final Converter converter;
     private final Executor customExecutor;
 
     // Currency pair definitions
@@ -61,12 +59,12 @@ public class ExchangeRateService {
 
     // Constructor for dependency injection
     @Autowired
-    public ExchangeRateService(PathForApiServisUtil pathForApiServisUtil, ExchangeRateRepository exchangeRateRepository,
-                               HttpClientServiceUtil httpClientServiceUtil, ConverterUtil converterUtil, @Qualifier("customExecutor") Executor customExecutor) {
-        this.pathForApiServisUtil = pathForApiServisUtil;
+    public ExchangeRateService(PathForApiServis pathForApiServis, ExchangeRateRepository exchangeRateRepository,
+                               HttpClientService httpClientService, Converter converter, @Qualifier("customExecutor") Executor customExecutor) {
+        this.pathForApiServis = pathForApiServis;
         this.exchangeRateRepository = exchangeRateRepository;
-        this.httpClientServiceUtil = httpClientServiceUtil;
-        this.converterUtil = converterUtil;
+        this.httpClientService = httpClientService;
+        this.converter = converter;
         this.customExecutor = customExecutor;
     }
 
@@ -113,7 +111,7 @@ public class ExchangeRateService {
     CompletableFuture<ExchangeRateDTO> getRateFromApi(String effectiveCurrencyPair, LocalDate dateNow) {
         return CompletableFuture.supplyAsync(() -> {
                     try {
-                        return pathForApiServisUtil.getDecryptedApiKey(servisIdentity, uuidKey);
+                        return pathForApiServis.getDecryptedApiKey(servisIdentity, uuidKey);
                     } catch (Exception e) {
                         log.error("Error occurred while decrypting the API key: {}", effectiveCurrencyPair, e);
                         throw new ServiceException("Error occurred while decrypting the API key", e);
@@ -137,7 +135,7 @@ public class ExchangeRateService {
             try {
                 LocalDate startDate = dateNow;
                 LocalDate endDate = startDate.plusDays(1);
-                String url = BuildUrlAndDateUtil.buildUrl(baseUrl, currencyPair, startDate, endDate, apiKey);
+                String url = BuildUrlAndDate.buildUrl(baseUrl, currencyPair, startDate, endDate, apiKey);
                 JsonNode root = fetchJsonResponse(url);
                 if (isValidResponse(root)) return root;
                 return tryGetJsonResponse(apiKey, currencyPair, startDate, endDate);
@@ -169,8 +167,8 @@ public class ExchangeRateService {
                 if(currencyPair.equals(USD_KZT_PAIR)){
                     new ExchangeRateDTO(
                             exchangeRateDTO.getCurrencyPair(),
-                            converterUtil.convertUsdToKztToKztToUsd(exchangeRateDTO.getRate()),
-                            converterUtil.convertUsdToKztToKztToUsd(exchangeRateDTO.getRate()),
+                            converter.convertUsdToKztToKztToUsd(exchangeRateDTO.getRate()),
+                            converter.convertUsdToKztToKztToUsd(exchangeRateDTO.getRate()),
                             exchangeRateDTO.getDateTimeRate()
                     );
                 }
@@ -221,7 +219,7 @@ public class ExchangeRateService {
         return KZT_USD_PAIR.equals(currencyPair) ? USD_KZT_PAIR : currencyPair;
     }
     private JsonNode fetchJsonResponse(String url) throws JsonProcessingException {
-        CompletableFuture<String> jsonResponse = httpClientServiceUtil.sendRequest(url);
+        CompletableFuture<String> jsonResponse = httpClientService.sendRequest(url);
         return objectMapper.readTree(jsonResponse.join());
     }
     private boolean isValidResponse(JsonNode jsonResponse) {
@@ -230,7 +228,7 @@ public class ExchangeRateService {
     private JsonNode tryGetJsonResponse(String apiKey, String currencyPair, LocalDate startDate, LocalDate endDate) throws JsonProcessingException {
         for (int index = 1; index <= 5; index++) {
             LocalDate currentStartDate = startDate.minusDays(index);
-            String url = BuildUrlAndDateUtil.buildUrl(baseUrl, currencyPair, currentStartDate, endDate, apiKey);
+            String url = BuildUrlAndDate.buildUrl(baseUrl, currencyPair, currentStartDate, endDate, apiKey);
             JsonNode root = fetchJsonResponse(url);
             if (isValidResponse(root)) return root;
         }

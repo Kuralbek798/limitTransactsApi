@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.Entity;
+package com.example.limittransactsapi.Models.Entity;
 
 
 import lombok.AllArgsConstructor;
@@ -37,5 +37,8 @@ public class Limit {
 
     @Column(name = "is_base_limit")
     private boolean isBaseLimit;
+
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
 }

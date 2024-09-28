@@ -18,7 +18,7 @@
 2024-09-08 17:02:02 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:02:02 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:02:02 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:02:02 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:02:02 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:02:02 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:02:02 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:02:02 - Scanning for classes at classpath:db/migration
@@ -62,7 +62,7 @@
 2024-09-08 17:02:02 - HikariPool-6 - Starting...
 2024-09-08 17:02:02 - HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@7dac38f2
 2024-09-08 17:02:02 - HikariPool-6 - Start completed.
-2024-09-08 17:02:02 - Validating V2__limit_table.sql
+2024-09-08 17:02:02 - Validating V9__limit_table.sql
 2024-09-08 17:02:02 - Validating V4__path_for_api_table.sql
 2024-09-08 17:02:02 - Validating V3__transactions_table.sql
 2024-09-08 17:02:02 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -74,11 +74,11 @@
 2024-09-08 17:02:02 - Validating migrations ...
 2024-09-08 17:02:02 - CherryPickConfigurationExtension not found
 2024-09-08 17:02:02 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:02:02 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:02:02 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:02:02 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:02:02 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:02:02 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:02:02 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:02:02 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:02:02 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:02:02 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:02:02 - Successfully validated 4 migrations (execution time 00:00.005s)
@@ -153,7 +153,7 @@
 2024-09-08 17:02:32 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:02:32 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:02:32 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:02:32 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:02:32 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:02:32 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:02:32 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:02:32 - Scanning for classes at classpath:db/migration
@@ -197,7 +197,7 @@
 2024-09-08 17:02:32 - HikariPool-7 - Starting...
 2024-09-08 17:02:32 - HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@6ac8a40e
 2024-09-08 17:02:32 - HikariPool-7 - Start completed.
-2024-09-08 17:02:32 - Validating V2__limit_table.sql
+2024-09-08 17:02:32 - Validating V9__limit_table.sql
 2024-09-08 17:02:32 - Validating V4__path_for_api_table.sql
 2024-09-08 17:02:32 - Validating V3__transactions_table.sql
 2024-09-08 17:02:32 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -209,11 +209,11 @@
 2024-09-08 17:02:32 - Validating migrations ...
 2024-09-08 17:02:32 - CherryPickConfigurationExtension not found
 2024-09-08 17:02:32 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:02:32 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:02:32 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:02:32 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:02:32 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:02:32 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:02:32 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:02:32 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:02:32 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:02:32 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:02:32 - Successfully validated 4 migrations (execution time 00:00.005s)
@@ -291,7 +291,7 @@
 2024-09-08 17:03:12 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:03:12 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:03:12 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:03:12 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:03:12 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:03:12 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:03:12 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:03:12 - Scanning for classes at classpath:db/migration
@@ -335,7 +335,7 @@
 2024-09-08 17:03:12 - HikariPool-1 - Starting...
 2024-09-08 17:03:12 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3b542966
 2024-09-08 17:03:12 - HikariPool-1 - Start completed.
-2024-09-08 17:03:12 - Validating V2__limit_table.sql
+2024-09-08 17:03:12 - Validating V9__limit_table.sql
 2024-09-08 17:03:12 - Validating V4__path_for_api_table.sql
 2024-09-08 17:03:12 - Validating V3__transactions_table.sql
 2024-09-08 17:03:12 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -347,11 +347,11 @@
 2024-09-08 17:03:12 - Validating migrations ...
 2024-09-08 17:03:12 - CherryPickConfigurationExtension not found
 2024-09-08 17:03:12 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:03:12 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:03:12 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:03:12 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:03:12 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:03:12 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:03:12 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:03:12 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:03:12 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:03:12 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:03:12 - Successfully validated 4 migrations (execution time 00:00.029s)
@@ -693,7 +693,7 @@ org.postgresql.util.PSQLException: ОШИБКА: столбец er1_0.close не
 2024-09-08 17:18:23 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:18:23 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:18:23 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:18:23 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:18:23 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:18:23 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:18:23 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:18:23 - Scanning for classes at classpath:db/migration
@@ -737,7 +737,7 @@ org.postgresql.util.PSQLException: ОШИБКА: столбец er1_0.close не
 2024-09-08 17:18:23 - HikariPool-1 - Starting...
 2024-09-08 17:18:24 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@ca0b36f
 2024-09-08 17:18:24 - HikariPool-1 - Start completed.
-2024-09-08 17:18:24 - Validating V2__limit_table.sql
+2024-09-08 17:18:24 - Validating V9__limit_table.sql
 2024-09-08 17:18:24 - Validating V4__path_for_api_table.sql
 2024-09-08 17:18:24 - Validating V3__transactions_table.sql
 2024-09-08 17:18:24 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -749,11 +749,11 @@ org.postgresql.util.PSQLException: ОШИБКА: столбец er1_0.close не
 2024-09-08 17:18:24 - Validating migrations ...
 2024-09-08 17:18:24 - CherryPickConfigurationExtension not found
 2024-09-08 17:18:24 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:18:24 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:18:24 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:18:24 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:18:24 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:18:24 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:18:24 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:18:24 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:18:24 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:18:24 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:18:24 - Memory usage: 41 of 68M
@@ -837,7 +837,7 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 2024-09-08 17:21:06 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:21:06 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:21:06 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:21:06 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:21:06 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:21:06 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:21:06 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:21:06 - Scanning for classes at classpath:db/migration
@@ -881,7 +881,7 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 2024-09-08 17:21:06 - HikariPool-1 - Starting...
 2024-09-08 17:21:06 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@67ab5341
 2024-09-08 17:21:06 - HikariPool-1 - Start completed.
-2024-09-08 17:21:06 - Validating V2__limit_table.sql
+2024-09-08 17:21:06 - Validating V9__limit_table.sql
 2024-09-08 17:21:06 - Validating V4__path_for_api_table.sql
 2024-09-08 17:21:06 - Validating V3__transactions_table.sql
 2024-09-08 17:21:06 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -893,11 +893,11 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 2024-09-08 17:21:06 - Validating migrations ...
 2024-09-08 17:21:06 - CherryPickConfigurationExtension not found
 2024-09-08 17:21:06 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:21:06 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:21:06 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:21:06 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:21:06 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:21:06 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:21:06 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:21:06 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:21:06 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:21:06 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:21:06 - Successfully validated 4 migrations (execution time 00:00.024s)
@@ -1006,7 +1006,7 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 2024-09-08 17:22:15 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:22:15 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:22:15 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:22:15 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:22:15 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:22:15 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:22:15 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:22:15 - Scanning for classes at classpath:db/migration
@@ -1050,7 +1050,7 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 2024-09-08 17:22:15 - HikariPool-1 - Starting...
 2024-09-08 17:22:15 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@70191d01
 2024-09-08 17:22:15 - HikariPool-1 - Start completed.
-2024-09-08 17:22:15 - Validating V2__limit_table.sql
+2024-09-08 17:22:15 - Validating V9__limit_table.sql
 2024-09-08 17:22:15 - Validating V4__path_for_api_table.sql
 2024-09-08 17:22:15 - Validating V3__transactions_table.sql
 2024-09-08 17:22:15 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -1062,11 +1062,11 @@ Need more flexibility with validation rules? Learn more: https://rd.gt/3AbJUZE
 2024-09-08 17:22:15 - Validating migrations ...
 2024-09-08 17:22:15 - CherryPickConfigurationExtension not found
 2024-09-08 17:22:15 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:22:15 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:22:15 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:22:15 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:22:15 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:22:15 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:22:15 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:22:15 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:22:15 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:22:15 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:22:15 - Successfully validated 4 migrations (execution time 00:00.033s)
@@ -1325,7 +1325,7 @@ java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class 
 2024-09-08 17:39:55 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:39:55 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:39:55 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:39:55 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:39:55 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:39:55 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:39:55 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:39:55 - Scanning for classes at classpath:db/migration
@@ -1369,7 +1369,7 @@ java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class 
 2024-09-08 17:39:55 - HikariPool-1 - Starting...
 2024-09-08 17:39:55 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41cb7603
 2024-09-08 17:39:55 - HikariPool-1 - Start completed.
-2024-09-08 17:39:55 - Validating V2__limit_table.sql
+2024-09-08 17:39:55 - Validating V9__limit_table.sql
 2024-09-08 17:39:55 - Validating V4__path_for_api_table.sql
 2024-09-08 17:39:55 - Validating V3__transactions_table.sql
 2024-09-08 17:39:55 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -1381,11 +1381,11 @@ java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class 
 2024-09-08 17:39:55 - Validating migrations ...
 2024-09-08 17:39:55 - CherryPickConfigurationExtension not found
 2024-09-08 17:39:55 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:39:55 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:39:55 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:39:55 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:39:55 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:39:55 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:39:55 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:39:55 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:39:55 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:39:55 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:39:55 - Successfully validated 4 migrations (execution time 00:00.039s)
@@ -1704,7 +1704,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:42:08 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:42:08 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:42:08 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:42:08 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:42:08 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:42:08 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:42:08 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:42:08 - Scanning for classes at classpath:db/migration
@@ -1748,7 +1748,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:42:08 - HikariPool-1 - Starting...
 2024-09-08 17:42:08 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1fbbf499
 2024-09-08 17:42:08 - HikariPool-1 - Start completed.
-2024-09-08 17:42:08 - Validating V2__limit_table.sql
+2024-09-08 17:42:08 - Validating V9__limit_table.sql
 2024-09-08 17:42:08 - Validating V4__path_for_api_table.sql
 2024-09-08 17:42:08 - Validating V3__transactions_table.sql
 2024-09-08 17:42:08 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -1760,11 +1760,11 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:42:08 - Validating migrations ...
 2024-09-08 17:42:08 - CherryPickConfigurationExtension not found
 2024-09-08 17:42:08 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:42:08 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:42:08 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:42:08 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:42:08 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:42:08 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:42:08 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:42:08 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:42:08 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:42:08 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:42:08 - Successfully validated 4 migrations (execution time 00:00.030s)
@@ -1844,7 +1844,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:42:50 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:42:50 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:42:50 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:42:50 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:42:50 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:42:50 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:42:50 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:42:50 - Scanning for classes at classpath:db/migration
@@ -1888,7 +1888,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:42:50 - HikariPool-1 - Starting...
 2024-09-08 17:42:50 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6bb18c5c
 2024-09-08 17:42:50 - HikariPool-1 - Start completed.
-2024-09-08 17:42:50 - Validating V2__limit_table.sql
+2024-09-08 17:42:50 - Validating V9__limit_table.sql
 2024-09-08 17:42:50 - Validating V4__path_for_api_table.sql
 2024-09-08 17:42:50 - Validating V3__transactions_table.sql
 2024-09-08 17:42:50 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -1900,11 +1900,11 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:42:50 - Validating migrations ...
 2024-09-08 17:42:50 - CherryPickConfigurationExtension not found
 2024-09-08 17:42:50 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:42:50 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:42:50 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:42:50 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:42:50 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:42:50 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:42:50 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:42:50 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:42:50 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:42:50 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:42:50 - Successfully validated 4 migrations (execution time 00:00.029s)
@@ -2223,7 +2223,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:45:29 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:45:29 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:45:29 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:45:29 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:45:29 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:45:29 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:45:29 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:45:29 - Scanning for classes at classpath:db/migration
@@ -2267,7 +2267,7 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:45:29 - HikariPool-1 - Starting...
 2024-09-08 17:45:29 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@521f21a8
 2024-09-08 17:45:29 - HikariPool-1 - Start completed.
-2024-09-08 17:45:29 - Validating V2__limit_table.sql
+2024-09-08 17:45:29 - Validating V9__limit_table.sql
 2024-09-08 17:45:29 - Validating V4__path_for_api_table.sql
 2024-09-08 17:45:29 - Validating V3__transactions_table.sql
 2024-09-08 17:45:29 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -2279,11 +2279,11 @@ java.lang.Exception: Cannot invoke "Object.getClass()" because "object" is null
 2024-09-08 17:45:29 - Validating migrations ...
 2024-09-08 17:45:29 - CherryPickConfigurationExtension not found
 2024-09-08 17:45:29 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:45:29 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:45:29 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:45:29 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:45:29 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:45:29 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:45:29 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:45:29 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:45:29 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:45:29 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:45:29 - Successfully validated 4 migrations (execution time 00:00.024s)
@@ -2434,7 +2434,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 17:51:15 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 17:51:15 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 17:51:15 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 17:51:15 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 17:51:15 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 17:51:15 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 17:51:15 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 17:51:15 - Scanning for classes at classpath:db/migration
@@ -2478,7 +2478,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 17:51:15 - HikariPool-1 - Starting...
 2024-09-08 17:51:15 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@67846bf0
 2024-09-08 17:51:15 - HikariPool-1 - Start completed.
-2024-09-08 17:51:15 - Validating V2__limit_table.sql
+2024-09-08 17:51:15 - Validating V9__limit_table.sql
 2024-09-08 17:51:15 - Validating V4__path_for_api_table.sql
 2024-09-08 17:51:15 - Validating V3__transactions_table.sql
 2024-09-08 17:51:15 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -2490,11 +2490,11 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 17:51:15 - Validating migrations ...
 2024-09-08 17:51:15 - CherryPickConfigurationExtension not found
 2024-09-08 17:51:15 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:51:15 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:51:15 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:51:15 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:51:15 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:51:15 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 17:51:15 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 17:51:15 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 17:51:15 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 17:51:15 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 17:51:15 - Successfully validated 4 migrations (execution time 00:00.031s)
@@ -2854,7 +2854,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:07:45 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:07:45 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:07:45 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:07:45 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:07:45 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:07:45 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:07:45 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:07:45 - Scanning for classes at classpath:db/migration
@@ -2898,7 +2898,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:07:45 - HikariPool-1 - Starting...
 2024-09-08 18:07:45 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@62de86e
 2024-09-08 18:07:45 - HikariPool-1 - Start completed.
-2024-09-08 18:07:45 - Validating V2__limit_table.sql
+2024-09-08 18:07:45 - Validating V9__limit_table.sql
 2024-09-08 18:07:45 - Validating V4__path_for_api_table.sql
 2024-09-08 18:07:45 - Validating V3__transactions_table.sql
 2024-09-08 18:07:45 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -2910,11 +2910,11 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:07:45 - Validating migrations ...
 2024-09-08 18:07:45 - CherryPickConfigurationExtension not found
 2024-09-08 18:07:45 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:07:45 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:07:45 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:07:45 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:07:45 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:07:45 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:07:45 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:07:45 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:07:45 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:07:45 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:07:45 - Successfully validated 4 migrations (execution time 00:00.025s)
@@ -3136,7 +3136,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:12:25 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:12:25 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:12:25 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:12:25 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:12:25 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:12:25 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:12:25 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:12:25 - Scanning for classes at classpath:db/migration
@@ -3180,7 +3180,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:12:25 - HikariPool-1 - Starting...
 2024-09-08 18:12:25 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1fbbf499
 2024-09-08 18:12:25 - HikariPool-1 - Start completed.
-2024-09-08 18:12:25 - Validating V2__limit_table.sql
+2024-09-08 18:12:25 - Validating V9__limit_table.sql
 2024-09-08 18:12:25 - Validating V4__path_for_api_table.sql
 2024-09-08 18:12:25 - Validating V3__transactions_table.sql
 2024-09-08 18:12:25 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -3192,11 +3192,11 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:12:25 - Validating migrations ...
 2024-09-08 18:12:25 - CherryPickConfigurationExtension not found
 2024-09-08 18:12:25 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:12:25 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:12:25 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:12:25 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:12:25 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:12:25 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:12:25 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:12:25 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:12:25 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:12:25 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:12:25 - Successfully validated 4 migrations (execution time 00:00.029s)
@@ -3357,7 +3357,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:30:49 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:30:49 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:30:49 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:30:49 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:30:49 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:30:49 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:30:49 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:30:49 - Scanning for classes at classpath:db/migration
@@ -3401,7 +3401,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:30:49 - HikariPool-1 - Starting...
 2024-09-08 18:30:49 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@79deea1e
 2024-09-08 18:30:49 - HikariPool-1 - Start completed.
-2024-09-08 18:30:49 - Validating V2__limit_table.sql
+2024-09-08 18:30:49 - Validating V9__limit_table.sql
 2024-09-08 18:30:49 - Validating V4__path_for_api_table.sql
 2024-09-08 18:30:49 - Validating V3__transactions_table.sql
 2024-09-08 18:30:49 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -3413,11 +3413,11 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:30:49 - Validating migrations ...
 2024-09-08 18:30:49 - CherryPickConfigurationExtension not found
 2024-09-08 18:30:49 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:30:49 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:30:49 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:30:49 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:30:49 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:30:49 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:30:49 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:30:49 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:30:49 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:30:49 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:30:49 - Successfully validated 4 migrations (execution time 00:00.025s)
@@ -3482,7 +3482,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:36:15 - Failed to fetch and save exchange rate
 java.lang.IllegalArgumentException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
 	at java.base/java.net.URI.create(URI.java:906)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:35)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:35)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -3601,7 +3601,7 @@ org.hibernate.service.spi.ServiceException: Failed to fetch and save exchange ra
 	at java.base/java.lang.Thread.run(Thread.java:842)
 Caused by: java.lang.IllegalArgumentException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
 	at java.base/java.net.URI.create(URI.java:906)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:35)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:35)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	... 52 common frames omitted
 Caused by: java.net.URISyntaxException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
@@ -3620,7 +3620,7 @@ java.net.URISyntaxException: Illegal character in scheme name at index 0: "https
 	at java.base/java.net.URI$Parser.parse(URI.java:3170)
 	at java.base/java.net.URI.<init>(URI.java:623)
 	at java.base/java.net.URI.create(URI.java:904)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:35)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:35)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -3711,7 +3711,7 @@ java.net.URISyntaxException: Illegal character in scheme name at index 0: "https
 2024-09-08 18:36:22 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:36:22 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:36:22 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:36:22 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:36:22 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:36:22 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:36:22 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:36:22 - Scanning for classes at classpath:db/migration
@@ -3755,7 +3755,7 @@ java.net.URISyntaxException: Illegal character in scheme name at index 0: "https
 2024-09-08 18:36:22 - HikariPool-1 - Starting...
 2024-09-08 18:36:22 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1b26e619
 2024-09-08 18:36:22 - HikariPool-1 - Start completed.
-2024-09-08 18:36:22 - Validating V2__limit_table.sql
+2024-09-08 18:36:22 - Validating V9__limit_table.sql
 2024-09-08 18:36:22 - Validating V4__path_for_api_table.sql
 2024-09-08 18:36:22 - Validating V3__transactions_table.sql
 2024-09-08 18:36:22 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -3767,11 +3767,11 @@ java.net.URISyntaxException: Illegal character in scheme name at index 0: "https
 2024-09-08 18:36:22 - Validating migrations ...
 2024-09-08 18:36:22 - CherryPickConfigurationExtension not found
 2024-09-08 18:36:22 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:36:22 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:36:22 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:36:22 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:36:22 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:36:22 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:36:22 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:36:22 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:36:22 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:36:22 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:36:22 - Successfully validated 4 migrations (execution time 00:00.025s)
@@ -4001,7 +4001,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 18:45:54 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:45:54 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:45:54 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:45:54 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:45:54 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:45:54 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:45:54 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:45:54 - Scanning for classes at classpath:db/migration
@@ -4045,7 +4045,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 18:45:54 - HikariPool-2 - Starting...
 2024-09-08 18:45:54 - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@47ecc4ed
 2024-09-08 18:45:54 - HikariPool-2 - Start completed.
-2024-09-08 18:45:54 - Validating V2__limit_table.sql
+2024-09-08 18:45:54 - Validating V9__limit_table.sql
 2024-09-08 18:45:54 - Validating V4__path_for_api_table.sql
 2024-09-08 18:45:54 - Validating V3__transactions_table.sql
 2024-09-08 18:45:54 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -4057,11 +4057,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 18:45:54 - Validating migrations ...
 2024-09-08 18:45:54 - CherryPickConfigurationExtension not found
 2024-09-08 18:45:54 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:45:54 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:45:54 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:45:54 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:45:54 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:45:54 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:45:54 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:45:54 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:45:54 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:45:54 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:45:54 - Successfully validated 4 migrations (execution time 00:00.009s)
@@ -4084,7 +4084,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 18:45:54 - Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-09-08 18:45:54 - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@660b3827
 2024-09-08 18:45:54 - HikariPool-2 - After adding stats (total=4, active=0, idle=4, waiting=0)
-2024-09-08 18:45:54 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionController' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\controllers\TransactionController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'currencyService' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\services\CurrencyService.class]: Unsatisfied dependency expressed through constructor parameter 3: No qualifying bean of type 'com.example.limittransactsapi.util.HttpClientServiceUtil' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-09-08 18:45:54 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionController' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\controllers\TransactionController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'currencyService' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\services\CurrencyService.class]: Unsatisfied dependency expressed through constructor parameter 3: No qualifying bean of type 'com.example.limittransactsapi.Helpers.HttpClientService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
 2024-09-08 18:45:54 - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-09-08 18:45:54 - HikariPool-2 - Shutdown initiated...
 2024-09-08 18:45:54 - HikariPool-2 - Before shutdown stats (total=4, active=0, idle=4, waiting=0)
@@ -4114,12 +4114,12 @@ APPLICATION FAILED TO START
 
 Description:
 
-Parameter 3 of constructor in com.example.limittransactsapi.services.ExchangeRateService required a bean of type 'com.example.limittransactsapi.util.HttpClientServiceUtil' that could not be found.
+Parameter 3 of constructor in com.example.limittransactsapi.services.ExchangeRateService required a bean of type 'com.example.limittransactsapi.Helpers.HttpClientService' that could not be found.
 
 
 Action:
 
-Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientServiceUtil' in your configuration.
+Consider defining a bean of type 'com.example.limittransactsapi.Helpers.HttpClientService' in your configuration.
 
 2024-09-08 18:45:56 - Starting LimitTransactsApiApplication using Java 17.0.12 with PID 6036 (C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes started by admin in C:\Users\admin\IdeaProjects\limitTransactsApi)
 2024-09-08 18:45:56 - Running with Spring Boot v3.3.3, Spring v6.1.12
@@ -4141,7 +4141,7 @@ Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientS
 2024-09-08 18:45:56 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:45:56 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:45:56 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:45:56 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:45:56 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:45:56 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:45:56 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:45:56 - Scanning for classes at classpath:db/migration
@@ -4185,7 +4185,7 @@ Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientS
 2024-09-08 18:45:56 - HikariPool-3 - Starting...
 2024-09-08 18:45:56 - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@2803506a
 2024-09-08 18:45:56 - HikariPool-3 - Start completed.
-2024-09-08 18:45:56 - Validating V2__limit_table.sql
+2024-09-08 18:45:56 - Validating V9__limit_table.sql
 2024-09-08 18:45:56 - Validating V4__path_for_api_table.sql
 2024-09-08 18:45:56 - Validating V3__transactions_table.sql
 2024-09-08 18:45:56 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -4197,11 +4197,11 @@ Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientS
 2024-09-08 18:45:56 - Validating migrations ...
 2024-09-08 18:45:56 - CherryPickConfigurationExtension not found
 2024-09-08 18:45:56 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:45:56 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:45:56 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:45:56 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:45:56 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:45:56 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:45:56 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:45:56 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:45:56 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:45:56 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:45:56 - Successfully validated 4 migrations (execution time 00:00.006s)
@@ -4278,7 +4278,7 @@ Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientS
 2024-09-08 18:46:07 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:46:07 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:46:07 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:46:07 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:46:07 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:46:07 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:46:07 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:46:07 - Scanning for classes at classpath:db/migration
@@ -4322,7 +4322,7 @@ Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientS
 2024-09-08 18:46:07 - HikariPool-1 - Starting...
 2024-09-08 18:46:08 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1daaf49e
 2024-09-08 18:46:08 - HikariPool-1 - Start completed.
-2024-09-08 18:46:08 - Validating V2__limit_table.sql
+2024-09-08 18:46:08 - Validating V9__limit_table.sql
 2024-09-08 18:46:08 - Validating V4__path_for_api_table.sql
 2024-09-08 18:46:08 - Validating V3__transactions_table.sql
 2024-09-08 18:46:08 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -4334,11 +4334,11 @@ Consider defining a bean of type 'com.example.limittransactsapi.util.HttpClientS
 2024-09-08 18:46:08 - Validating migrations ...
 2024-09-08 18:46:08 - CherryPickConfigurationExtension not found
 2024-09-08 18:46:08 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:46:08 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:46:08 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:46:08 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:46:08 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:46:08 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:46:08 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:46:08 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:46:08 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:46:08 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:46:08 - Successfully validated 4 migrations (execution time 00:00.024s)
@@ -4511,7 +4511,7 @@ java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -4625,7 +4625,7 @@ Caused by: java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	... 52 common frames omitted
 2024-09-08 18:47:32 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
@@ -4634,7 +4634,7 @@ java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -4724,7 +4724,7 @@ java.lang.InterruptedException: null
 2024-09-08 18:47:33 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:47:33 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:47:33 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:47:33 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:47:33 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:47:33 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:47:33 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:47:33 - Scanning for classes at classpath:db/migration
@@ -4768,7 +4768,7 @@ java.lang.InterruptedException: null
 2024-09-08 18:47:33 - HikariPool-2 - Starting...
 2024-09-08 18:47:33 - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@50956f67
 2024-09-08 18:47:33 - HikariPool-2 - Start completed.
-2024-09-08 18:47:33 - Validating V2__limit_table.sql
+2024-09-08 18:47:33 - Validating V9__limit_table.sql
 2024-09-08 18:47:33 - Validating V4__path_for_api_table.sql
 2024-09-08 18:47:33 - Validating V3__transactions_table.sql
 2024-09-08 18:47:33 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -4780,11 +4780,11 @@ java.lang.InterruptedException: null
 2024-09-08 18:47:33 - Validating migrations ...
 2024-09-08 18:47:33 - CherryPickConfigurationExtension not found
 2024-09-08 18:47:33 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:47:33 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:47:33 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:47:33 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:47:33 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:47:33 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:47:33 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:47:33 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:47:33 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:47:33 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:47:33 - Successfully validated 4 migrations (execution time 00:00.008s)
@@ -4860,7 +4860,7 @@ java.lang.InterruptedException: null
 2024-09-08 18:47:35 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:47:35 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:47:35 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:47:35 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:47:35 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:47:35 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:47:35 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:47:35 - Scanning for classes at classpath:db/migration
@@ -4904,7 +4904,7 @@ java.lang.InterruptedException: null
 2024-09-08 18:47:35 - HikariPool-3 - Starting...
 2024-09-08 18:47:35 - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@2ad07ba
 2024-09-08 18:47:35 - HikariPool-3 - Start completed.
-2024-09-08 18:47:35 - Validating V2__limit_table.sql
+2024-09-08 18:47:35 - Validating V9__limit_table.sql
 2024-09-08 18:47:35 - Validating V4__path_for_api_table.sql
 2024-09-08 18:47:35 - Validating V3__transactions_table.sql
 2024-09-08 18:47:35 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -4916,11 +4916,11 @@ java.lang.InterruptedException: null
 2024-09-08 18:47:35 - Validating migrations ...
 2024-09-08 18:47:35 - CherryPickConfigurationExtension not found
 2024-09-08 18:47:35 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:47:35 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:47:35 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:47:35 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:47:35 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:47:35 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:47:35 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:47:35 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:47:35 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:47:35 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:47:35 - Successfully validated 4 migrations (execution time 00:00.005s)
@@ -5001,7 +5001,7 @@ java.lang.InterruptedException: null
 2024-09-08 18:49:09 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 18:49:09 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 18:49:09 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 18:49:09 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 18:49:09 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 18:49:09 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 18:49:09 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 18:49:09 - Scanning for classes at classpath:db/migration
@@ -5045,7 +5045,7 @@ java.lang.InterruptedException: null
 2024-09-08 18:49:09 - HikariPool-1 - Starting...
 2024-09-08 18:49:09 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@35f8e42a
 2024-09-08 18:49:09 - HikariPool-1 - Start completed.
-2024-09-08 18:49:10 - Validating V2__limit_table.sql
+2024-09-08 18:49:10 - Validating V9__limit_table.sql
 2024-09-08 18:49:10 - Validating V4__path_for_api_table.sql
 2024-09-08 18:49:10 - Validating V3__transactions_table.sql
 2024-09-08 18:49:10 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -5057,11 +5057,11 @@ java.lang.InterruptedException: null
 2024-09-08 18:49:10 - Validating migrations ...
 2024-09-08 18:49:10 - CherryPickConfigurationExtension not found
 2024-09-08 18:49:10 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:49:10 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:49:10 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:49:10 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:49:10 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:49:10 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 18:49:10 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 18:49:10 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 18:49:10 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 18:49:10 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 18:49:10 - Successfully validated 4 migrations (execution time 00:00.025s)
@@ -5449,7 +5449,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:29:42 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:29:42 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:29:42 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:29:42 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:29:42 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:29:42 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:29:42 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:29:42 - Scanning for classes at classpath:db/migration
@@ -5493,7 +5493,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:29:42 - HikariPool-2 - Starting...
 2024-09-08 19:29:42 - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@3ca5fa10
 2024-09-08 19:29:42 - HikariPool-2 - Start completed.
-2024-09-08 19:29:42 - Validating V2__limit_table.sql
+2024-09-08 19:29:42 - Validating V9__limit_table.sql
 2024-09-08 19:29:42 - Validating V4__path_for_api_table.sql
 2024-09-08 19:29:42 - Validating V3__transactions_table.sql
 2024-09-08 19:29:42 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -5505,11 +5505,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:29:42 - Validating migrations ...
 2024-09-08 19:29:42 - CherryPickConfigurationExtension not found
 2024-09-08 19:29:42 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:29:42 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:29:42 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:29:42 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:29:42 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:29:42 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:29:42 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:29:42 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:29:42 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:29:42 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:29:42 - Successfully validated 4 migrations (execution time 00:00.007s)
@@ -5593,7 +5593,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:31:56 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:31:56 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:31:56 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:31:56 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:31:56 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:31:56 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:31:56 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:31:56 - Scanning for classes at classpath:db/migration
@@ -5637,7 +5637,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:31:56 - HikariPool-3 - Starting...
 2024-09-08 19:31:56 - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@3e2c720f
 2024-09-08 19:31:56 - HikariPool-3 - Start completed.
-2024-09-08 19:31:56 - Validating V2__limit_table.sql
+2024-09-08 19:31:56 - Validating V9__limit_table.sql
 2024-09-08 19:31:56 - Validating V4__path_for_api_table.sql
 2024-09-08 19:31:56 - Validating V3__transactions_table.sql
 2024-09-08 19:31:56 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -5649,11 +5649,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:31:56 - Validating migrations ...
 2024-09-08 19:31:56 - CherryPickConfigurationExtension not found
 2024-09-08 19:31:56 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:31:56 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:31:56 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:31:56 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:31:56 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:31:56 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:31:56 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:31:56 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:31:56 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:31:56 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:31:56 - Successfully validated 4 migrations (execution time 00:00.007s)
@@ -5755,7 +5755,7 @@ Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.servi
 2024-09-08 19:36:23 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:36:23 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:36:23 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:36:23 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:36:23 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:36:23 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:36:23 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:36:23 - Scanning for classes at classpath:db/migration
@@ -5799,7 +5799,7 @@ Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.servi
 2024-09-08 19:36:23 - HikariPool-4 - Starting...
 2024-09-08 19:36:23 - HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@4ed3fa94
 2024-09-08 19:36:23 - HikariPool-4 - Start completed.
-2024-09-08 19:36:23 - Validating V2__limit_table.sql
+2024-09-08 19:36:23 - Validating V9__limit_table.sql
 2024-09-08 19:36:23 - Validating V4__path_for_api_table.sql
 2024-09-08 19:36:23 - Validating V3__transactions_table.sql
 2024-09-08 19:36:23 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -5811,11 +5811,11 @@ Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.servi
 2024-09-08 19:36:23 - Validating migrations ...
 2024-09-08 19:36:23 - CherryPickConfigurationExtension not found
 2024-09-08 19:36:23 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:36:23 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:36:23 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:36:23 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:36:23 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:36:23 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:36:23 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:36:23 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:36:23 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:36:23 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:36:23 - Successfully validated 4 migrations (execution time 00:00.005s)
@@ -5919,7 +5919,7 @@ Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.servi
 2024-09-08 19:36:47 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:36:47 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:36:47 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:36:47 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:36:47 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:36:47 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:36:47 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:36:47 - Scanning for classes at classpath:db/migration
@@ -5963,7 +5963,7 @@ Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.servi
 2024-09-08 19:36:47 - HikariPool-1 - Starting...
 2024-09-08 19:36:47 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3e592ad1
 2024-09-08 19:36:47 - HikariPool-1 - Start completed.
-2024-09-08 19:36:47 - Validating V2__limit_table.sql
+2024-09-08 19:36:47 - Validating V9__limit_table.sql
 2024-09-08 19:36:47 - Validating V4__path_for_api_table.sql
 2024-09-08 19:36:47 - Validating V3__transactions_table.sql
 2024-09-08 19:36:47 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -5975,11 +5975,11 @@ Caused by: java.lang.ClassNotFoundException: com.example.limittransactsapi.servi
 2024-09-08 19:36:47 - Validating migrations ...
 2024-09-08 19:36:47 - CherryPickConfigurationExtension not found
 2024-09-08 19:36:47 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:36:47 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:36:47 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:36:47 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:36:47 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:36:47 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:36:47 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:36:47 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:36:47 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:36:47 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:36:47 - Successfully validated 4 migrations (execution time 00:00.026s)
@@ -6178,7 +6178,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:38:43 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:38:43 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:38:43 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:38:43 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:38:43 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:38:43 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:38:43 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:38:43 - Scanning for classes at classpath:db/migration
@@ -6222,7 +6222,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:38:43 - HikariPool-1 - Starting...
 2024-09-08 19:38:43 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1b26e619
 2024-09-08 19:38:43 - HikariPool-1 - Start completed.
-2024-09-08 19:38:43 - Validating V2__limit_table.sql
+2024-09-08 19:38:43 - Validating V9__limit_table.sql
 2024-09-08 19:38:43 - Validating V4__path_for_api_table.sql
 2024-09-08 19:38:43 - Validating V3__transactions_table.sql
 2024-09-08 19:38:43 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -6234,11 +6234,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:38:43 - Validating migrations ...
 2024-09-08 19:38:43 - CherryPickConfigurationExtension not found
 2024-09-08 19:38:43 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:38:43 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:38:43 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:38:43 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:38:43 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:38:43 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:38:43 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:38:43 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:38:43 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:38:43 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:38:43 - Successfully validated 4 migrations (execution time 00:00.037s)
@@ -6329,7 +6329,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:42:12 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:42:12 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:42:12 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:42:12 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:42:12 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:42:12 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:42:12 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:42:12 - Scanning for classes at classpath:db/migration
@@ -6373,7 +6373,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:42:12 - HikariPool-2 - Starting...
 2024-09-08 19:42:12 - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@6983f66
 2024-09-08 19:42:12 - HikariPool-2 - Start completed.
-2024-09-08 19:42:12 - Validating V2__limit_table.sql
+2024-09-08 19:42:12 - Validating V9__limit_table.sql
 2024-09-08 19:42:12 - Validating V4__path_for_api_table.sql
 2024-09-08 19:42:12 - Validating V3__transactions_table.sql
 2024-09-08 19:42:12 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -6385,11 +6385,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:42:12 - Validating migrations ...
 2024-09-08 19:42:12 - CherryPickConfigurationExtension not found
 2024-09-08 19:42:12 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:42:12 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:42:12 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:42:12 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:42:12 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:42:12 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:42:12 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:42:12 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:42:12 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:42:12 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:42:12 - Successfully validated 4 migrations (execution time 00:00.006s)
@@ -6466,7 +6466,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:42:36 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:42:36 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:42:36 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:42:36 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:42:36 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:42:36 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:42:36 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:42:36 - Scanning for classes at classpath:db/migration
@@ -6510,7 +6510,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:42:36 - HikariPool-1 - Starting...
 2024-09-08 19:42:36 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@d22534e
 2024-09-08 19:42:36 - HikariPool-1 - Start completed.
-2024-09-08 19:42:36 - Validating V2__limit_table.sql
+2024-09-08 19:42:36 - Validating V9__limit_table.sql
 2024-09-08 19:42:36 - Validating V4__path_for_api_table.sql
 2024-09-08 19:42:36 - Validating V3__transactions_table.sql
 2024-09-08 19:42:36 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -6522,11 +6522,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 19:42:36 - Validating migrations ...
 2024-09-08 19:42:36 - CherryPickConfigurationExtension not found
 2024-09-08 19:42:36 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:42:36 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:42:36 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:42:36 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:42:36 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:42:36 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:42:36 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:42:36 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:42:36 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:42:36 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:42:36 - Successfully validated 4 migrations (execution time 00:00.031s)
@@ -6585,7 +6585,7 @@ java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:97)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:78)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -6699,7 +6699,7 @@ Caused by: java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.util.HttpClientServiceUtil.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.Helpers.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:97)
 	... 52 common frames omitted
 2024-09-08 19:51:22 - Resolved [org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to flush: java.nio.channels.ClosedChannelException]
@@ -6740,7 +6740,7 @@ Caused by: java.lang.InterruptedException: null
 2024-09-08 19:51:28 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 19:51:28 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 19:51:28 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 19:51:28 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 19:51:28 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 19:51:28 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 19:51:28 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 19:51:28 - Scanning for classes at classpath:db/migration
@@ -6784,7 +6784,7 @@ Caused by: java.lang.InterruptedException: null
 2024-09-08 19:51:28 - HikariPool-1 - Starting...
 2024-09-08 19:51:29 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5a881da7
 2024-09-08 19:51:29 - HikariPool-1 - Start completed.
-2024-09-08 19:51:29 - Validating V2__limit_table.sql
+2024-09-08 19:51:29 - Validating V9__limit_table.sql
 2024-09-08 19:51:29 - Validating V4__path_for_api_table.sql
 2024-09-08 19:51:29 - Validating V3__transactions_table.sql
 2024-09-08 19:51:29 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -6796,11 +6796,11 @@ Caused by: java.lang.InterruptedException: null
 2024-09-08 19:51:29 - Validating migrations ...
 2024-09-08 19:51:29 - CherryPickConfigurationExtension not found
 2024-09-08 19:51:29 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:51:29 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:51:29 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:51:29 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:51:29 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:51:29 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 19:51:29 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 19:51:29 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 19:51:29 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 19:51:29 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 19:51:29 - Successfully validated 4 migrations (execution time 00:00.024s)
@@ -7055,7 +7055,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:06:31 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 20:06:31 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 20:06:31 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 20:06:31 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:06:31 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 20:06:31 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 20:06:31 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 20:06:31 - Scanning for classes at classpath:db/migration
@@ -7099,7 +7099,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:06:31 - HikariPool-1 - Starting...
 2024-09-08 20:06:31 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1ee5f096
 2024-09-08 20:06:31 - HikariPool-1 - Start completed.
-2024-09-08 20:06:31 - Validating V2__limit_table.sql
+2024-09-08 20:06:31 - Validating V9__limit_table.sql
 2024-09-08 20:06:31 - Validating V4__path_for_api_table.sql
 2024-09-08 20:06:31 - Validating V3__transactions_table.sql
 2024-09-08 20:06:31 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -7111,11 +7111,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:06:31 - Validating migrations ...
 2024-09-08 20:06:31 - CherryPickConfigurationExtension not found
 2024-09-08 20:06:31 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:06:31 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:06:31 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:06:31 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:06:31 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:06:31 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:06:31 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:06:31 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:06:31 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:06:31 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:06:31 - Successfully validated 4 migrations (execution time 00:00.026s)
@@ -7312,7 +7312,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:07:02 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 20:07:02 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 20:07:02 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 20:07:02 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:07:02 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 20:07:02 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 20:07:02 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 20:07:02 - Scanning for classes at classpath:db/migration
@@ -7356,7 +7356,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:07:02 - HikariPool-1 - Starting...
 2024-09-08 20:07:02 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2c712edf
 2024-09-08 20:07:02 - HikariPool-1 - Start completed.
-2024-09-08 20:07:02 - Validating V2__limit_table.sql
+2024-09-08 20:07:02 - Validating V9__limit_table.sql
 2024-09-08 20:07:02 - Validating V4__path_for_api_table.sql
 2024-09-08 20:07:02 - Validating V3__transactions_table.sql
 2024-09-08 20:07:02 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -7368,11 +7368,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:07:02 - Validating migrations ...
 2024-09-08 20:07:02 - CherryPickConfigurationExtension not found
 2024-09-08 20:07:02 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:07:02 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:07:02 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:07:02 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:07:02 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:07:02 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:07:02 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:07:02 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:07:02 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:07:02 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:07:02 - Successfully validated 4 migrations (execution time 00:00.027s)
@@ -7520,7 +7520,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:16:13 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 20:16:13 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 20:16:13 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 20:16:13 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:16:13 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 20:16:13 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 20:16:13 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 20:16:13 - Scanning for classes at classpath:db/migration
@@ -7564,7 +7564,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:16:13 - HikariPool-1 - Starting...
 2024-09-08 20:16:14 - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@106b127
 2024-09-08 20:16:14 - HikariPool-1 - Start completed.
-2024-09-08 20:16:14 - Validating V2__limit_table.sql
+2024-09-08 20:16:14 - Validating V9__limit_table.sql
 2024-09-08 20:16:14 - Validating V4__path_for_api_table.sql
 2024-09-08 20:16:14 - Validating V3__transactions_table.sql
 2024-09-08 20:16:14 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -7576,11 +7576,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:16:14 - Validating migrations ...
 2024-09-08 20:16:14 - CherryPickConfigurationExtension not found
 2024-09-08 20:16:14 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:16:14 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:16:14 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:16:14 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:16:14 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:16:14 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:16:14 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:16:14 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:16:14 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:16:14 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:16:14 - Successfully validated 4 migrations (execution time 00:00.045s)
@@ -7863,7 +7863,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:36:05 - Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 20:36:05 - Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 20:36:05 - Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 20:36:05 - Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:36:05 - Found resource: db/migration/V9__limit_table.sql
 2024-09-08 20:36:05 - Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 20:36:05 - Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 20:36:05 - Scanning for classes at classpath:db/migration
@@ -7907,7 +7907,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:36:05 - HikariPool-2 - Starting...
 2024-09-08 20:36:05 - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@6ec00ba8
 2024-09-08 20:36:05 - HikariPool-2 - Start completed.
-2024-09-08 20:36:05 - Validating V2__limit_table.sql
+2024-09-08 20:36:05 - Validating V9__limit_table.sql
 2024-09-08 20:36:05 - Validating V4__path_for_api_table.sql
 2024-09-08 20:36:05 - Validating V3__transactions_table.sql
 2024-09-08 20:36:05 - Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -7919,11 +7919,11 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 20:36:05 - Validating migrations ...
 2024-09-08 20:36:05 - CherryPickConfigurationExtension not found
 2024-09-08 20:36:05 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:36:05 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:36:05 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:36:05 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:36:05 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:36:05 - Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:36:05 - Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:36:05 - Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:36:05 - Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:36:05 - Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:36:05 - Successfully validated 4 migrations (execution time 00:00.005s)

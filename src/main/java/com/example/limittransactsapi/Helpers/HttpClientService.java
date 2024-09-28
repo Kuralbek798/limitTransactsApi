@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.util;
+package com.example.limittransactsapi.Helpers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,21 +10,20 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 
 @Slf4j
 @Service
-public class HttpClientServiceUtil {
+public class HttpClientService {
 
     private int connectTimeout = 5;
     private int requestTimeout = 5;
     private final Executor customExecutor;
     private final HttpClient httpClient;
 
-    public HttpClientServiceUtil(@Qualifier("customExecutor") Executor customExecutor) {
+    public HttpClientService(@Qualifier("customExecutor") Executor customExecutor) {
         this.customExecutor = customExecutor;
         this.httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)

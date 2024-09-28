@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.Model;
+package com.example.limittransactsapi.Models;
 
 import lombok.Data;
 

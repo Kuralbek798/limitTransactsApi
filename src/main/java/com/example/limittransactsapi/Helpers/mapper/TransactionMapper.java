@@ -1,8 +1,8 @@
-package com.example.limittransactsapi.mapper;
+package com.example.limittransactsapi.Helpers.mapper;
 
 
-import com.example.limittransactsapi.DTO.TransactionDTO;
-import com.example.limittransactsapi.Entity.Transaction;
+import com.example.limittransactsapi.Models.DTO.TransactionDTO;
+import com.example.limittransactsapi.Models.Entity.Transaction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.util;
+package com.example.limittransactsapi.Helpers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 
 @Slf4j
 @Service
-public class ConverterUtil {
+public class Converter {
 
 
     public BigDecimal currencyConverter(BigDecimal amount, BigDecimal currencyRate ) {

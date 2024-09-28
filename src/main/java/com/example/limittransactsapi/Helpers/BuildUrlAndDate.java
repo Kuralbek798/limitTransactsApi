@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.util;
+package com.example.limittransactsapi.Helpers;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -6,7 +6,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
-public class BuildUrlAndDateUtil {
+public class BuildUrlAndDate {
 
     public static OffsetDateTime getStartOfWeek(OffsetDateTime date) {
         // Получаем начало недели (понедельник) на основании текущей даты

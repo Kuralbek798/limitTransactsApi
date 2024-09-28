@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.Entity;
+package com.example.limittransactsapi.Models.Entity;
 
 
 import jakarta.persistence.*;

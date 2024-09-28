@@ -1,11 +1,11 @@
 package com.example.limittransactsapi.services;
 
-import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
-import com.example.limittransactsapi.DTO.TransactionLimitDTO;
-import com.example.limittransactsapi.Entity.CheckedOnLimit;
-import com.example.limittransactsapi.exceptions.CustomDataAccessException;
-import com.example.limittransactsapi.exceptions.CustomGenericException;
-import com.example.limittransactsapi.mapper.CheckedOnLimitMapper;
+import com.example.limittransactsapi.Models.DTO.CheckedOnLimitDTO;
+import com.example.limittransactsapi.Models.DTO.TransactionLimitDTO;
+import com.example.limittransactsapi.Models.Entity.CheckedOnLimit;
+import com.example.limittransactsapi.Helpers.exceptions.CustomDataAccessException;
+import com.example.limittransactsapi.Helpers.exceptions.CustomGenericException;
+import com.example.limittransactsapi.Helpers.mapper.CheckedOnLimitMapper;
 import com.example.limittransactsapi.repository.CheckedOnLimitRepository;
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.exceptions;
+package com.example.limittransactsapi.Helpers.exceptions;
 
 // Класс исключения для ошибок доступа данных
 public class CustomDataAccessException extends RuntimeException {

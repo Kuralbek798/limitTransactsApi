@@ -11,7 +11,7 @@
 2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V9__limit_table.sql
 2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 20:46:25,289 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classes at classpath:db/migration
@@ -55,7 +55,7 @@
 2024-09-08 20:46:25,291 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:109] HikariPool-6 - Starting...
 2024-09-08 20:46:25,328 INFO [restartedMain] c.z.h.p.HikariPool [HikariPool.java:554] HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@553380ff
 2024-09-08 20:46:25,328 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:122] HikariPool-6 - Start completed.
-2024-09-08 20:46:25,329 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V2__limit_table.sql
+2024-09-08 20:46:25,329 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V9__limit_table.sql
 2024-09-08 20:46:25,329 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V4__path_for_api_table.sql
 2024-09-08 20:46:25,329 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V3__transactions_table.sql
 2024-09-08 20:46:25,329 INFO [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:37] Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -67,11 +67,11 @@
 2024-09-08 20:46:25,332 DEBUG [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:33] Validating migrations ...
 2024-09-08 20:46:25,332 DEBUG [restartedMain] o.f.c.a.c.ClassicConfiguration [Slf4jLog.java:33] CherryPickConfigurationExtension not found
 2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:46:25,334 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:46:25,338 INFO [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:37] Successfully validated 4 migrations (execution time 00:00.005s)
@@ -141,7 +141,7 @@
 2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning starting at classpath root in filesystem: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\
 2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.FileSystemClassPathLocationScanner [Slf4jLog.java:33] Scanning for resources in path: C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\db\migration (db/migration)
 2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V1__exchange_rates_table.sql
-2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V2__limit_table.sql
+2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V9__limit_table.sql
 2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V3__transactions_table.sql
 2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Found resource: db/migration/V4__path_for_api_table.sql
 2024-09-08 20:49:30,654 DEBUG [restartedMain] o.f.c.i.s.c.ClassPathScanner [Slf4jLog.java:33] Scanning for classes at classpath:db/migration
@@ -185,7 +185,7 @@
 2024-09-08 20:49:30,656 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:109] HikariPool-7 - Starting...
 2024-09-08 20:49:30,695 INFO [restartedMain] c.z.h.p.HikariPool [HikariPool.java:554] HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@3adf6b5a
 2024-09-08 20:49:30,695 INFO [restartedMain] c.z.h.HikariDataSource [HikariDataSource.java:122] HikariPool-7 - Start completed.
-2024-09-08 20:49:30,695 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V2__limit_table.sql
+2024-09-08 20:49:30,695 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V9__limit_table.sql
 2024-09-08 20:49:30,695 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V4__path_for_api_table.sql
 2024-09-08 20:49:30,695 DEBUG [restartedMain] o.f.c.i.r.ResourceNameValidator [Slf4jLog.java:33] Validating V3__transactions_table.sql
 2024-09-08 20:49:30,696 INFO [restartedMain] o.f.c.FlywayExecutor [Slf4jLog.java:37] Database: jdbc:postgresql://localhost:5432/transactionsLimitsDB (PostgreSQL 14.13)
@@ -197,11 +197,11 @@
 2024-09-08 20:49:30,699 DEBUG [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:33] Validating migrations ...
 2024-09-08 20:49:30,699 DEBUG [restartedMain] o.f.c.a.c.ClassicConfiguration [Slf4jLog.java:33] CherryPickConfigurationExtension not found
 2024-09-08 20:49:30,701 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:49:30,701 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:49:30,701 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:49:30,701 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:49:30,701 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:49:30,701 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V1__exchange_rates_table.sql (filename: V1__exchange_rates_table.sql)
-2024-09-08 20:49:30,702 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V2__limit_table.sql (filename: V2__limit_table.sql)
+2024-09-08 20:49:30,702 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V9__limit_table.sql (filename: V9__limit_table.sql)
 2024-09-08 20:49:30,702 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V4__path_for_api_table.sql (filename: V4__path_for_api_table.sql)
 2024-09-08 20:49:30,702 DEBUG [restartedMain] o.f.c.i.s.Scanner [Slf4jLog.java:33] Filtering out resource: db/migration/V3__transactions_table.sql (filename: V3__transactions_table.sql)
 2024-09-08 20:49:30,707 INFO [restartedMain] o.f.c.i.c.DbValidate [Slf4jLog.java:37] Successfully validated 4 migrations (execution time 00:00.007s)

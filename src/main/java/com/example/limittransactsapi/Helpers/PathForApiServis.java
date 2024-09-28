@@ -1,22 +1,23 @@
-package com.example.limittransactsapi.util;
+package com.example.limittransactsapi.Helpers;
 
-import com.example.limittransactsapi.Entity.PathForApi;
+import com.example.limittransactsapi.Models.Entity.PathForApi;
 import com.example.limittransactsapi.repository.PathForApiRepository;
 
+import com.example.limittransactsapi.util.EncripionDecriptionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class PathForApiServisUtil {
+public class PathForApiServis {
 
 
     private final PathForApiRepository pathForApiRepository;
     private final EncripionDecriptionUtil encripionDecriptionUtil;
 
     @Autowired
-    public PathForApiServisUtil(PathForApiRepository pathForApiRepository, EncripionDecriptionUtil encripionDecriptionUtil) {
+    public PathForApiServis(PathForApiRepository pathForApiRepository, EncripionDecriptionUtil encripionDecriptionUtil) {
         this.pathForApiRepository = pathForApiRepository;
         this.encripionDecriptionUtil = encripionDecriptionUtil;
     }

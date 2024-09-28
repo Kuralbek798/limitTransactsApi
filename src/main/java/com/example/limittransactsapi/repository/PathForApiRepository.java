@@ -1,6 +1,6 @@
 package com.example.limittransactsapi.repository;
 
-import com.example.limittransactsapi.Entity.PathForApi;
+import com.example.limittransactsapi.Models.Entity.PathForApi;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
