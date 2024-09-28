@@ -43,7 +43,7 @@ public class Config {
         if (schedulerEnabled) {
             int attempts = 0;
             boolean success = false;
-               limitService.setMonthlyLimitByDefault();
+               limitService.updateStatusIsActive();
             // Цикл, который будет продолжать выполняться до получения положительного ответа
             while (!success && attempts < maxAttempts) {
                 success = limitService.setMonthlyLimitByDefault(); // Попытка вставить лимит

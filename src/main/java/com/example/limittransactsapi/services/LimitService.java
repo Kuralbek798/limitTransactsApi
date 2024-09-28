@@ -3,17 +3,16 @@ package com.example.limittransactsapi.services;
 
 import com.example.limittransactsapi.Helpers.mapper.LimitMapper;
 import com.example.limittransactsapi.Models.DTO.LimitDTO;
-
+import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.Models.Entity.Limit;
-
 import com.example.limittransactsapi.repository.LimitRepository;
 import com.example.limittransactsapi.Helpers.Converter;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
 @Slf4j
@@ -47,114 +47,120 @@ public class LimitService {
         this.converter = converter;
         this.customExecutor = customExecutor;
     }
-  /*  @Async("customExecutor")
-    public CompletableFuture<ResponseEntity<LimitDTO>> setLimitAsync(LimitDTO limitDtoFromClient) {
 
-        var futureConvertedClientsLimit = checkCurrencyTypeAndSetToUSDAsync(limitDtoFromClient);
-        var futureCurrentDBLimit = getLatestLimitAsync(LimitDTO limitDtoFromClient);
+    @Async("customExecutor")
+    public CompletableFuture<ResponseEntity<String>> setLimitAsync(LimitDtoFromClient limitDtoFromClient) {
+
+        // receiving checked and converted limit from client and try to get limit from db by clients' id.
+        CompletableFuture<LimitDTO> futureConvertedClientsLimit = checkCurrencyTypeAndSetToUSDAsync(limitDtoFromClient);
+        CompletableFuture<Optional<LimitDTO>> futureCurrentDBLimit = getLatestLimitAsync(limitDtoFromClient);
 
         return futureConvertedClientsLimit.thenCombine(futureCurrentDBLimit, (clientsLimit, optionalDBLimit) -> {
+            // checking if limit with the same sum already exist.
             if (isLimitExist(clientsLimit, optionalDBLimit)) {
-                throw new IllegalArgumentException("Лимит с той же суммой уже установлен; выберите другой.");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Лимит с такой суммой уже установлен, пожалуйста выберите другой.");
             }
-            return clientsLimit;
-        }).thenApply(validatedLimit -> {
-            Limit savedLimit = limitRepository.save(ClientLimitMapper.INSTANCE.toEntity(validatedLimit));
+            // saving limit to db
+            Limit savedLimit = limitRepository.save(LimitMapper.INSTANCE.toEntity(clientsLimit));
             log.info("Limit saved successfully: {}", savedLimit);
-            return ResponseEntity.status(HttpStatus.CREATED).body(ClientLimitMapper.INSTANCE.toDTO(savedLimit));
+            // return ResponseEntity created
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("Лимит успешно создан с ID: " + savedLimit.getId());
         }).exceptionally(ex -> {
             if (ex.getCause() instanceof IllegalArgumentException) {
                 log.error("Ошибка бизнес-валидации: {}", ex.getMessage());
-                return ResponseEntity.badRequest().body(null);
+                return ResponseEntity.badRequest().body("Ошибка бизнес-валидации: " + ex.getMessage());
             } else {
                 log.error("Неожиданная ошибка в методе setLimitAsync: {}", ex.getMessage());
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Неожиданная ошибка сервера: " + ex.getMessage());
             }
         });
-    }*/
-
-    /*@Async("customExecutor")
-    public CompletableFuture<LimitDTO> checkCurrencyTypeAndSetToUSDAsync(LimitDTO limitDtoFromClient) {
+    }
+    @Async("customExecutor")
+    public CompletableFuture<LimitDTO> checkCurrencyTypeAndSetToUSDAsync(LimitDtoFromClient limitDtoFromClient) {
         // Check currency type for RUB
-        if (limitDtoFromClient.getCurrency().equals(RUB)) {
+        if (limitDtoFromClient.getCurrency().equalsIgnoreCase(RUB)) {
             return exchangeRateService.getCurrencyRate(RUB_USD_PAIR)
                     .thenComposeAsync(exchangeRateDTO -> {
                         BigDecimal exchangeRate = exchangeRateDTO.getRate();
                         if (exchangeRate == null || exchangeRate.compareTo(BigDecimal.ZERO) <= 0) {
                             throw new IllegalArgumentException("Недопустимый курс для RUB.");
                         }
-                        BigDecimal convertedCurrency = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
+                        BigDecimal convertedSum = converter.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
                         LimitDTO limiDTO = new LimitDTO(
                                 null,
-                                convertedCurrency
+                                convertedSum
                                 , "USD"
-                                ,null
-                                ,limitDtoFromClient.getClientId()
-                                ,false
+                                , null
+                                , limitDtoFromClient.getClientId()
+                                , false
+                                ,true
                         );
                         return CompletableFuture.completedFuture(limiDTO);
                     });
 
             // Check currency type for KZT
-        } else if (limitDtoFromClient.getCurrency().equals(KZT)) {
+        } else if (limitDtoFromClient.getCurrency().equalsIgnoreCase(KZT)) {
             return exchangeRateService.getCurrencyRate(KZT_USD_PAIR)
                     .thenComposeAsync(exchangeRateDTO -> {
                         BigDecimal exchangeRate = exchangeRateDTO.getRate();
                         if (exchangeRate == null || exchangeRate.compareTo(BigDecimal.ZERO) <= 0) {
                             throw new IllegalArgumentException("Недопустимый курс для KZT.");
                         }
-                        BigDecimal convertedCurrency = converterUtil.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
+                        BigDecimal convertedSum = converter.currencyConverter(limitDtoFromClient.getLimitSum(), exchangeRate);
                         LimitDTO limiDTO = new LimitDTO(
                                 null,
-                                convertedCurrency
+                                convertedSum
                                 , "USD"
-                                ,null
-                                ,limitDtoFromClient.getClientId()
-                                ,false
+                                , null
+                                , limitDtoFromClient.getClientId()
+                                , false
+                                ,true
                         );
                         return CompletableFuture.completedFuture(limiDTO);
                     });
-        } else {
+        } else if (limitDtoFromClient.getCurrency().equalsIgnoreCase(USD)) {
+            return CompletableFuture.completedFuture(new LimitDTO(
+                    null,
+                    limitDtoFromClient.getLimitSum()
+                    , limitDtoFromClient.getCurrency()
+                    , null
+                    , limitDtoFromClient.getClientId()
+                    , false
+                    ,true)
+            );
+        }
+        {
             throw new IllegalArgumentException("Недопустимая валюта конвертации.");
         }
     }
 
     @Async("customExecutor")
-    public CompletableFuture<LimitDTO> getLatestLimitAsync(LimitDTO  limitDtoFromClient) {
+    public CompletableFuture<Optional<LimitDTO>> getLatestLimitAsync(LimitDtoFromClient limitDtoFromClient) {
         return CompletableFuture
                 .supplyAsync(() -> {
                     // Fetch the latest limit from the repository
-                    var limitEntity = limitRepository.findTopByOrderByDatetimeDesc();
+                    var limitEntity = limitRepository.findTopByClientIdAndIsActiveTrueOrderByDatetimeDesc(limitDtoFromClient.getClientId());
                     log.info("before Mapped limitEntity: {}", limitEntity);
 
-                    var limitDTO = limitEntity.filter(limit -> limit.getLimitSum() != null) // Check that limitSum is not null
-                            .map(limit -> LimitMapper.INSTANCE.toDTO(limit))
-                            .orElseThrow(() -> new IllegalArgumentException("Нет существующего лимита для проверки.")); // Throw exception if no value is found
+                    var limitDTO = limitEntity
+                            .map(limit -> LimitMapper.INSTANCE.toDTO(limit));
+
                     log.info("arfter Mapped LimitDTO: {}", limitDTO);
                     return limitDTO;
                 })
                 .exceptionally(ex -> {
-                    log.error("Ошибка при получении последнего лимита: {} причина {}", ex.getMessage(), ex.getCause());
+                    log.error("Ошибка при получении последнего лимита: {}", ex.getMessage() + ex.getCause());
                     throw new CompletionException(new Exception("Ошибка при получении лимита", ex));
                 });
     }
 
-    public LimitDTO findLimit() {
-
-        var a = limitRepository.findTopByOrderByDatetimeDesc();
-        log.info("Mapped LimitDTO: {}", a);
-        var n = a.map(limit -> LimitMapper.INSTANCE.toDTO(limit)).orElse(null);
-        log.info("Mapped LimitDTO: {}", n);
-
-        return n;
+    //synchrony private method
+    private boolean isLimitExist(LimitDTO limitDtoFromClient, Optional<LimitDTO> limitDtoFromDb) {
+        return limitDtoFromDb.isPresent() && limitDtoFromDb.get().getLimitSum().equals(limitDtoFromClient.getLimitSum());
     }
 
-
-
-    //synchrony private method
-    private boolean isLimitExist(LimitDtoFromClient limitDtoFromClient, LimitDTO limitDto) {
-        return limitDto.getLimitSum().equals(limitDtoFromClient.getLimitSum());
-    }*/
     @Transactional
     public boolean setMonthlyLimitByDefault() {
         try {
@@ -178,11 +184,6 @@ public class LimitService {
         }
     }
 
-    public LimitDTO getLimitById(UUID id) {
-        return limitRepository.findTopByClientIdAndIsActiveTrueOrderByDatetimeDesc(id)
-                .map(limit -> LimitMapper.INSTANCE.toDTO(limit))
-                .orElse(null);
-    }
 
 
     @Transactional
@@ -190,7 +191,4 @@ public class LimitService {
         limitRepository.updateStatusIsActive();
     }
 
-    public CompletableFuture<ResponseEntity<LimitDTO>> setLimitAsync(@Valid LimitDTO limit) {
-        return null;
-    }
 }

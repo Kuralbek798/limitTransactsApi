@@ -1,16 +1,19 @@
 /*
 package com.example.limittransactsapi.services;
 
-import com.example.limittransactsapi.DTO.ExchangeRateDTO;
-import com.example.limittransactsapi.DTO.LimitDTO;
-import com.example.limittransactsapi.DTO.TransactionDTO;
-import com.example.limittransactsapi.Entity.CheckedOnLimit;
 
-import com.example.limittransactsapi.mapper.TransactionMapper;
+
+
+import com.example.limittransactsapi.Helpers.Converter;
+import com.example.limittransactsapi.Helpers.mapper.TransactionMapper;
+import com.example.limittransactsapi.Models.DTO.ExchangeRateDTO;
+import com.example.limittransactsapi.Models.DTO.LimitDTO;
+import com.example.limittransactsapi.Models.DTO.TransactionDTO;
+import com.example.limittransactsapi.Models.Entity.CheckedOnLimit;
 import com.example.limittransactsapi.repository.projections.TransactionProjection;
 import com.example.limittransactsapi.repository.TransactionRepository;
 import com.example.limittransactsapi.services.crud.TransactionCRUDService;
-import com.example.limittransactsapi.Helpers.ConverterUtil;
+
 
 
 import com.example.limittransactsapi.util.ForLogsMethods;
@@ -35,8 +38,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.example.limittransactsapi.util.ForLogsMethods.describeClientsTransactions;
-
 @Slf4j
 @Service
 public class TransactionService {
@@ -47,18 +48,18 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final LimitService limitService;
     private final CheckedOnLimitService checkedOnLimitService;
-    private final ConverterUtil converterUtil;
+    private final Converter ratesConverter;
     private final ExchangeRateService exchangeRateService;
     private final Executor customExecutor;
     private final TransactionCRUDService transactionCRUDService;
 
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository, LimitService limitService, CheckedOnLimitService checkedOnLimitService, ConverterUtil converterUtil, ExchangeRateService exchangeRateService, @Qualifier("customExecutor") Executor customExecutor, TransactionCRUDService transactionCRUDService) {
+    public TransactionService(TransactionRepository transactionRepository, LimitService limitService, CheckedOnLimitService checkedOnLimitService, Converter ratesConverter, ExchangeRateService exchangeRateService, @Qualifier("customExecutor") Executor customExecutor, TransactionCRUDService transactionCRUDService) {
         this.transactionRepository = transactionRepository;
         this.limitService = limitService;
         this.checkedOnLimitService = checkedOnLimitService;
-        this.converterUtil = converterUtil;
+        this.ratesConverter = ratesConverter;
         this.exchangeRateService = exchangeRateService;
         this.customExecutor = customExecutor;
         this.transactionCRUDService = transactionCRUDService;
@@ -74,7 +75,7 @@ public class TransactionService {
         CompletableFuture<Map<String, ExchangeRateDTO>> exchangeRatesMapFuture = getCurrencyRateAsMap();
 
         // Get the current limit
-        CompletableFuture<LimitDTO> limitFuture = limitService.getLatestLimitAsync();
+        CompletableFuture<LimitDTO> limitFuture = limitService.
 
         // Get transactions with rates based on the current limit
         CompletableFuture<List<TransactionDTO>> dbTransactionsWithRates = limitFuture.thenCompose(limit -> getTransactionsWithRates(limit));
@@ -209,12 +210,11 @@ public class TransactionService {
     public CompletableFuture<Void> additionTransactionsWithComparisonOnLimit(Map<Integer, BigDecimal> comparerExamplesDB,
                                                                              Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions,
                                                                              LimitDTO limitDTO) {
-     */
-/*   // Логирование входных данных
+   // Логирование входных данных
         log.info("Method additionTransactionsWithComparisonOnLimit called with parameters:");
         log.info("Comparer Examples DB: {}", ForLogsMethods.describeComparerExamplesDB(comparerExamplesDB));
         log.info("Clients Transactions: {}", ForLogsMethods.describeClientsTransactions(clientsTransactions));
-        log.info("Limit DTO: {}", limitDTO);*//*
+        log.info("Limit DTO: {}", limitDTO);
 
 
 
@@ -534,7 +534,7 @@ public class TransactionService {
                         transaction.getExpenseCategory(),
                         transaction.getTrDate(),
                         transaction.getExchangeRate(),
-                        converterUtil.currencyConverter(transaction.getSum(), rate),
+                        ratesConverter.currencyConverter(transaction.getSum(), rate),
                         "USD",
                         transaction.isLimitExceeded()
                 );
@@ -550,7 +550,7 @@ public class TransactionService {
                         transaction.getExpenseCategory(),
                         transaction.getTrDate(),
                         transaction.getExchangeRate(),
-                        converterUtil.currencyConverter(transaction.getSum(), rate),
+                        ratesConverter.currencyConverter(transaction.getSum(), rate),
                         "USD",
                         transaction.isLimitExceeded()
                 );
@@ -603,4 +603,5 @@ public class TransactionService {
         return allFutures.thenApply(v -> clientsTransactionsMap);
     }
 
-}*/
+}
+*/

@@ -14,31 +14,34 @@ public class LimitDTO {
 
     private final UUID id;
 
-    @NotNull(message = "Limit sum must not be null")
+
     private final BigDecimal limitSum;
 
-    @NotNull(message = "Limit currency must not be null")
+
     private final String currency;
 
-    private final OffsetDateTime datetime;
+    private final OffsetDateTime datetime ;
 
-    @NotNull(message = "Client ID must not be null")
+
     private final UUID clientId;
 
-    private final boolean isBaseLimit;
+    private final boolean isBaseLimit ;
+    private boolean isActive ;
 
     @JsonCreator
     public LimitDTO(
             UUID id, @JsonProperty("limitSum") BigDecimal limitSum,
             @JsonProperty("currency") String currency,
-            @JsonProperty("datetime") OffsetDateTime datetime,
+           @JsonProperty("datetime") OffsetDateTime datetime,
             @JsonProperty("clientId") UUID clientId,
-            @JsonProperty("isBaseLimit") boolean isBaseLimit) {
+            @JsonProperty("isBaseLimit") boolean isBaseLimit,
+            @JsonProperty("isActive") boolean isActive) {
         this.id = id;
         this.limitSum = limitSum;
         this.currency = currency;
         this.datetime = datetime;
         this.clientId = clientId;
         this.isBaseLimit = isBaseLimit;
+        this.isActive = isActive;
     }
 }
