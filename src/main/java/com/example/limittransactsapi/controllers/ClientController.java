@@ -1,10 +1,8 @@
 package com.example.limittransactsapi.controllers;
 
 
+import com.example.limittransactsapi.Models.DTO.*;
 import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
-import com.example.limittransactsapi.Models.DTO.LimitDTO;
-import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
-import com.example.limittransactsapi.Models.DTO.TransactionLimitDTO;
 import com.example.limittransactsapi.services.CheckedOnLimitService;
 import com.example.limittransactsapi.services.LimitService;
 import jakarta.validation.Valid;
@@ -67,20 +65,13 @@ public class ClientController {
         return checkedOnLimitService.getExceededLimitsTransactions();
     }
 
-    //For test do not forget delete
-    @GetMapping
-    public LimitDTO updateAllLimitsActiveToFalse(UUID id){
-     // limitService.updateStatusIsActive();
-      //  limitService.setMonthlyLimitByDefault();
-        var a = limitService.getLimitById(id);
-      return   a;
-    }
+
     @GetMapping("TestService")
-    public LimitDTO testMethod(UUID id){
+    public List<LimitAccountDTO>testMethod(){
      // limitService.updateStatusIsActive();
       //  limitService.setMonthlyLimitByDefault();
         //var a = limitService.getLimitById(id);
-        var a = limitService
+        var a = limitService.getAllActiveLimits();
       return   a;
     }
 }

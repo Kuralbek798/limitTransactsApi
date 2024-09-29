@@ -32,9 +32,9 @@ BEGIN
                     SELECT tr.id
                     FROM transactions tr
                              JOIN checked_on_limit ch ON tr.id = ch.transaction_id
-                    WHERE ch.limit_id = p_limit_id -- Используем входной параметр
-                      AND tr.expense_category IN ('product', 'service') -- Фильтрация по категориям
-                      AND ch.limit_exceeded = false -- Фильтр по превышению лимита
+                    WHERE ch.limit_id = p_limit_id
+                      AND tr.expense_category IN ('product', 'service')
+                      AND ch.limit_exceeded = false
                 )
         ),
              exchange_data AS (
@@ -48,15 +48,15 @@ BEGIN
                      exchange_rates e
              )
         SELECT
-            td.id, -- ID транзакции
-            td.sum, -- Сумма
-            td.currency, -- Валюта
-            td.datetime_transaction, -- Явно указываем, что это datetime транзакции
-            td.account_from, -- Аккаунт откуда
-            td.account_to, -- Аккаунт куда
-            td.expense_category, -- Категория расходов
-            td.tr_date, -- Округленная дата транзакции
-            ed.rate AS exchange_rate -- Добавляем курс обмена из exchange_rates
+            td.id,
+            td.sum,
+            td.currency,
+            td.datetime_transaction,
+            td.account_from,
+            td.account_to,
+            td.expense_category,
+            td.tr_date,
+            ed.rate AS exchange_rate
 
         FROM
             transaction_data td

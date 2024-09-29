@@ -30,7 +30,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
            "exchange_rate AS exchangeRate " +
            "FROM get_transactions_with_rates(:limitId)",
            nativeQuery = true)
-   List<TransactionProjection> getTransactionsWithRates(UUID limitId);
+   List<TransactionProjection> findTransactionsWithRatesByLimitId(UUID limitId);
 
 
 

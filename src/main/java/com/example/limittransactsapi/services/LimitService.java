@@ -2,11 +2,13 @@ package com.example.limittransactsapi.services;
 
 
 import com.example.limittransactsapi.Helpers.mapper.LimitMapper;
+import com.example.limittransactsapi.Models.DTO.LimitAccountDTO;
 import com.example.limittransactsapi.Models.DTO.LimitDTO;
 import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.Models.Entity.Limit;
 import com.example.limittransactsapi.repository.LimitRepository;
 import com.example.limittransactsapi.Helpers.Converter;
+import com.example.limittransactsapi.repository.projections.LimitAccountProjection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,11 +19,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -138,23 +144,26 @@ public class LimitService {
 
     @Async("customExecutor")
     public CompletableFuture<Optional<LimitDTO>> getLatestLimitAsync(LimitDtoFromClient limitDtoFromClient) {
-        return CompletableFuture
-                .supplyAsync(() -> {
-                    // Fetch the latest limit from the repository
-                    var limitEntity = limitRepository.findTopByClientIdAndIsActiveTrueOrderByDatetimeDesc(limitDtoFromClient.getClientId());
-                    log.info("before Mapped limitEntity: {}", limitEntity);
+        try {
+            // Fetch the latest active limit for the given client ID from the repository
+            var limitEntity = limitRepository.findTopByClientIdAndIsActiveTrueOrderByDatetimeDesc(limitDtoFromClient.getClientId());
+            log.info("before Mapped limitEntity: {}", limitEntity);
 
-                    var limitDTO = limitEntity
-                            .map(limit -> LimitMapper.INSTANCE.toDTO(limit));
+            // Map the entity to a DTO using the mapper
+            var limitDTO = limitEntity.map(limit -> LimitMapper.INSTANCE.toDTO(limit));
 
-                    log.info("arfter Mapped LimitDTO: {}", limitDTO);
-                    return limitDTO;
-                })
-                .exceptionally(ex -> {
-                    log.error("Ошибка при получении последнего лимита: {}", ex.getMessage() + ex.getCause());
-                    throw new CompletionException(new Exception("Ошибка при получении лимита", ex));
-                });
+            log.info("after Mapped LimitDTO: {}", limitDTO);
+            // Return the DTO wrapped in a completed CompletableFuture
+            return CompletableFuture.completedFuture(limitDTO);
+
+        } catch (Exception ex) {
+            log.error("Error retrieving the latest limit: {}", ex.getMessage(), ex);
+            // Return a failed CompletableFuture with the exception
+            return CompletableFuture.failedFuture(new Exception("Error retrieving the limit", ex));
+        }
     }
+
+
 
     //synchrony private method
     private boolean isLimitExist(LimitDTO limitDtoFromClient, Optional<LimitDTO> limitDtoFromDb) {
@@ -183,7 +192,32 @@ public class LimitService {
             return false;
         }
     }
+    public CompletableFuture<List<LimitAccountDTO>> getAllActiveLimits() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                List<LimitAccountProjection> projections = limitRepository.findLatestActiveLimits();
 
+                return projections.stream()
+                        .map(pr -> new LimitAccountDTO(
+                                pr.getId(),
+                                pr.getLimitSum(),
+                                pr.getCurrency(),
+                                pr.getDatetime().toInstant().atOffset(ZoneOffset.UTC),
+                                pr.getClientId(),
+                                pr.getIsBaseLimit(),
+                                pr.getIsActive(),
+                                pr.getAccountNumber()
+                        ))
+                        .collect(Collectors.toList());
+            } catch (Exception e) {
+                log.error("Failed to retrieve active limits: ", e);
+                throw new RuntimeException("Unable to fetch active limits.");
+            }
+        },customExecutor).exceptionally(ex -> {
+            log.error("Error occurred during async processing: ", ex);
+            return List.of();
+        });
+    }
 
 
     @Transactional
