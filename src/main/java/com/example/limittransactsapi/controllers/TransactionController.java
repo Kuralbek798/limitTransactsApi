@@ -1,12 +1,9 @@
-/*
 package com.example.limittransactsapi.controllers;
 
 
 
-import com.example.limittransactsapi.DTO.ExchangeRateDTO;
-import com.example.limittransactsapi.DTO.LimitDTO;
-import com.example.limittransactsapi.DTO.TransactionDTO;
 
+import com.example.limittransactsapi.Models.DTO.TransactionDTO;
 import com.example.limittransactsapi.services.ExchangeRateService;
 import com.example.limittransactsapi.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +33,9 @@ public class TransactionController {
     @PostMapping("/process")
     public CompletableFuture<ResponseEntity<String>> setTransactions(@RequestBody List<TransactionDTO> transactions) {
         // Directly delegate the processing to the service
-        var a = transactionService.setTransactionsToDB(transactions);
+        var a = transactionService.setTransactionsToDBAsync(transactions);
         return a;
     }
 
 
 }
-*/

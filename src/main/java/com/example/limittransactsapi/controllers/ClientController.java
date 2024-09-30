@@ -66,13 +66,13 @@ public class ClientController {
     }
 
 
-    @GetMapping("TestService")
+ /*   @GetMapping("TestService")
     public List<LimitAccountDTO>testMethod(){
      // limitService.updateStatusIsActive();
       //  limitService.setMonthlyLimitByDefault();
         //var a = limitService.getLimitById(id);
         var a = limitService.getAllActiveLimits();
       return   a;
-    }
+    }*/
 }
 

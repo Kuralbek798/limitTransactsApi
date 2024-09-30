@@ -117,6 +117,8 @@ public class TransactionService {
             ConcurrentHashMap<String, ExchangeRateDTO> exchangeRate,
             List<LimitAccountDTO> limitList) {
 
+        /// grouping limits by account
+        CompletableFuture<ConcurrentMap<Integer, LimitAccountDTO>> limitsMapByAccounts = convertToMapAsync(limitList);
         /// groping DB transactions by expense category
         CompletableFuture<ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedAndGroupedByCategoryDBTransactions;
 
@@ -136,69 +138,76 @@ public class TransactionService {
         /// grouping clients transactions by account from in category expense (product/service)
         CompletableFuture<ConcurrentHashMap<String, ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>>>
                 clientsTransactionsMap = groupClientTransactionsByAccountInCategoryAsync(clientsTransactions);
+
         ///sending transactions and limits to the method processTransactionsAndLimitsAsync
-        return convertedAndGroupedByCategoryDBTransactions
-                .thenCombine(clientsTransactionsMap, (dbConvertedTr, clientsTrMap) ->
-                        processTransactionsAndLimitsAsync(dbConvertedTr, clientsTrMap, limitList))
-                .thenCompose(Function.identity())
+        return CompletableFuture.allOf(convertedAndGroupedByCategoryDBTransactions, clientsTransactionsMap, limitsMapByAccounts)
+                .thenCompose(voidResult ->
+                        convertedAndGroupedByCategoryDBTransactions
+                                .thenCombine(clientsTransactionsMap, (dbConvertedTr, clientsTrMap) ->
+                                                limitsMapByAccounts.thenCompose(limitsMap ->
+                                                        processTransactionsAndLimitsAsync(dbConvertedTr, clientsTrMap, limitsMap))
+                                                        )
+                ).thenCompose(Function.identity())
                 .exceptionally(ex -> {
                     log.error("An error occurred: {}", ex.getMessage());
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body("An error occurred: " + ex.getMessage());
                 });
-
     }
     @Async("customExecutor")
     public CompletableFuture<ResponseEntity<String>> processTransactionsAndLimitsAsync(
             ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>> dbTransactMap,
             ConcurrentHashMap<String, ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactMap,
-            List<LimitAccountDTO> limitList) {
+            ConcurrentMap<Integer, LimitAccountDTO> limitsMapByAccount) {
 
-        List<String> categories = List.of("service", "product"); // Определяем категории
-        List<CompletableFuture<Void>> futures = new ArrayList<>(); // Список для хранения CompletableFuture для каждой категории
+        // Define the categories to process
+        List<String> categories = List.of("service", "product");
+        // List to hold CompletableFutures for each category processing
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
 
-        // Цикл по категориям для обработки параллельно
+        // Create a CompletableFuture for each category
         for (String category : categories) {
-            // Извлечение данных из базы по категории
-            ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsGroupedFuture = clientsTransactMap.getOrDefault(category, new ConcurrentHashMap<>());
-            var dbTransactions = dbTransactMap.getOrDefault(category, new ConcurrentLinkedQueue<>());
-
-            // Создаем CompletableFuture для обработки каждой категории в параллельном режиме
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 try {
-                    ConcurrentHashMap<Integer, BigDecimal> dbSummarized;
+                    // Extract data for the current category
+                    ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsGroupedFuture = clientsTransactMap.getOrDefault(category, new ConcurrentHashMap<>());
+                    var dbTransactions = dbTransactMap.getOrDefault(category, new ConcurrentLinkedQueue<>());
 
+                    ConcurrentHashMap<Integer, BigDecimal> dbSummarized = new ConcurrentHashMap<>();
+
+                    // Check if there are database transactions to process
                     if (!dbTransactions.isEmpty()) {
-                        // Группируем и суммируем транзакции из базы данных
+                        // Group and summarize transactions
                         dbSummarized = groupTransactionsByAccountAsync(dbTransactions)
                                 .thenCompose(groupedTransactions -> summarizeGroupedTransactionsAsync(groupedTransactions)).join();
-                    } else {
-                        dbSummarized = new ConcurrentHashMap<>();
                     }
 
-                    // Группируем лимиты по счетам и передаем транзакции и лимиты в метод saveTransactionsWithLimitCheckAsync
-                    ConcurrentMap<Integer, LimitAccountDTO> limitsByAccounts = convertToMapAsync(limitList).join();
-                    saveTransactionsWithLimitCheckAsync(dbSummarized, clientsGroupedFuture, limitsByAccounts);
+                    // Process and save transactions with limit check
+                    saveTransactionsWithLimitCheckAsync(dbSummarized, clientsGroupedFuture, limitsMapByAccount);
                 } catch (Exception ex) {
-                    log.error("Ошибка при обработке транзакций для категории {}: {}", category, ex.getMessage());
+                    // Log any exceptions that occur during processing
+                    log.error("Error processing transactions for category {}: {}", category, ex.getMessage());
+                    throw ex; // Re-throw to propagate the exception
                 }
             });
 
-            futures.add(future); // Добавляем CompletableFuture в список
+            // Add each CompletableFuture to the list
+            futures.add(future);
         }
 
-        // Ждем завершения всех futures
+        // Wait for all futures to complete and handle the result
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                .thenApply(v -> ResponseEntity.ok("Все категории успешно обработаны"))
+                .thenApply(v -> ResponseEntity.ok("All categories processed successfully"))
                 .exceptionally(ex -> {
-                    log.error("Ошибка при обработке транзакций: {}", ex.getMessage());
-                    return ResponseEntity.internalServerError().body("Ошибка при обработке транзакций");
+                    // Log any exceptions that occur during the overall processing
+                    log.error("Error processing transactions: {}", ex.getMessage());
+                    return ResponseEntity.internalServerError().body("Error processing transactions");
                 });
     }
 
     @Async("customExecutor")
-    CompletableFuture<Void> saveTransactionsWithLimitCheckAsync(Map<Integer, BigDecimal> dbTransactionsForCompareMap,
-                                                                Map<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactionsMap,
+    CompletableFuture<Void> saveTransactionsWithLimitCheckAsync(ConcurrentHashMap<Integer, BigDecimal> dbTransactionsForCompareMap,
+                                                                ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactionsMap,
                                                                 ConcurrentMap<Integer, LimitAccountDTO> limitsMapByAccount) {
         // Логирование входных данных
         log.info("Method additionTransactionsWithComparisonOnLimit called with parameters:");
@@ -209,7 +218,7 @@ public class TransactionService {
 
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
-        for (Map.Entry<Integer, ConcurrentLinkedQueue<TransactionDTO>> entry : clientsTransactionsMap.entrySet()) {
+        for (ConcurrentHashMap.Entry<Integer, ConcurrentLinkedQueue<TransactionDTO>> entry : clientsTransactionsMap.entrySet()) {
             Integer keyAccountFrom = entry.getKey();
 
             ConcurrentLinkedQueue<TransactionDTO> clientsTransactionsList = entry.getValue();
@@ -220,7 +229,7 @@ public class TransactionService {
                 limit = limitsMapByAccount.get(keyAccountFrom);
             } else if (limitsMapByAccount.containsKey(0)) {
 
-                    limit = limitsMapByAccount.get(0);
+                limit = limitsMapByAccount.get(0);
                 if (limit == null) {
                     throw new IllegalArgumentException("Ключ 0 отсутсвует в карте лимитов");
                 }
@@ -348,6 +357,7 @@ public class TransactionService {
             return CompletableFuture.failedFuture(e);
         }
     }
+
     @Async("customExecutor")
     CompletableFuture<ConcurrentHashMap<String, ExchangeRateDTO>> getCurrencyRateAsMapAsync() {
         CompletableFuture<ExchangeRateDTO> kztUsdFuture = exchangeRateService.getCurrencyRate(KZT_USD_PAIR);
@@ -622,6 +632,7 @@ public class TransactionService {
 
         return allFutures.thenApply(v -> clientsTransactionsMap);
     }
+
     @Async("customExecutor")
     public CompletableFuture<ConcurrentMap<Integer, LimitAccountDTO>> convertToMapAsync(List<LimitAccountDTO> limitList) {
         try {
@@ -630,7 +641,7 @@ public class TransactionService {
                 throw new RuntimeException("Limits list is empty");
             }
             var result = limitList.stream()
-                    .collect(Collectors.toConcurrentMap (
+                    .collect(Collectors.toConcurrentMap(
                             limitAccountDTO -> {
                                 Integer accountNumber = limitAccountDTO.getAccountNumber();
                                 if (accountNumber == null && limitAccountDTO.getLimitSum() == null) {
