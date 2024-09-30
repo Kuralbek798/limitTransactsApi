@@ -154,45 +154,46 @@ public class TransactionService {
             ConcurrentHashMap<String, ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactMap,
             List<LimitAccountDTO> limitList) {
 
-        List<String> categories = List.of("service", "product");
-        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        List<String> categories = List.of("service", "product"); // Определяем категории
+        List<CompletableFuture<Void>> futures = new ArrayList<>(); // Список для хранения CompletableFuture для каждой категории
 
-        /// loop aver categories product/service
+        // Цикл по категориям для обработки параллельно
         for (String category : categories) {
-            //extracting DB data by category from maps
+            // Извлечение данных из базы по категории
             ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsGroupedFuture = clientsTransactMap.getOrDefault(category, new ConcurrentHashMap<>());
             var dbTransactions = dbTransactMap.getOrDefault(category, new ConcurrentLinkedQueue<>());
 
-            CompletableFuture<ConcurrentHashMap<Integer, BigDecimal>> dbSummarizedFuture;
+            // Создаем CompletableFuture для обработки каждой категории в параллельном режиме
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                try {
+                    ConcurrentHashMap<Integer, BigDecimal> dbSummarized;
 
-            if (!dbTransactions.isEmpty()) {
-                // grouping and summarizing DB transactions
-                dbSummarizedFuture = groupTransactionsByAccountAsync(dbTransactions)
-                        .thenCompose((ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> groupedTransactions) -> summarizeGroupedTransactionsAsync(groupedTransactions));
-            } else {
-                dbSummarizedFuture = CompletableFuture.completedFuture(new ConcurrentHashMap<>());
-            }
-            //grouping limits by account.
-            CompletableFuture<ConcurrentMap<Integer, LimitAccountDTO>> limitsByAccounts = convertToMapAsync(limitList);
-            /// sending transactions and limits to the method saveTransactionsWithLimitCheckAsync
-            CompletableFuture<Void> future = dbSummarizedFuture
-                    .thenCombine(limitsByAccounts, (dbSummaries, limitsByAccountsMap) ->
-                            saveTransactionsWithLimitCheckAsync(dbSummaries, clientsGroupedFuture, limitsByAccountsMap))
-                    .thenCompose(Function.identity())
-                    .exceptionally(ex -> {
-                        log.error("Error processing transactions for category {}: {}", category, ex.getMessage());
-                        return null;
-                    });
-            futures.add(future);
+                    if (!dbTransactions.isEmpty()) {
+                        // Группируем и суммируем транзакции из базы данных
+                        dbSummarized = groupTransactionsByAccountAsync(dbTransactions)
+                                .thenCompose(groupedTransactions -> summarizeGroupedTransactionsAsync(groupedTransactions)).join();
+                    } else {
+                        dbSummarized = new ConcurrentHashMap<>();
+                    }
+
+                    // Группируем лимиты по счетам и передаем транзакции и лимиты в метод saveTransactionsWithLimitCheckAsync
+                    ConcurrentMap<Integer, LimitAccountDTO> limitsByAccounts = convertToMapAsync(limitList).join();
+                    saveTransactionsWithLimitCheckAsync(dbSummarized, clientsGroupedFuture, limitsByAccounts);
+                } catch (Exception ex) {
+                    log.error("Ошибка при обработке транзакций для категории {}: {}", category, ex.getMessage());
+                }
+            });
+
+            futures.add(future); // Добавляем CompletableFuture в список
         }
 
+        // Ждем завершения всех futures
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                .thenApply(v -> ResponseEntity.ok("All categories processed successfully"))
+                .thenApply(v -> ResponseEntity.ok("Все категории успешно обработаны"))
                 .exceptionally(ex -> {
-                    log.error("Error processing transactions: {}", ex.getMessage());
-                    return ResponseEntity.internalServerError().body("Error while processing transactions");
+                    log.error("Ошибка при обработке транзакций: {}", ex.getMessage());
+                    return ResponseEntity.internalServerError().body("Ошибка при обработке транзакций");
                 });
-
     }
 
     @Async("customExecutor")
