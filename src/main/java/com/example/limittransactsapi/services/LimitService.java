@@ -23,9 +23,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.Executor;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,6 +81,7 @@ public class LimitService {
             }
         });
     }
+
     @Async("customExecutor")
     public CompletableFuture<LimitDTO> checkCurrencyTypeAndSetToUSDAsync(LimitDtoFromClient limitDtoFromClient) {
         // Check currency type for RUB
@@ -101,7 +100,7 @@ public class LimitService {
                                 , null
                                 , limitDtoFromClient.getClientId()
                                 , false
-                                ,true
+                                , true
                         );
                         return CompletableFuture.completedFuture(limiDTO);
                     });
@@ -122,7 +121,7 @@ public class LimitService {
                                 , null
                                 , limitDtoFromClient.getClientId()
                                 , false
-                                ,true
+                                , true
                         );
                         return CompletableFuture.completedFuture(limiDTO);
                     });
@@ -134,7 +133,7 @@ public class LimitService {
                     , null
                     , limitDtoFromClient.getClientId()
                     , false
-                    ,true)
+                    , true)
             );
         }
         {
@@ -164,7 +163,6 @@ public class LimitService {
     }
 
 
-
     //synchrony private method
     private boolean isLimitExist(LimitDTO limitDtoFromClient, Optional<LimitDTO> limitDtoFromDb) {
         return limitDtoFromDb.isPresent() && limitDtoFromDb.get().getLimitSum().equals(limitDtoFromClient.getLimitSum());
@@ -192,10 +190,15 @@ public class LimitService {
             return false;
         }
     }
-    public CompletableFuture<List<LimitAccountDTO>> getAllActiveLimits() {
+
+    public CompletableFuture<ConcurrentLinkedQueue<LimitAccountDTO>> getAllActiveLimits(Integer[] accountNumbers) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                List<LimitAccountProjection> projections = limitRepository.findLatestActiveLimits();
+                log.info("getAllActiveLimits: {}___{}", accountNumbers.length, accountNumbers.toString());
+                ConcurrentLinkedQueue<LimitAccountProjection> projections = limitRepository.findLatestActiveLimits(accountNumbers);
+                log.info("projections: {}, account numbers: {}", projections.size(), projections.stream()
+                        .map(LimitAccountProjection::getAccountNumber)
+                        .collect(Collectors.toList()));
 
                 return projections.stream()
                         .map(pr -> new LimitAccountDTO(
@@ -208,14 +211,14 @@ public class LimitService {
                                 pr.getIsActive(),
                                 pr.getAccountNumber()
                         ))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toCollection(() -> new ConcurrentLinkedQueue<LimitAccountDTO>()));
             } catch (Exception e) {
                 log.error("Failed to retrieve active limits: ", e);
                 throw new RuntimeException("Unable to fetch active limits.");
             }
-        },customExecutor).exceptionally(ex -> {
+        }, customExecutor).exceptionally(ex -> {
             log.error("Error occurred during async processing: ", ex);
-            return List.of();
+            return new ConcurrentLinkedQueue<>();
         });
     }
 

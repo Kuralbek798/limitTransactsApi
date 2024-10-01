@@ -6,11 +6,13 @@ import com.example.limittransactsapi.repository.projections.LimitAccountProjecti
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 @Repository
@@ -37,9 +39,10 @@ public interface LimitRepository extends JpaRepository<Limit, UUID> {
             "is_base_limit AS isBaseLimit," +
             "is_active AS isActive, " +
             "account_number AS accountNumber " +
-            "FROM public.get_latest_active_limits()",
+            "FROM public.get_latest_active_limits(:accountNumbers)",
             nativeQuery = true)
-    List<LimitAccountProjection> findLatestActiveLimits();
+    ConcurrentLinkedQueue<LimitAccountProjection> findLatestActiveLimits(@Param("accountNumbers") Integer[] accountNumbers);
+
 
 
 }

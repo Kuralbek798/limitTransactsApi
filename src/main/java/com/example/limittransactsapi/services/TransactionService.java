@@ -6,7 +6,11 @@ import com.example.limittransactsapi.Helpers.mapper.TransactionMapper;
 import com.example.limittransactsapi.Models.DTO.ExchangeRateDTO;
 import com.example.limittransactsapi.Models.DTO.LimitAccountDTO;
 import com.example.limittransactsapi.Models.DTO.TransactionDTO;
+import com.example.limittransactsapi.Models.Entity.Category;
 import com.example.limittransactsapi.Models.Entity.CheckedOnLimit;
+
+import com.example.limittransactsapi.Models.TransactionsContext;
+import com.example.limittransactsapi.repository.CategoryRepository;
 import com.example.limittransactsapi.repository.projections.TransactionProjection;
 import com.example.limittransactsapi.repository.TransactionRepository;
 import com.example.limittransactsapi.services.crud.TransactionCRUDService;
@@ -41,10 +45,13 @@ public class TransactionService {
     private final ExchangeRateService exchangeRateService;
     private final Executor customExecutor;
     private final TransactionCRUDService transactionCRUDService;
+    private final CategoryRepository categoryRepository;
+    private final List<String> CATEGORIES;
+    // private final List<String> CATEGORIES = List.of("service", "product");
 
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository, LimitService limitService, CheckedOnLimitService checkedOnLimitService, Converter ratesConverter, ExchangeRateService exchangeRateService, @Qualifier("customExecutor") Executor customExecutor, TransactionCRUDService transactionCRUDService) {
+    public TransactionService(TransactionRepository transactionRepository, LimitService limitService, CheckedOnLimitService checkedOnLimitService, Converter ratesConverter, ExchangeRateService exchangeRateService, @Qualifier("customExecutor") Executor customExecutor, TransactionCRUDService transactionCRUDService, CategoryRepository categoryRepository) {
         this.transactionRepository = transactionRepository;
         this.limitService = limitService;
         this.checkedOnLimitService = checkedOnLimitService;
@@ -52,125 +59,112 @@ public class TransactionService {
         this.exchangeRateService = exchangeRateService;
         this.customExecutor = customExecutor;
         this.transactionCRUDService = transactionCRUDService;
+        this.categoryRepository = categoryRepository;
+        CATEGORIES  = Collections.unmodifiableList(categoryRepository.findByIsActiveTrue().stream()
+                .map(category -> category.getName())
+                .toList());
     }
 
     @Async("customExecutor")
-    public CompletableFuture<ResponseEntity<String>> setTransactionsToDBAsync(List<TransactionDTO> transactionsListFromService) {
+    public CompletableFuture<ResponseEntity<String>> setTransactionsToDBAsync(List<TransactionDTO> transactionsListFromServiceList) {
         // Check if the transaction list is null or empty
-        if (transactionsListFromService == null || transactionsListFromService.isEmpty()) {
+        if (transactionsListFromServiceList == null || transactionsListFromServiceList.isEmpty()) {
             return CompletableFuture.completedFuture(ResponseEntity.badRequest().body("List is empty"));
         }
+       ConcurrentLinkedQueue<TransactionDTO> transactionsListFromService = new ConcurrentLinkedQueue<>(transactionsListFromServiceList);
         /// Get currency exchange rates
         CompletableFuture<ConcurrentHashMap<String, ExchangeRateDTO>> exchangeRatesMapFuture = getCurrencyRateAsMapAsync();
 
-        /// Get the current limit
-        CompletableFuture<List<LimitAccountDTO>> limitFuture = limitService.getAllActiveLimits();
-        // Get transactions with rates based on the current limit and convert transactions by rate
-        CompletableFuture<List<TransactionDTO>> convertedDBTransactionsWithRates = exchangeRatesMapFuture
-                .thenCombine(limitFuture, (exchangeRates, limitDTOList) -> getConvertedTransactionsWithRatesAsync(limitDTOList, exchangeRates))
-                .thenCompose(Function.identity());
-
         /// Group client transactions by expense categories
-        CompletableFuture<ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>>> groupedClientsTransactionsFuture =
+        var groupedClientsTransactionsFuture =
                 groupTransactionsByExpenseCategoryAsync(transactionsListFromService)
                         .thenCompose(groupedClients -> {
                             // Save transactions that do not fall into categories to the database
                             saveListTransactionsToDBAsync(groupedClients.get("notInCategories"));
                             // Remove transactions out of categories
                             groupedClients.remove("notInCategories");
-
                             // Return the modified map for further processing
                             return CompletableFuture.completedFuture(groupedClients);
                         });
 
         /// Combine grouped client's transactions and exchange rates for conversion
-        CompletableFuture<ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedClientsTransactionsFuture =
+        var convertedClientsTransactionsFuture =
                 groupedClientsTransactionsFuture.thenCombine(exchangeRatesMapFuture, (groupedClients, exchangeRates) ->
-                        convertTransactionsSumAndCurrencyByUSDAsync(groupedClients, exchangeRates)
-                ).thenCompose(Function.identity());
+                                convertTransactionsSumAndCurrencyByUSDAsync(groupedClients, exchangeRates))
+                        .thenCompose(Function.identity())
+                        .thenCompose(clientsTransactions ->
+                                /// grouping clients transactions by account in category expense (product/service)
+                                groupByAccountTransactionsIntoMapInCategoryAsync(clientsTransactions));
 
-        ///  sending transactions,exchange rates, limits to the method categorizeAndPrepareTransactionsForProcessingAsync
-        return CompletableFuture.allOf(exchangeRatesMapFuture, convertedClientsTransactionsFuture, convertedDBTransactionsWithRates, limitFuture)
-                .thenCompose(voidResult ->
-                        exchangeRatesMapFuture.thenCombine(convertedClientsTransactionsFuture, (exchangeRates, groupedClients) ->
-                                convertedDBTransactionsWithRates.thenCompose(transactAndRates ->
-                                        limitFuture.thenCompose(limits ->
-                                                // Now all data is collected, we can pass it to the validation method
-                                                categorizeAndPrepareTransactionsForProcessingAsync(groupedClients, transactAndRates, exchangeRates, limits)
-                                        )
-                                )
-                        ).thenCompose(Function.identity()) // Unwrap the final CompletableFuture from the validation
-                )
+        return convertedClientsTransactionsFuture.thenCombine(exchangeRatesMapFuture, (groupedClients, exchangeRates) ->
+                        categorizeAndPrepareTransactionsForProcessingAsync(groupedClients, exchangeRates))
+                .thenCompose(v -> v)
                 .exceptionally(ex -> {
                     // Log error and return a 500 Internal Server Error response
                     log.error("An error occurred: {}", ex.getMessage());
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body("An error occurred: " + ex.getMessage());
                 });
-
     }
 
     @Async("customExecutor")
     CompletableFuture<ResponseEntity<String>> categorizeAndPrepareTransactionsForProcessingAsync(
-            ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions,
-            List<TransactionDTO> dbTransactions,
-            ConcurrentHashMap<String, ExchangeRateDTO> exchangeRate,
-            List<LimitAccountDTO> limitList) {
+            TransactionsContext clientsTransactionsContext,
+            ConcurrentHashMap<String, ExchangeRateDTO> exchangeRatesMap) {
 
-        /// grouping limits by account
-        CompletableFuture<ConcurrentMap<Integer, LimitAccountDTO>> limitsMapByAccounts = convertToMapAsync(limitList);
-        /// groping DB transactions by expense category
-        CompletableFuture<ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedAndGroupedByCategoryDBTransactions;
+        Integer[] accountNumbersArray = clientsTransactionsContext.getTransactionsAccounts().toArray(new Integer[0]);
+        /// Get the current limit
+        CompletableFuture<ConcurrentLinkedQueue<LimitAccountDTO>> limitFuture = limitService.getAllActiveLimits(accountNumbersArray);
 
-        if (dbTransactions != null && !dbTransactions.isEmpty()) {
+        /// Get transactions with rates based on the current limit and convert transactions by rate
+        CompletableFuture<ConcurrentLinkedQueue<TransactionDTO>> convertedDBTransactionsWithRates = limitFuture
+                .thenCompose(limits -> getConvertedTransactionsWithRatesAsync(limits, exchangeRatesMap));
 
-            convertedAndGroupedByCategoryDBTransactions = groupTransactionsByExpenseCategoryAsync(dbTransactions)
-                    .thenCompose(groupedDBTransactions -> {
+        /// Grouping limits by account
+        CompletableFuture<ConcurrentMap<Integer, LimitAccountDTO>> limitsMapByAccounts =
+                limitFuture.thenCompose(limits -> convertToMapAsync(limits));
 
-                        groupedDBTransactions.remove("notInCategories");
+        /// Grouping DB transactions by expense category
+        CompletableFuture<ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>>> convertedAndGroupedByCategoryDBTransactions =
+                convertedDBTransactionsWithRates.thenCompose(convertedDbTransactions -> {
+                    if (convertedDbTransactions != null && !convertedDbTransactions.isEmpty()) {
+                        return groupTransactionsByExpenseCategoryAsync(convertedDbTransactions)
+                                .thenCompose(groupedDBTransactions -> {
+                                    groupedDBTransactions.remove("notInCategories");
+                                    return CompletableFuture.completedFuture(groupedDBTransactions);
+                                });
+                    }
+                    return CompletableFuture.completedFuture(new ConcurrentHashMap<>());
+                });
 
-                        return CompletableFuture.completedFuture(groupedDBTransactions);
-                    });
-        } else {
-
-            convertedAndGroupedByCategoryDBTransactions = CompletableFuture.completedFuture(new ConcurrentHashMap<>());
-        }
-        /// grouping clients transactions by account from in category expense (product/service)
-        CompletableFuture<ConcurrentHashMap<String, ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>>>
-                clientsTransactionsMap = groupClientTransactionsByAccountInCategoryAsync(clientsTransactions);
-
-        ///sending transactions and limits to the method processTransactionsAndLimitsAsync
-        return CompletableFuture.allOf(convertedAndGroupedByCategoryDBTransactions, clientsTransactionsMap, limitsMapByAccounts)
-                .thenCompose(voidResult ->
-                        convertedAndGroupedByCategoryDBTransactions
-                                .thenCombine(clientsTransactionsMap, (dbConvertedTr, clientsTrMap) ->
-                                                limitsMapByAccounts.thenCompose(limitsMap ->
-                                                        processTransactionsAndLimitsAsync(dbConvertedTr, clientsTrMap, limitsMap))
-                                                        )
-                ).thenCompose(Function.identity())
+        /// Sending transactions and limits to the method processTransactionsAndLimitsAsync
+        return convertedAndGroupedByCategoryDBTransactions
+                .thenCombine(limitsMapByAccounts, (dbConvertedTr, limitsMap) ->
+                        processTransactionsAndLimitsAsync(dbConvertedTr, clientsTransactionsContext, limitsMap))
+                .thenCompose(Function.identity())
                 .exceptionally(ex -> {
                     log.error("An error occurred: {}", ex.getMessage());
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .body("An error occurred: " + ex.getMessage());
                 });
     }
+
     @Async("customExecutor")
     public CompletableFuture<ResponseEntity<String>> processTransactionsAndLimitsAsync(
             ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>> dbTransactMap,
-            ConcurrentHashMap<String, ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactMap,
+           TransactionsContext clientsTransactionsContext,
             ConcurrentMap<Integer, LimitAccountDTO> limitsMapByAccount) {
 
-        // Define the categories to process
-        List<String> categories = List.of("service", "product");
+        clientsTransactionsContext.getTransactionsMap().entrySet();
         // List to hold CompletableFutures for each category processing
         List<CompletableFuture<Void>> futures = new ArrayList<>();
 
         // Create a CompletableFuture for each category
-        for (String category : categories) {
+        for (String category : CATEGORIES) {
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 try {
                     // Extract data for the current category
-                    ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsGroupedFuture = clientsTransactMap.getOrDefault(category, new ConcurrentHashMap<>());
+                    ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsGroupedFuture = clientsTransactionsContext.getTransactionsMap().getOrDefault(category, new ConcurrentHashMap<>());
                     var dbTransactions = dbTransactMap.getOrDefault(category, new ConcurrentLinkedQueue<>());
 
                     ConcurrentHashMap<Integer, BigDecimal> dbSummarized = new ConcurrentHashMap<>();
@@ -204,6 +198,7 @@ public class TransactionService {
                     return ResponseEntity.internalServerError().body("Error processing transactions");
                 });
     }
+
 
     @Async("customExecutor")
     CompletableFuture<Void> saveTransactionsWithLimitCheckAsync(ConcurrentHashMap<Integer, BigDecimal> dbTransactionsForCompareMap,
@@ -292,36 +287,6 @@ public class TransactionService {
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
     }
 
-    @Async("customExecutor")
-    public CompletableFuture<ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>> groupTransactionsByAccountAsync(
-            ConcurrentLinkedQueue<TransactionDTO> transactionsQueue) {
-        try {
-            if (transactionsQueue == null) {
-                log.error("Error: transactionsQueue is null.");
-                return CompletableFuture.completedFuture(new ConcurrentHashMap<>());
-            }
-            ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> result = new ConcurrentHashMap<>();
-
-            for (TransactionDTO transaction : transactionsQueue) {
-                Integer accountFrom = transaction.getAccountFrom();
-                if (accountFrom == null) {
-                    log.error("Transaction has a null account number: {}", transaction);
-                    throw new IllegalArgumentException("Transaction has a null account number");
-                }
-                // Get or create the queue for the specified account
-                result.putIfAbsent(accountFrom, new ConcurrentLinkedQueue<>());
-                // Add the transaction to the corresponding queue
-                result.get(accountFrom).add(transaction);
-            }
-
-            // Return the grouped transactions wrapped in a completed CompletableFuture
-            return CompletableFuture.completedFuture(result);
-
-        } catch (Exception e) {
-            log.error("Error occurred while processing transactions: {}", e.getMessage(), e);
-            return CompletableFuture.failedFuture(e); // Return a failed CompletableFuture to indicate an error
-        }
-    }
 
     @Async("customExecutor")
     public CompletableFuture<ConcurrentHashMap<Integer, BigDecimal>> summarizeGroupedTransactionsAsync(
@@ -376,70 +341,74 @@ public class TransactionService {
     }
 
     @Async("customExecutor")
-    CompletableFuture<List<TransactionDTO>> getConvertedTransactionsWithRatesAsync(List<LimitAccountDTO> limitDTOList, Map<String, ExchangeRateDTO> exchangeRateMap) {
-        List<TransactionDTO> transactionDTOs = new ArrayList<>(); // List for final result
+    CompletableFuture<ConcurrentLinkedQueue<TransactionDTO>> getConvertedTransactionsWithRatesAsync(
+            ConcurrentLinkedQueue<LimitAccountDTO> limitDTOQueue,
+            ConcurrentHashMap<String, ExchangeRateDTO> exchangeRateMap) {
+
+        ConcurrentLinkedQueue<TransactionDTO> transactionDTOs = new ConcurrentLinkedQueue<>(); // Queue for final result
         ExchangeRateDTO rubUsdRate = exchangeRateMap.get(RUB_USD_PAIR);
         ExchangeRateDTO kztUsdRate = exchangeRateMap.get(KZT_USD_PAIR);
+        ConcurrentLinkedQueue<CompletableFuture<TransactionDTO>> futures = new ConcurrentLinkedQueue<>(); // Queue for CompletableFuture<TransactionDTO>
 
-        List<CompletableFuture<Void>> allFutures = new ArrayList<>(); // List for all CompletableFuture<Void>
-
-        for (LimitAccountDTO limitDTO : limitDTOList) {
+        for (LimitAccountDTO limitDTO : limitDTOQueue) {
             UUID limitId = limitDTO.getId();
             log.info("Fetching transaction projections for limitId: {}", limitId);
 
             try {
-                // receiving transactions by limitId
-                List<TransactionProjection> projections = transactionRepository.findTransactionsWithRatesByLimitId(limitId);
+                // Retrieve transactions by limitId
+                ConcurrentLinkedQueue<TransactionProjection> projections = transactionRepository.findTransactionsWithRatesByLimitId(limitId);
 
                 if (projections == null || projections.isEmpty()) {
                     log.info("No transaction projections found for limitId: {}", limitId);
-                    continue;
+                    continue; // Skip this limitId if no projections found
                 }
-                // creating CompletableFuture for each TransactionDTO
-                List<CompletableFuture<TransactionDTO>> futures = projections.stream()
-                        .map(projection -> {
-                            TransactionDTO transactionDTO = new TransactionDTO(
-                                    projection.getId(),
-                                    projection.getSum(),
-                                    projection.getCurrency(),
-                                    OffsetDateTime.ofInstant(projection.getDatetimeTransaction(), ZoneOffset.UTC),
-                                    projection.getAccountFrom(),
-                                    projection.getAccountTo(),
-                                    projection.getExpenseCategory(),
-                                    OffsetDateTime.ofInstant(projection.getTrDate(), ZoneOffset.UTC),
-                                    projection.getExchangeRate(), null, null, false);
 
-                            return convertTransactionToUSDAsync(transactionDTO, rubUsdRate, kztUsdRate)
-                                    .handle((result, ex) -> {
-                                        if (ex != null) {
-                                            log.error("Error converting transaction to USD for limitId {}: {}", limitId, ex.getMessage());
-                                            throw new CompletionException("Conversion failed for transaction " + transactionDTO.getId(), ex);
-                                        }
-                                        return result;
-                                    });
-                        })
-                        .collect(Collectors.toList());
 
-                // combining all CompletableFuture for current limitId
-                CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(
-                        futures.toArray(new CompletableFuture[0])
-                ).thenRun(() -> {
-                    // adding resul to the list
-                    List<TransactionDTO> results = futures.stream()
-                            .map(CompletableFuture::join)
-                            .collect(Collectors.toList());
-                    transactionDTOs.addAll(results);
-                });
+                for (TransactionProjection projection : projections) {
+                    TransactionDTO transactionDTO = new TransactionDTO(
+                            projection.getId(),
+                            projection.getSum(),
+                            projection.getCurrency(),
+                            OffsetDateTime.ofInstant(projection.getDatetimeTransaction(), ZoneOffset.UTC),
+                            projection.getAccountFrom(),
+                            projection.getAccountTo(),
+                            projection.getExpenseCategory(),
+                            OffsetDateTime.ofInstant(projection.getTrDate(), ZoneOffset.UTC),
+                            projection.getExchangeRate(), null, null, false);
+                    // Create CompletableFuture for each TransactionDTO
+                    CompletableFuture<TransactionDTO> future = convertTransactionToUSDAsync(transactionDTO, rubUsdRate, kztUsdRate)
+                            .handle((result, ex) -> {
+                                if (ex != null) {
+                                    log.error("Error converting transaction to USD for limitId {}: {}", limitId, ex.getMessage());
+                                    throw new CompletionException("Conversion failed for transaction " + transactionDTO.getId(), ex);
+                                }
+                                return result;
+                            });
 
-                allFutures.add(combinedFuture); // adding combined future to the common list
+                    futures.add(future); // Adding CompletableFuture to the ConcurrentLinkedQueue
+                }
             } catch (Exception e) {
                 log.error("Error fetching transaction projections for limitId {}: {}", limitId, e.getMessage());
             }
         }
-        // waiting for finishing all operations.
-        return CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[0]))
-                .thenApply(v -> transactionDTOs);
+
+        // Combine all CompletableFuture and add the result
+        CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                .thenRun(() -> {
+                    futures.forEach(future -> {
+                        try {
+                            TransactionDTO result = future.join(); // Get the result
+                            transactionDTOs.add(result); // Add to ConcurrentLinkedQueue
+                        } catch (CompletionException ex) {
+                            log.error("Error joining future for limitId {}: {}", ex.getMessage());
+                        }
+                    });
+                });
+
+        // Wait for all operations to finish and return the result
+        return combinedFuture.thenApply(v -> transactionDTOs);
     }
+
 
     @Async("customExecutor")
     CompletableFuture<Void> saveListTransactionsToDBAsync(ConcurrentLinkedQueue<TransactionDTO> transactionDTOListFromService) {
@@ -462,7 +431,8 @@ public class TransactionService {
     }
 
     @Async("customExecutor")
-    CompletableFuture<ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>>> groupTransactionsByExpenseCategoryAsync(List<TransactionDTO> transactions) {
+    CompletableFuture<ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>>>
+    groupTransactionsByExpenseCategoryAsync(ConcurrentLinkedQueue<TransactionDTO> transactions) {
         try {
             // Create a thread-safe map to store transaction categories
             ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>> map = new ConcurrentHashMap<>();
@@ -504,11 +474,11 @@ public class TransactionService {
         //checking exchange rates
         if (rubUsdRate == null || kztUsdRate == null) {
             log.error("Курсы обмена для RUB/USD или KZT/USD не найдены в exchangeRateMap.");
-            throw new IllegalArgumentException("Недопустимые курсы обмена");
+            throw new NoSuchElementException("Недопустимые курсы обмена");
         }
 
         ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>> resultMap = new ConcurrentHashMap<>();
-        List<CompletableFuture<Void>> futures = new ArrayList<>(); // List for CompletableFuture
+        ConcurrentLinkedQueue<CompletableFuture<Void>> futures = new ConcurrentLinkedQueue<>();
 
         // loop over transactions categories (product/service)
         groupedTransactions.forEach((key, transactionQueue) -> {
@@ -527,7 +497,7 @@ public class TransactionService {
                             if (result != null) {
                                 convertedQueue.add(result);
                             }
-                            return null; //return null because it won't do any harm here.
+                            return null;
                         });
 
                 futures.add(future); // saving  CompletableFuture to the list
@@ -607,34 +577,67 @@ public class TransactionService {
     }
 
     @Async("customExecutor")
-    CompletableFuture<ConcurrentHashMap<String, ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>>>
-    groupClientTransactionsByAccountInCategoryAsync(ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>> clientsTransactions) {
+    CompletableFuture<TransactionsContext> groupByAccountTransactionsIntoMapInCategoryAsync(
+            ConcurrentHashMap<String, ConcurrentLinkedQueue<TransactionDTO>> transactionsMap) {
 
         ConcurrentHashMap<String, ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>> clientsTransactionsMap = new ConcurrentHashMap<>();
-        clientsTransactionsMap.put("service", new ConcurrentHashMap<>());
-        clientsTransactionsMap.put("product", new ConcurrentHashMap<>());
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        TransactionsContext transactionsContext = new TransactionsContext();
 
-        List<String> categories = List.of("service", "product");
+        for (String category : CATEGORIES) {
+            ConcurrentLinkedQueue<TransactionDTO> transactionsQueue = transactionsMap.get(category);
+            if (transactionsQueue != null) {
+                CompletableFuture<Void> future = groupTransactionsByAccountAsync(transactionsQueue)
+                        .thenAccept(groupedTransactions -> {
+                            // ads unique accounts and transactions.
+                            transactionsContext.getTransactionsAccounts().addAll(groupedTransactions.keySet());
+                            transactionsContext.getTransactionsMap().put(category, groupedTransactions);
+                        });
 
-        CompletableFuture<Void> allFutures = CompletableFuture.completedFuture(null);
-
-        for (String category : categories) {
-            ConcurrentLinkedQueue<TransactionDTO> concurrentLinkedQueueMap = clientsTransactions.get(category);
-            if (concurrentLinkedQueueMap != null) {
-                allFutures = allFutures.thenCompose(v ->
-                        groupTransactionsByAccountAsync(concurrentLinkedQueueMap)
-                                .thenAccept(groupedTransactions -> {
-                                    clientsTransactionsMap.get(category).putAll(groupedTransactions);
-                                })
-                );
+                futures.add(future);
             }
         }
-
-        return allFutures.thenApply(v -> clientsTransactionsMap);
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                .handle((v, ex) -> {
+                    if (ex != null) {
+                        log.error("Error occurred: {}", ex.getMessage());
+                        // Вы можете также вернуть обработанное значение или выполнить дополнительные действия
+                    }
+                    return transactionsContext;
+                });
     }
 
+
     @Async("customExecutor")
-    public CompletableFuture<ConcurrentMap<Integer, LimitAccountDTO>> convertToMapAsync(List<LimitAccountDTO> limitList) {
+    CompletableFuture<ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>>> groupTransactionsByAccountAsync(
+            ConcurrentLinkedQueue<TransactionDTO> transactionsQueue) {
+        try {
+            if (transactionsQueue == null) {
+                log.error("Error: transactionsQueue is null.");
+                throw new IllegalArgumentException("transactionsQueue is null");
+            }
+            ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> result = new ConcurrentHashMap<>();
+
+            for (TransactionDTO transaction : transactionsQueue) {
+                Integer accountFrom = transaction.getAccountFrom();
+                if (accountFrom == null) {
+                    log.error("Transaction has a null account number: {}", transaction);
+                    throw new IllegalArgumentException("Transaction has a null account number");
+                }
+                result.computeIfAbsent(accountFrom, k -> new ConcurrentLinkedQueue<>()).add(transaction);
+            }
+            // Return the grouped transactions wrapped in a completed CompletableFuture
+            return CompletableFuture.completedFuture(result);
+
+        } catch (Exception e) {
+            log.error("Error occurred while processing transactions: {}", e.getMessage(), e);
+            return CompletableFuture.failedFuture(e); // Return a failed CompletableFuture to indicate an error
+        }
+    }
+
+
+    @Async("customExecutor")
+    public CompletableFuture<ConcurrentMap<Integer, LimitAccountDTO>> convertToMapAsync(ConcurrentLinkedQueue<LimitAccountDTO> limitList) {
         try {
             if (limitList == null || limitList.isEmpty()) {
                 log.error("Limits list is empty");

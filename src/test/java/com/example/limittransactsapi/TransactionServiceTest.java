@@ -4,9 +4,10 @@ package com.example.limittransactsapi;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.example.limittransactsapi.DTO.CheckedOnLimitDTO;
-import com.example.limittransactsapi.DTO.LimitDTO;
-import com.example.limittransactsapi.DTO.TransactionDTO;
+
+import com.example.limittransactsapi.Models.DTO.CheckedOnLimitDTO;
+import com.example.limittransactsapi.Models.DTO.LimitDTO;
+import com.example.limittransactsapi.Models.DTO.TransactionDTO;
 import com.example.limittransactsapi.services.CheckedOnLimitService;
 import com.example.limittransactsapi.services.TransactionService;
 import com.example.limittransactsapi.services.crud.TransactionCRUDService;
@@ -80,4 +81,5 @@ public class TransactionServiceTest {
             reset(checkedOnLimitService, transactionCRUDService);
         }
     }
-}*/
+}
+*/

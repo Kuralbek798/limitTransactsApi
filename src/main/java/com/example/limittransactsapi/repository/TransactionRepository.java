@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
@@ -30,7 +31,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
            "exchange_rate AS exchangeRate " +
            "FROM get_transactions_with_rates(:limitId)",
            nativeQuery = true)
-   List<TransactionProjection> findTransactionsWithRatesByLimitId(UUID limitId);
+   ConcurrentLinkedQueue<TransactionProjection> findTransactionsWithRatesByLimitId(UUID limitId);
 
 
 

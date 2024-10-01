@@ -1,4 +1,6 @@
-CREATE OR REPLACE FUNCTION public.get_latest_active_limits()
+CREATE OR REPLACE FUNCTION public.get_latest_active_limits(
+    account_numbers INTEGER[]
+)
     RETURNS TABLE(
                      id UUID,
                      limit_sum NUMERIC,
@@ -27,6 +29,7 @@ BEGIN
             FROM public.limits li
                      JOIN clients_accounts cl ON li.client_id = cl.client_id
             WHERE li.is_active = true
+              AND (cl.account_number = ANY(account_numbers) OR account_numbers IS NULL)  -- Filtering by incoming account_numbers
         )
         SELECT
             ranked_limits.limit_id AS id,
@@ -56,6 +59,3 @@ BEGIN
           AND l.is_active = true;
 END;
 $$;
-
-ALTER FUNCTION public.get_latest_active_limits()
-    OWNER TO postgres;
