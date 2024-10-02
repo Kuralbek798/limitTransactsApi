@@ -4,8 +4,8 @@ import com.example.limittransactsapi.Models.Entity.Limit;
 import com.example.limittransactsapi.Models.Entity.TaskExecutionLog;
 import com.example.limittransactsapi.repository.LimitRepository;
 import com.example.limittransactsapi.repository.TaskExecutionLogRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +17,19 @@ import static java.time.Duration.between;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ShedullerService {
 
     private static final String USD = "USD";
 
     private final LimitRepository limitRepository;
     private final TaskExecutionLogRepository logRepository;
+
+     @Autowired
+    public ShedullerService(LimitRepository limitRepository, TaskExecutionLogRepository logRepository) {
+        this.limitRepository = limitRepository;
+        this.logRepository = logRepository;
+
+    }
 
     public boolean checkMissedExecution(String taskName, OffsetDateTime now, long expectedIntervalMinutes) {
         Optional<TaskExecutionLog> logRecord = logRepository.findByTaskName(taskName);
@@ -73,15 +79,4 @@ public class ShedullerService {
         limitRepository.updateStatusIsActive();
     }
 
-
-    //methods for controller можно вынести в отельный сервис но не хочу увеличивать количество файлов из за двух методов.
-    private volatile boolean schedulerEnabled = true;
-
-    public boolean isSchedulerEnabled() {
-        return schedulerEnabled;
-    }
-
-    public void setSchedulerEnabled(boolean enabled) {
-        this.schedulerEnabled = enabled;
-    }
 }

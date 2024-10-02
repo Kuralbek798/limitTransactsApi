@@ -1,6 +1,6 @@
 package com.example.limittransactsapi.services;
 
-import com.example.limittransactsapi.Helpers.Converter;
+import com.example.limittransactsapi.services.servicesHelpers.Converter;
 import com.example.limittransactsapi.Helpers.mapper.TransactionMapper;
 import com.example.limittransactsapi.Models.DTO.ExchangeRateDTO;
 import com.example.limittransactsapi.Models.DTO.LimitAccountDTO;
@@ -112,7 +112,7 @@ public class TransactionService {
 
         Integer[] accountNumbersArray = clientsTransactionsContext.getTransactionsAccounts().toArray(new Integer[0]);
         /// Get the current limit
-        CompletableFuture<ConcurrentLinkedQueue<LimitAccountDTO>> limitFuture = limitService.getAllActiveLimits(accountNumbersArray);
+        CompletableFuture<ConcurrentLinkedQueue<LimitAccountDTO>> limitFuture = limitService.getAllActiveLimitsByAccounts(accountNumbersArray);
 
         /// Get transactions with rates based on the current limit and convert transactions by rate
         CompletableFuture<ConcurrentLinkedQueue<TransactionDTO>> convertedDBTransactionsWithRates = limitFuture

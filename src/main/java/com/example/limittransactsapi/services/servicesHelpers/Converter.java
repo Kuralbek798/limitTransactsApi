@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.Helpers;
+package com.example.limittransactsapi.services.servicesHelpers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,4 @@ public class Converter {
         // Возвращение обратного значения для вычисления курса KZT к USD
         return BigDecimal.ONE.divide(usdToKzt, 6, RoundingMode.HALF_UP); // 6 — число знаков после запятой для большей точности
     }
-
-
-
 }

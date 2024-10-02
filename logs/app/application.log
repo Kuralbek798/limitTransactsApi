@@ -1,4 +1,0 @@
-2024-09-08 20:46:25,030 INFO [restartedMain] c.e.l.LimitTransactsApiApplication [StartupInfoLogger.java:50] Starting LimitTransactsApiApplication using Java 17.0.12 with PID 12068 (C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes started by admin in C:\Users\admin\IdeaProjects\limitTransactsApi)
-2024-09-08 20:46:25,030 DEBUG [restartedMain] c.e.l.LimitTransactsApiApplication [StartupInfoLogger.java:51] Running with Spring Boot v3.3.3, Spring v6.1.12
-2024-09-08 20:46:25,030 INFO [restartedMain] c.e.l.LimitTransactsApiApplication [SpringApplication.java:654] No active profile set, falling back to 1 default profile: "default"
-2024-09-08 20:46:25,633 INFO [restartedMain] c.e.l.LimitTransactsApiApplication [StartupInfoLogger.java:56] Started LimitTransactsApiApplication in 0.623 seconds (process running for 1813.904)

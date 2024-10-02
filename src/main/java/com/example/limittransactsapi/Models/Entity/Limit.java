@@ -1,10 +1,11 @@
 package com.example.limittransactsapi.Models.Entity;
 
 
+import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -36,9 +37,9 @@ public class Limit {
     private UUID clientId;
 
     @Column(name = "is_base_limit")
-    private boolean isBaseLimit;
+    private boolean baseLimit;
 
     @Column(name = "is_active")
-    private boolean isActive = true;
+    private boolean active = true;
 
 }

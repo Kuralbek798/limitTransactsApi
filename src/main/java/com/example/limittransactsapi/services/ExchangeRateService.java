@@ -1,14 +1,14 @@
 package com.example.limittransactsapi.services;
 
 
-import com.example.limittransactsapi.Helpers.HttpClientService;
+import com.example.limittransactsapi.services.servicesHelpers.HttpClientService;
 import com.example.limittransactsapi.Models.DTO.ExchangeRateDTO;
 import com.example.limittransactsapi.Models.RateDataFromJson;
 import com.example.limittransactsapi.Helpers.mapper.ExchangeRateMapper;
 import com.example.limittransactsapi.repository.ExchangeRateRepository;
-import com.example.limittransactsapi.Helpers.BuildUrlAndDate;
-import com.example.limittransactsapi.Helpers.Converter;
-import com.example.limittransactsapi.Helpers.PathForApiServis;
+import com.example.limittransactsapi.util.BuildUrlAndDate;
+import com.example.limittransactsapi.services.servicesHelpers.Converter;
+import com.example.limittransactsapi.services.servicesHelpers.PathForApiServis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

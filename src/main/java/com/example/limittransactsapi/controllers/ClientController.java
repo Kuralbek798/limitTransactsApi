@@ -15,7 +15,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -36,7 +35,7 @@ public class ClientController {
     }
 
     // Setting a new spending limit
-    @PostMapping
+    @PostMapping("/setNewLimit")
     public CompletableFuture<ResponseEntity<String>> setLimit(@Valid @RequestBody LimitDtoFromClient limit) {
 
         if (limit.getLimitSum().scale() < 2) {
@@ -44,36 +43,34 @@ public class ClientController {
                     ResponseEntity.badRequest().body("Limit sum must be type of Big decimal and have two decimal places."));
         }
 
-                var a =   limitService.setLimitAsync(limit);
-                        return a
-                                .exceptionally(ex -> {
-                                    // Log the exception details
-                                    ex.printStackTrace(); // Печать трассировки стека
-                                    // Check type of exception and return appropriate response
-                                    if (ex.getCause() instanceof BindingResult) {
-                                        BindingResult result = (BindingResult) ex.getCause();
-                                        for (ObjectError error : result.getAllErrors()) {
-                                            // Логируем все ошибки валидации
-                                            System.out.println("Validation error: " + error.getDefaultMessage());
-                                        }
-                                    }
-                                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-                                });
+
+        return limitService.setLimitAsync(limit)
+                .exceptionally(ex -> {
+                    // Log the exception details
+                    ex.printStackTrace(); // Печать трассировки стека
+                    // Check type of exception and return appropriate response
+                    if (ex.getCause() instanceof BindingResult) {
+                        BindingResult result = (BindingResult) ex.getCause();
+                        for (ObjectError error : result.getAllErrors()) {
+                            // Логируем все ошибки валидации
+                            System.out.println("Validation error: " + error.getDefaultMessage());
+                        }
+                    }
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                });
 
     }
 
-    @GetMapping("/ExceededLimits")
+    @GetMapping("/exceededTransactions")
     public List<TransactionLimitDTO> getReports() {
         return checkedOnLimitService.getExceededLimitsTransactions();
     }
 
-    @GetMapping("TestService")
-    public void /*List<LimitAccountDTO>*/testMethod(){
-       shedullerService.updateLimitStatusIsActive();
-      //  limitService.setMonthlyLimitByDefault();
-        //var a = limitService.getLimitById(id);
-     /*  var a = limitService.getAllActiveLimits();
-      return   a;*/
+
+    @GetMapping("all")
+    public List<LimitDTO> getAlLimits() {
+        return limitService.getAllLimits();
     }
+
 }
 

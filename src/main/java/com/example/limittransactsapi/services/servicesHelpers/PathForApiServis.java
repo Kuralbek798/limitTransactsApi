@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.Helpers;
+package com.example.limittransactsapi.services.servicesHelpers;
 
 import com.example.limittransactsapi.Models.Entity.PathForApi;
 import com.example.limittransactsapi.repository.PathForApiRepository;

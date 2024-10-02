@@ -1,4 +1,4 @@
-package com.example.limittransactsapi.Helpers;
+package com.example.limittransactsapi.util;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

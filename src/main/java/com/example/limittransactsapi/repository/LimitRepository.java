@@ -1,6 +1,7 @@
 package com.example.limittransactsapi.repository;
 
-import com.example.limittransactsapi.Models.DTO.LimitAccountDTO;
+
+import com.example.limittransactsapi.Models.DTO.LimitDTO;
 import com.example.limittransactsapi.Models.Entity.Limit;
 import com.example.limittransactsapi.repository.projections.LimitAccountProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,12 +15,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
 @Repository
 public interface LimitRepository extends JpaRepository<Limit, UUID> {
 
    // Optional<Limit> findTopByOrderByDatetimeDesc();
-   Optional<Limit> findTopByClientIdAndIsActiveTrueOrderByDatetimeDesc(UUID id);
+   Optional<Limit> findTopByClientIdAndActiveTrueOrderByDatetimeDesc(UUID id);
 
 
     @Procedure(procedureName  = "update_status_is_active")
@@ -42,6 +42,8 @@ public interface LimitRepository extends JpaRepository<Limit, UUID> {
             nativeQuery = true)
     ConcurrentLinkedQueue<LimitAccountProjection> findLatestActiveLimits(@Param("accountNumbers") Integer[] accountNumbers);
 
+ /*  List<LimitDTO> findAllByActiveTrue();*/
 
+   List<Limit> findAll();
 
 }

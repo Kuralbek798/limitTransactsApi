@@ -3,6 +3,7 @@ package com.example.limittransactsapi.config;
 import com.example.limittransactsapi.services.ShedullerService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -32,15 +33,17 @@ public class ShedullerConfig {
     @Value("${scheduler.expectedIntervalMinutes:44640}") // Пример в минутах для 31 дней
     private long expectedIntervalMinutes;
 
-    private final ShedullerService shedullerService;
-
-    public ShedullerConfig(ShedullerService shedullerService) {
-        this.shedullerService = shedullerService;
-    }
 
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
         checkTasksOnStartup();
+    }
+
+    private final ShedullerService shedullerService;
+
+    @Autowired
+    public ShedullerConfig(ShedullerService shedullerService) {
+        this.shedullerService = shedullerService;
     }
 
     private void checkTasksOnStartup() {
@@ -48,9 +51,12 @@ public class ShedullerConfig {
         OffsetDateTime now = OffsetDateTime.now();
 
         // Проверка пропущенных заданий только при старте приложения
+        log.info("started check for missed tasks");
         if (shedullerService.checkMissedExecution(taskName, now, expectedIntervalMinutes)) {
             log.warn("Detected a missed execution for task: " + taskName);
             handleMissedExecution(taskName, now);
+        }else {
+            log.info("no missed executions, status ok.");
         }
     }
 
@@ -59,7 +65,7 @@ public class ShedullerConfig {
         log.warn("Handling missed execution for task: " + taskName);
     }
 
-    @Scheduled(cron = "${scheduler.cron}")
+      @Scheduled(cron = "${scheduler.cron}")
     public void scheduleTask() {
         if (schedulerEnabled) {
             executeScheduledTasks();

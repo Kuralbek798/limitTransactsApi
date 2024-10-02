@@ -7,7 +7,7 @@ import com.example.limittransactsapi.Models.DTO.LimitDTO;
 import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.Models.Entity.Limit;
 import com.example.limittransactsapi.repository.LimitRepository;
-import com.example.limittransactsapi.Helpers.Converter;
+import com.example.limittransactsapi.services.servicesHelpers.Converter;
 import com.example.limittransactsapi.repository.projections.LimitAccountProjection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +16,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -57,7 +55,7 @@ public class LimitService {
 
         // receiving checked and converted limit from client and try to get limit from db by clients' id.
         CompletableFuture<LimitDTO> futureConvertedClientsLimit = checkCurrencyTypeAndSetToUSDAsync(limitDtoFromClient);
-        CompletableFuture<Optional<LimitDTO>> futureCurrentDBLimit = getLatestLimitAsync(limitDtoFromClient);
+        CompletableFuture<Optional<LimitDTO>> futureCurrentDBLimit = getLatestLimitByClientIdAsync(limitDtoFromClient.getClientId());
 
         return futureConvertedClientsLimit.thenCombine(futureCurrentDBLimit, (clientsLimit, optionalDBLimit) -> {
             // checking if limit with the same sum already exist.
@@ -142,10 +140,10 @@ public class LimitService {
     }
 
     @Async("customExecutor")
-    public CompletableFuture<Optional<LimitDTO>> getLatestLimitAsync(LimitDtoFromClient limitDtoFromClient) {
+    public CompletableFuture<Optional<LimitDTO>> getLatestLimitByClientIdAsync(UUID id) {
         try {
             // Fetch the latest active limit for the given client ID from the repository
-            var limitEntity = limitRepository.findTopByClientIdAndIsActiveTrueOrderByDatetimeDesc(limitDtoFromClient.getClientId());
+            var limitEntity = limitRepository.findTopByClientIdAndActiveTrueOrderByDatetimeDesc(id);
             log.info("before Mapped limitEntity: {}", limitEntity);
 
             // Map the entity to a DTO using the mapper
@@ -162,13 +160,19 @@ public class LimitService {
         }
     }
 
+    public List<LimitDTO> getAllLimits() {
+        log.info("getAllLimits");
+
+        return  LimitMapper.INSTANCE.toDTO(limitRepository.findAll());
+
+    }
 
     //synchrony private method
     private boolean isLimitExist(LimitDTO limitDtoFromClient, Optional<LimitDTO> limitDtoFromDb) {
         return limitDtoFromDb.isPresent() && limitDtoFromDb.get().getLimitSum().equals(limitDtoFromClient.getLimitSum());
     }
 
-    public CompletableFuture<ConcurrentLinkedQueue<LimitAccountDTO>> getAllActiveLimits(Integer[] accountNumbers) {
+    public CompletableFuture<ConcurrentLinkedQueue<LimitAccountDTO>> getAllActiveLimitsByAccounts(Integer[] accountNumbers) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 log.info("getAllActiveLimits: {}___{}", accountNumbers.length, accountNumbers.toString());

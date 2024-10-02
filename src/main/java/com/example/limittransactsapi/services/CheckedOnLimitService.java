@@ -40,48 +40,10 @@ public class CheckedOnLimitService {
         this.customExecutor = customExecutor;
     }
 
-
-
     public List<TransactionLimitDTO> getExceededLimitsTransactions() {
         return checkedOnLimitRepository.findExceededLimits();
     }
 
-
-    // Retrieve all records
-    @Async("customExecutor")
-    public CompletableFuture<List<CheckedOnLimitDTO>> findAllAsync() {
-        return CompletableFuture.supplyAsync(() -> {
-            List<CheckedOnLimit> entities = checkedOnLimitRepository.findAll();
-            return entities.stream()
-                    .map((e -> CheckedOnLimitMapper.INSTANCE.toDTO(e)))
-                    .collect(Collectors.toList());
-        }).exceptionally(ex ->{
-            log.error("Ошибка при получении данных в репозитории метод findAllAsync");
-           return new ArrayList<>();
-        });
-    }
-    // Find a record by ID
-    public Optional<CheckedOnLimitDTO> findById(UUID id) {
-        var checkedOnLimit = checkedOnLimitRepository.findById(id);
-        return checkedOnLimit.map(element -> CheckedOnLimitMapper.INSTANCE.toDTO(element));
-    }
-    @Async("customExecutor")
-    public CompletableFuture<List<CheckedOnLimitDTO>> getCheckedOnLimitDTOsByLimitId(UUID limitId) {
-        return CompletableFuture.supplyAsync(() -> {
-                    if (limitId == null) {
-                        throw new IllegalArgumentException("Limit Id can't be null");
-                    }
-                    List<CheckedOnLimit> entities = checkedOnLimitRepository.findAllByLimitId(limitId);
-                    return entities.stream()
-                            .map(element -> CheckedOnLimitMapper.INSTANCE.toDTO(element))
-                            .collect(Collectors.toList());
-                })
-                .exceptionally(ex ->
-                {
-                    log.error("Ошибка при получении в репозитории, метод getCheckedOnLimitDTOsByLimitId");
-                  return new ArrayList<>();
-                });
-    }
     @Transactional
     @Async("customExecutor")
     // Save a record
@@ -105,14 +67,6 @@ public class CheckedOnLimitService {
                 throw new CustomGenericException("Ошибка при сохранении CheckedOnLimit", e);
             }
         });
-    }
-
-
-
-
-    // Delete a record by ID
-    public void deleteById(UUID id) {
-        checkedOnLimitRepository.deleteById(id);
     }
 
 }
