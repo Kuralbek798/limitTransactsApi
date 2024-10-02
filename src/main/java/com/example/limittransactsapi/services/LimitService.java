@@ -168,29 +168,6 @@ public class LimitService {
         return limitDtoFromDb.isPresent() && limitDtoFromDb.get().getLimitSum().equals(limitDtoFromClient.getLimitSum());
     }
 
-    @Transactional
-    public boolean setMonthlyLimitByDefault() {
-        try {
-            Limit limit = new Limit();
-            limit.setLimitSum(BigDecimal.valueOf(1000));
-            limit.setCurrency(USD);
-            limit.setBaseLimit(true);
-            limit.setActive(true);
-
-            Optional<Limit> savedLimit = limitRepository.saveWithOptional(limit);
-            if (savedLimit.isPresent() && savedLimit.get().getId() != null && savedLimit.get().getLimitSum().equals(BigDecimal.valueOf(1000))) {
-                log.info("Default limit saved successfully: {}", savedLimit);
-                return true;
-            } else {
-                log.warn("Limit was not saved: {}", limit);
-                return false;
-            }
-        } catch (Exception e) {
-            log.error("Unexpected error in method insertMonthlyLimit: {}", e.getMessage(), e);
-            return false;
-        }
-    }
-
     public CompletableFuture<ConcurrentLinkedQueue<LimitAccountDTO>> getAllActiveLimits(Integer[] accountNumbers) {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -221,11 +198,4 @@ public class LimitService {
             return new ConcurrentLinkedQueue<>();
         });
     }
-
-
-    @Transactional
-    public void updateStatusIsActive() {
-        limitRepository.updateStatusIsActive();
-    }
-
 }

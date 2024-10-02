@@ -29,7 +29,6 @@ public interface LimitRepository extends JpaRepository<Limit, UUID> {
         return Optional.ofNullable(save(limit));}
 
 
-
     @Query(value = "SELECT " +
             "id AS id, " +
             "limit_sum AS limitSum," +

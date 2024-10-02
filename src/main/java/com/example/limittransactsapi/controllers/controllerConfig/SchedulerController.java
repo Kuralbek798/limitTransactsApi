@@ -1,6 +1,6 @@
 package com.example.limittransactsapi.controllers.controllerConfig;
 
-import com.example.limittransactsapi.config.Config; // Импортируйте класс конфигурации
+import com.example.limittransactsapi.services.ShedullerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,27 +8,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/scheduler")
 public class SchedulerController {
 
-    private final Config config;
+    private final ShedullerService shedullerService;
 
     @Autowired
-    public SchedulerController(Config config) {
-        this.config = config;
+    public SchedulerController( ShedullerService shedullerService) {
+        this.shedullerService = shedullerService;
     }
 
     @PostMapping("/enable")
     public String enableScheduler() {
-        config.setSchedulerEnabled(true);
+        shedullerService.setSchedulerEnabled(true);
         return "Scheduler enabled";
     }
 
     @PostMapping("/disable")
     public String disableScheduler() {
-        config.setSchedulerEnabled(false);
+        shedullerService.setSchedulerEnabled(false);
         return "Scheduler disabled";
     }
 
     @GetMapping("/status")
     public String getSchedulerStatus() {
-        return config.isSchedulerEnabled() ? "Scheduler is enabled" : "Scheduler is disabled";
+        return shedullerService.isSchedulerEnabled() ? "Scheduler is enabled" : "Scheduler is disabled";
     }
 }

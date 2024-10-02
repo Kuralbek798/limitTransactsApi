@@ -3,7 +3,7 @@
 
     <!-- Appender для логов приложения -->
     <appender name="APP_LOG" class="ch.qos.logback.core.FileAppender">
-        <file>D:/logs/app/application.log</file>
+        <file>D:/logs/application.log</file>
         <encoder>
             <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
         </encoder>
@@ -11,7 +11,7 @@
 
     <!-- Appender для системных логов -->
     <appender name="SYSTEM_LOG" class="ch.qos.logback.core.FileAppender">
-        <file>D:/logs/system/system.log</file>
+        <file>D:/logs/system.log</file>
         <encoder>
             <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
         </encoder>

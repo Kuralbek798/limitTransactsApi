@@ -7,14 +7,10 @@ import com.example.limittransactsapi.Models.DTO.TransactionDTO;
 import com.example.limittransactsapi.services.ExchangeRateService;
 import com.example.limittransactsapi.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -33,7 +29,7 @@ public class TransactionController {
     @PostMapping("/process")
     public CompletableFuture<ResponseEntity<String>> setTransactions(@RequestBody List<TransactionDTO> transactions) {
         // Directly delegate the processing to the service
-        var a = transactionService.setTransactionsToDBAsync(transactions);
+        var a = transactionService.categorizeAndPrepareClientsTransactionsAsync(transactions);
         return a;
     }
 

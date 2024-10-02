@@ -5,6 +5,7 @@ import com.example.limittransactsapi.Models.DTO.*;
 import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.services.CheckedOnLimitService;
 import com.example.limittransactsapi.services.LimitService;
+import com.example.limittransactsapi.services.ShedullerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,15 +24,16 @@ import java.util.concurrent.CompletableFuture;
 public class ClientController {
 
 
-    private LimitService limitService;
-    private CheckedOnLimitService checkedOnLimitService;
+    private final LimitService limitService;
+    private final CheckedOnLimitService checkedOnLimitService;
+    private final ShedullerService shedullerService;
 
     @Autowired
-    public ClientController(LimitService limitService, CheckedOnLimitService checkedOnLimitService) {
+    public ClientController(LimitService limitService, CheckedOnLimitService checkedOnLimitService, ShedullerService shedullerService) {
         this.limitService = limitService;
         this.checkedOnLimitService = checkedOnLimitService;
+        this.shedullerService = shedullerService;
     }
-
 
     // Setting a new spending limit
     @PostMapping
@@ -65,14 +67,13 @@ public class ClientController {
         return checkedOnLimitService.getExceededLimitsTransactions();
     }
 
-
- /*   @GetMapping("TestService")
-    public List<LimitAccountDTO>testMethod(){
-     // limitService.updateStatusIsActive();
+    @GetMapping("TestService")
+    public void /*List<LimitAccountDTO>*/testMethod(){
+       shedullerService.updateLimitStatusIsActive();
       //  limitService.setMonthlyLimitByDefault();
         //var a = limitService.getLimitById(id);
-        var a = limitService.getAllActiveLimits();
-      return   a;
-    }*/
+     /*  var a = limitService.getAllActiveLimits();
+      return   a;*/
+    }
 }
 
