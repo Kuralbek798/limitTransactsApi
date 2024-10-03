@@ -1,7 +1,7 @@
 package com.example.limittransactsapi.repository;
 
 
-import com.example.limittransactsapi.Models.Entity.ExchangeRate;
+import com.example.limittransactsapi.models.entity.ExchangeRate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

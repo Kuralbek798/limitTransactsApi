@@ -1,13 +1,13 @@
 package com.example.limittransactsapi.services;
 
-import com.example.limittransactsapi.services.servicesHelpers.Converter;
-import com.example.limittransactsapi.Helpers.mapper.TransactionMapper;
-import com.example.limittransactsapi.Models.DTO.ExchangeRateDTO;
-import com.example.limittransactsapi.Models.DTO.LimitAccountDTO;
-import com.example.limittransactsapi.Models.DTO.TransactionDTO;
-import com.example.limittransactsapi.Models.Entity.CheckedOnLimit;
+import com.example.limittransactsapi.services.helpersServices.Converter;
+import com.example.limittransactsapi.helpers.mapper.TransactionMapper;
+import com.example.limittransactsapi.models.DTO.ExchangeRateDTO;
+import com.example.limittransactsapi.models.DTO.LimitAccountDTO;
+import com.example.limittransactsapi.models.DTO.TransactionDTO;
+import com.example.limittransactsapi.models.entity.CheckedOnLimit;
 
-import com.example.limittransactsapi.Models.TransactionsContext;
+import com.example.limittransactsapi.models.TransactionsContext;
 import com.example.limittransactsapi.repository.CategoryRepository;
 import com.example.limittransactsapi.repository.projections.TransactionProjection;
 import com.example.limittransactsapi.repository.TransactionRepository;

@@ -1,14 +1,14 @@
 package com.example.limittransactsapi.services;
 
 
-import com.example.limittransactsapi.services.servicesHelpers.HttpClientService;
-import com.example.limittransactsapi.Models.DTO.ExchangeRateDTO;
-import com.example.limittransactsapi.Models.RateDataFromJson;
-import com.example.limittransactsapi.Helpers.mapper.ExchangeRateMapper;
+import com.example.limittransactsapi.services.helpersServices.HttpClientService;
+import com.example.limittransactsapi.models.DTO.ExchangeRateDTO;
+import com.example.limittransactsapi.models.RateDataFromJson;
+import com.example.limittransactsapi.helpers.mapper.ExchangeRateMapper;
 import com.example.limittransactsapi.repository.ExchangeRateRepository;
 import com.example.limittransactsapi.util.BuildUrlAndDate;
-import com.example.limittransactsapi.services.servicesHelpers.Converter;
-import com.example.limittransactsapi.services.servicesHelpers.PathForApiServis;
+import com.example.limittransactsapi.services.helpersServices.Converter;
+import com.example.limittransactsapi.services.helpersServices.PathForApiServis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -86,59 +86,59 @@ public class ExchangeRateService {
                     throw new ServiceException("Error occurred in getCurrencyRate method", ex);
                 });
     }
+
     @Async("customExecutor")
     CompletableFuture<ExchangeRateDTO> fetchRateFromDatabase(String effectiveCurrencyPair, LocalDate dateNow) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                return exchangeRateRepository.findTopByCurrencyPairOrderByDateTimeRateDesc(effectiveCurrencyPair)
-                        .filter(rate -> LocalDate.ofInstant(rate.getDateTimeRate().toInstant(), ZoneId.systemDefault()).equals(dateNow))
-                        .map(rate -> {
-                            log.info("Exchange rate found in database for currency pair: {}", effectiveCurrencyPair);
-                            return ExchangeRateMapper.INSTANCE.toDTO(rate);
-                        })
-                        .orElse(null);
-            } catch (Exception e) {
-                log.error("Error occurred while fetching the exchange rate from the database: {}", effectiveCurrencyPair, e);
-                throw new ServiceException("Error occurred while fetching the exchange rate from the database", e);
-            }
-        }).exceptionally(ex -> {
-            log.error("Exception in fetchRateFromDatabase: {}", ex.getMessage());
-            throw new ServiceException("Error occurred in fetchRateFromDatabase method", ex);
-        });
+
+        try {
+            return CompletableFuture.completedFuture(exchangeRateRepository.findTopByCurrencyPairOrderByDateTimeRateDesc(effectiveCurrencyPair)
+                    .filter(rate -> LocalDate.ofInstant(rate.getDateTimeRate().toInstant(), ZoneId.systemDefault()).equals(dateNow))
+                    .map(rate -> {
+                        log.info("Exchange rate found in database for currency pair: {}", effectiveCurrencyPair);
+                        return ExchangeRateMapper.INSTANCE.toDTO(rate);
+                    })
+                    .orElse(null));
+        } catch (Exception e) {
+            log.error("Error occurred while fetching the exchange rate from the database: {}", effectiveCurrencyPair, e);
+            throw new ServiceException("Error occurred while fetching the exchange rate from the database", e);
+        }
+
     }
 
     @Async("customExecutor")
-    CompletableFuture<ExchangeRateDTO> getRateFromApi(String effectiveCurrencyPair, LocalDate dateNow) {
-        return CompletableFuture.supplyAsync(() -> {
-                    try {
-                        return pathForApiServis.getDecryptedApiKey(servisIdentity, uuidKey);
-                    } catch (Exception e) {
-                        log.error("Error occurred while decrypting the API key: {}", effectiveCurrencyPair, e);
-                        throw new ServiceException("Error occurred while decrypting the API key", e);
-                    }
-                })
-                .thenCompose(apiKey -> getResponseFromHttpRequest(apiKey, effectiveCurrencyPair, dateNow))
-                .thenApply(jsonRoot -> fetchAndSaveExchangeRate(jsonRoot, effectiveCurrencyPair))
-                .thenApply(exchangeRateDTO -> {
-                    log.info("Exchange rate successfully fetched and saved from API for currency pair: {}", effectiveCurrencyPair);
-                    return exchangeRateDTO;
-                })
-                .exceptionally(ex -> {
-                    log.error("Error occurred while fetching the exchange rate from API for currency pair: {}", effectiveCurrencyPair, ex);
-                    throw new ServiceException("Error occurred while fetching the exchange rate from API", ex);
-                });
+    public CompletableFuture<ExchangeRateDTO> getRateFromApi(String effectiveCurrencyPair, LocalDate dateNow) {
+
+        try {
+            String apiKey = pathForApiServis.getDecryptedApiKey(servisIdentity, uuidKey);
+
+            return getResponseFromHttpRequest(apiKey, effectiveCurrencyPair, dateNow)
+                    .thenApply(jsonRoot -> fetchAndSaveExchangeRate(jsonRoot, effectiveCurrencyPair))
+                    .thenApply(exchangeRateDTO -> {
+                        log.info("Exchange rate successfully fetched and saved from API for currency pair: {}", effectiveCurrencyPair);
+                        return exchangeRateDTO;
+                    })
+                    .exceptionally(ex -> {
+                        log.error("Error occurred while fetching the exchange rate from API for currency pair: {}", effectiveCurrencyPair, ex);
+                        throw new ServiceException("Error occurred while fetching the exchange rate from API", ex);
+                    });
+        } catch (Exception e) {
+            log.error("Error occurred while decrypting the API key: {}", effectiveCurrencyPair, e);
+            throw new ServiceException("Error occurred while decrypting the API key", e);
+        }
     }
 
     @Async("customExecutor")
     public CompletableFuture<JsonNode> getResponseFromHttpRequest(String apiKey, String currencyPair, LocalDate dateNow) {
-        return CompletableFuture.supplyAsync(() -> {
+
             try {
                 LocalDate startDate = dateNow;
                 LocalDate endDate = startDate.plusDays(1);
                 String url = BuildUrlAndDate.buildUrl(baseUrl, currencyPair, startDate, endDate, apiKey);
                 JsonNode root = fetchJsonResponse(url);
-                if (isValidResponse(root)) return root;
-                return tryGetJsonResponse(apiKey, currencyPair, startDate, endDate);
+                if (isValidResponse(root)){
+                    return CompletableFuture.completedFuture(root);
+                }
+                return CompletableFuture.completedFuture(tryGetJsonResponse(apiKey, currencyPair, startDate, endDate));
             } catch (JsonProcessingException e) {
                 log.error("Error processing JSON response: {}", e.getMessage());
                 throw new ServiceException("Failed to fetch and save exchange rate", e);
@@ -146,13 +146,10 @@ public class ExchangeRateService {
                 log.error("Unexpected error: {}", e.getMessage());
                 throw new ServiceException("Failed to fetch and save exchange rate", e);
             }
-        }).exceptionally(ex -> {
-            log.error("Error occurred in getResponseFromHttpRequest: {}", ex.getMessage());
-            throw new ServiceException("Error occurred in getResponseFromHttpRequest method", ex);
-        });
     }
+
     // Fetches the exchange rate data from the JSON response and saves it
-    private ExchangeRateDTO fetchAndSaveExchangeRate(JsonNode jsonRoot, String currencyPair) {
+    public ExchangeRateDTO fetchAndSaveExchangeRate(JsonNode jsonRoot, String currencyPair) {
         try {
             RateDataFromJson rateDataFromJson = extractRateFromJsonRoot(jsonRoot);
             currencyPair = getEffectiveCurrencyPair(currencyPair);
@@ -164,7 +161,7 @@ public class ExchangeRateService {
                                 rateDataFromJson.getCloseRate(),
                                 rateDataFromJson.getDateTime()
                         );
-                if(currencyPair.equals(USD_KZT_PAIR)){
+                if (currencyPair.equals(USD_KZT_PAIR)) {
                     new ExchangeRateDTO(
                             exchangeRateDTO.getCurrencyPair(),
                             converter.convertUsdToKztToKztToUsd(exchangeRateDTO.getRate()),
@@ -174,7 +171,7 @@ public class ExchangeRateService {
                 }
                 log.info("Fetched exchange rate from API for currency pair: {}", currencyPair);
                 var exchageRate = exchangeRateRepository.save(ExchangeRateMapper.INSTANCE.toEntity(exchangeRateDTO));
-                return ExchangeRateMapper.INSTANCE.toDTO(exchageRate) ;
+                return ExchangeRateMapper.INSTANCE.toDTO(exchageRate);
             }
             log.warn("No exchange rate found for currency pair: {}", currencyPair);
             return null;
@@ -183,6 +180,7 @@ public class ExchangeRateService {
             throw e;
         }
     }
+
     // Extracts the rate data from the JSON root node
     private RateDataFromJson extractRateFromJsonRoot(JsonNode jsonRoot) {
         RateDataFromJson rateDataFromJson = new RateDataFromJson();
@@ -195,7 +193,7 @@ public class ExchangeRateService {
                     BigDecimal close = new BigDecimal(strClose);
                     String dateStr = latestData.get(DATETIME).asText();
                     // Only use entries with non-zero close values
-                    if (close.compareTo(BigDecimal.ZERO) >0) {
+                    if (close.compareTo(BigDecimal.ZERO) > 0) {
                         rateDataFromJson.setCloseRate(close);
                         String formattedISODateTimeStr = dateStr.replace(" ", "T") + "Z";
                         rateDataFromJson.setDateTime(OffsetDateTime.parse(formattedISODateTimeStr));
@@ -218,13 +216,16 @@ public class ExchangeRateService {
     private String getEffectiveCurrencyPair(String currencyPair) {
         return KZT_USD_PAIR.equals(currencyPair) ? USD_KZT_PAIR : currencyPair;
     }
+
     private JsonNode fetchJsonResponse(String url) throws JsonProcessingException {
         CompletableFuture<String> jsonResponse = httpClientService.sendRequest(url);
         return objectMapper.readTree(jsonResponse.join());
     }
+
     private boolean isValidResponse(JsonNode jsonResponse) {
         return jsonResponse.path(VALUES).isArray() && jsonResponse.path(VALUES).size() > 0;
     }
+
     private JsonNode tryGetJsonResponse(String apiKey, String currencyPair, LocalDate startDate, LocalDate endDate) throws JsonProcessingException {
         for (int index = 1; index <= 5; index++) {
             LocalDate currentStartDate = startDate.minusDays(index);

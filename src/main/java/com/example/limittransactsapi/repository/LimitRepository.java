@@ -1,8 +1,7 @@
 package com.example.limittransactsapi.repository;
 
 
-import com.example.limittransactsapi.Models.DTO.LimitDTO;
-import com.example.limittransactsapi.Models.Entity.Limit;
+import com.example.limittransactsapi.models.entity.Limit;
 import com.example.limittransactsapi.repository.projections.LimitAccountProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

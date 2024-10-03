@@ -3482,7 +3482,7 @@ javax.crypto.IllegalBlockSizeException: Input length must be multiple of 16 when
 2024-09-08 18:36:15 - Failed to fetch and save exchange rate
 java.lang.IllegalArgumentException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
 	at java.base/java.net.URI.create(URI.java:906)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:35)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:35)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -3601,7 +3601,7 @@ org.hibernate.service.spi.ServiceException: Failed to fetch and save exchange ra
 	at java.base/java.lang.Thread.run(Thread.java:842)
 Caused by: java.lang.IllegalArgumentException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
 	at java.base/java.net.URI.create(URI.java:906)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:35)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:35)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	... 52 common frames omitted
 Caused by: java.net.URISyntaxException: Illegal character in scheme name at index 0: "https://api.twelvedata.com/time_series?getCurrencyRatesymbol=KZT/USD&interval=1d&outputsize=1&apikey=b61b698dc9764ab5a936d38d1156f8ad"
@@ -3620,7 +3620,7 @@ java.net.URISyntaxException: Illegal character in scheme name at index 0: "https
 	at java.base/java.net.URI$Parser.parse(URI.java:3170)
 	at java.base/java.net.URI.<init>(URI.java:623)
 	at java.base/java.net.URI.create(URI.java:904)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:35)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:35)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -4084,7 +4084,7 @@ org.hibernate.service.spi.ServiceException: Exchange rate could not be fetched f
 2024-09-08 18:45:54 - Initialized JPA EntityManagerFactory for persistence unit 'default'
 2024-09-08 18:45:54 - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@660b3827
 2024-09-08 18:45:54 - HikariPool-2 - After adding stats (total=4, active=0, idle=4, waiting=0)
-2024-09-08 18:45:54 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionController' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\controllers\TransactionController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'currencyService' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\services\CurrencyService.class]: Unsatisfied dependency expressed through constructor parameter 3: No qualifying bean of type 'com.example.limittransactsapi.services.servicesHelpers.HttpClientService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-09-08 18:45:54 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transactionController' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\controllers\TransactionController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'currencyService' defined in file [C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes\com\example\limittransactsapi\services\CurrencyService.class]: Unsatisfied dependency expressed through constructor parameter 3: No qualifying bean of type 'com.example.limittransactsapi.services.helpersServices.HttpClientService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
 2024-09-08 18:45:54 - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-09-08 18:45:54 - HikariPool-2 - Shutdown initiated...
 2024-09-08 18:45:54 - HikariPool-2 - Before shutdown stats (total=4, active=0, idle=4, waiting=0)
@@ -4114,12 +4114,12 @@ APPLICATION FAILED TO START
 
 Description:
 
-Parameter 3 of constructor in com.example.limittransactsapi.services.ExchangeRateService required a bean of type 'com.example.limittransactsapi.services.servicesHelpers.HttpClientService' that could not be found.
+Parameter 3 of constructor in com.example.limittransactsapi.services.ExchangeRateService required a bean of type 'com.example.limittransactsapi.services.helpersServices.HttpClientService' that could not be found.
 
 
 Action:
 
-Consider defining a bean of type 'com.example.limittransactsapi.services.servicesHelpers.HttpClientService' in your configuration.
+Consider defining a bean of type 'com.example.limittransactsapi.services.helpersServices.HttpClientService' in your configuration.
 
 2024-09-08 18:45:56 - Starting LimitTransactsApiApplication using Java 17.0.12 with PID 6036 (C:\Users\admin\IdeaProjects\limitTransactsApi\target\classes started by admin in C:\Users\admin\IdeaProjects\limitTransactsApi)
 2024-09-08 18:45:56 - Running with Spring Boot v3.3.3, Spring v6.1.12
@@ -4511,7 +4511,7 @@ java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -4625,7 +4625,7 @@ Caused by: java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	... 52 common frames omitted
 2024-09-08 18:47:32 - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.hibernate.service.spi.ServiceException: An Error occurred in method getCurrencyRate: ] with root cause
@@ -4634,7 +4634,7 @@ java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:96)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:77)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -6585,7 +6585,7 @@ java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:97)
 	at com.example.limittransactsapi.services.ExchangeRateService.getCurrencyRate(CurrencyService.java:78)
 	at com.example.limittransactsapi.controllers.TransactionController.getExchangeRate(TransactionController.java:38)
@@ -6699,7 +6699,7 @@ Caused by: java.lang.InterruptedException: null
 	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2073)
 	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:554)
 	at java.net.http/jdk.internal.net.http.HttpClientFacade.send(HttpClientFacade.java:123)
-	at com.example.limittransactsapi.services.servicesHelpers.HttpClientService.get(HttpClientService.java:42)
+	at com.example.limittransactsapi.services.helpersServices.HttpClientService.get(HttpClientService.java:42)
 	at com.example.limittransactsapi.services.ExchangeRateService.fetchAndSaveExchangeRate(CurrencyService.java:97)
 	... 52 common frames omitted
 2024-09-08 19:51:22 - Resolved [org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to flush: java.nio.channels.ClosedChannelException]

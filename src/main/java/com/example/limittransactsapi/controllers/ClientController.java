@@ -1,8 +1,8 @@
 package com.example.limittransactsapi.controllers;
 
 
-import com.example.limittransactsapi.Models.DTO.*;
-import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
+import com.example.limittransactsapi.models.DTO.*;
+import com.example.limittransactsapi.models.DTO.LimitDtoFromClient;
 import com.example.limittransactsapi.services.CheckedOnLimitService;
 import com.example.limittransactsapi.services.LimitService;
 import com.example.limittransactsapi.services.ShedullerService;
@@ -43,11 +43,9 @@ public class ClientController {
                     ResponseEntity.badRequest().body("Limit sum must be type of Big decimal and have two decimal places."));
         }
 
-
         return limitService.setLimitAsync(limit)
                 .exceptionally(ex -> {
-                    // Log the exception details
-                    ex.printStackTrace(); // Печать трассировки стека
+                    ex.printStackTrace();
                     // Check type of exception and return appropriate response
                     if (ex.getCause() instanceof BindingResult) {
                         BindingResult result = (BindingResult) ex.getCause();

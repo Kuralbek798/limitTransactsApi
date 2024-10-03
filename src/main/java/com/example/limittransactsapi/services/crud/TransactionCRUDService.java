@@ -1,8 +1,8 @@
 package com.example.limittransactsapi.services.crud;
 
-import com.example.limittransactsapi.Models.DTO.TransactionDTO;
-import com.example.limittransactsapi.Models.Entity.Transaction;
-import com.example.limittransactsapi.Helpers.mapper.TransactionMapper;
+import com.example.limittransactsapi.models.DTO.TransactionDTO;
+import com.example.limittransactsapi.models.entity.Transaction;
+import com.example.limittransactsapi.helpers.mapper.TransactionMapper;
 import com.example.limittransactsapi.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 

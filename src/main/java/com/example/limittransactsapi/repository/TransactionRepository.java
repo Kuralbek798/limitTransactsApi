@@ -2,14 +2,13 @@ package com.example.limittransactsapi.repository;
 
 
 
-import com.example.limittransactsapi.Models.Entity.Transaction;
+import com.example.limittransactsapi.models.entity.Transaction;
 import com.example.limittransactsapi.repository.projections.TransactionProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 

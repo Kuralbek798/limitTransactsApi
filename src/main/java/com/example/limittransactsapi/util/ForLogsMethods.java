@@ -1,6 +1,6 @@
 package com.example.limittransactsapi.util;
 
-import com.example.limittransactsapi.Models.DTO.TransactionDTO;
+import com.example.limittransactsapi.models.DTO.TransactionDTO;
 
 import java.math.BigDecimal;
 import java.util.Map;

@@ -3,7 +3,7 @@ package com.example.limittransactsapi.controllers;
 
 
 
-import com.example.limittransactsapi.Models.DTO.TransactionDTO;
+import com.example.limittransactsapi.models.DTO.TransactionDTO;
 import com.example.limittransactsapi.services.ExchangeRateService;
 import com.example.limittransactsapi.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,13 @@
 package com.example.limittransactsapi.services;
 
 
-import com.example.limittransactsapi.Helpers.mapper.LimitMapper;
-import com.example.limittransactsapi.Models.DTO.LimitAccountDTO;
-import com.example.limittransactsapi.Models.DTO.LimitDTO;
-import com.example.limittransactsapi.Models.DTO.LimitDtoFromClient;
-import com.example.limittransactsapi.Models.Entity.Limit;
+import com.example.limittransactsapi.helpers.mapper.LimitMapper;
+import com.example.limittransactsapi.models.DTO.LimitAccountDTO;
+import com.example.limittransactsapi.models.DTO.LimitDTO;
+import com.example.limittransactsapi.models.DTO.LimitDtoFromClient;
+import com.example.limittransactsapi.models.entity.Limit;
 import com.example.limittransactsapi.repository.LimitRepository;
-import com.example.limittransactsapi.services.servicesHelpers.Converter;
+import com.example.limittransactsapi.services.helpersServices.Converter;
 import com.example.limittransactsapi.repository.projections.LimitAccountProjection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.example.limittransactsapi.services;
 
-import com.example.limittransactsapi.Models.Entity.Limit;
-import com.example.limittransactsapi.Models.Entity.TaskExecutionLog;
+import com.example.limittransactsapi.models.entity.Limit;
+import com.example.limittransactsapi.models.entity.TaskExecutionLog;
 import com.example.limittransactsapi.repository.LimitRepository;
 import com.example.limittransactsapi.repository.TaskExecutionLogRepository;
 import lombok.extern.slf4j.Slf4j;

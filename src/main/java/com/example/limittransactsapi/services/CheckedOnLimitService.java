@@ -1,11 +1,11 @@
 package com.example.limittransactsapi.services;
 
-import com.example.limittransactsapi.Models.DTO.CheckedOnLimitDTO;
-import com.example.limittransactsapi.Models.DTO.TransactionLimitDTO;
-import com.example.limittransactsapi.Models.Entity.CheckedOnLimit;
-import com.example.limittransactsapi.Helpers.exceptions.CustomDataAccessException;
-import com.example.limittransactsapi.Helpers.exceptions.CustomGenericException;
-import com.example.limittransactsapi.Helpers.mapper.CheckedOnLimitMapper;
+import com.example.limittransactsapi.models.DTO.CheckedOnLimitDTO;
+import com.example.limittransactsapi.models.DTO.TransactionLimitDTO;
+import com.example.limittransactsapi.models.entity.CheckedOnLimit;
+import com.example.limittransactsapi.helpers.exceptions.CustomDataAccessException;
+import com.example.limittransactsapi.helpers.exceptions.CustomGenericException;
+import com.example.limittransactsapi.helpers.mapper.CheckedOnLimitMapper;
 import com.example.limittransactsapi.repository.CheckedOnLimitRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service

@@ -1,6 +1,6 @@
 package com.example.limittransactsapi.repository;
 
-import com.example.limittransactsapi.Models.Entity.TaskExecutionLog;
+import com.example.limittransactsapi.models.entity.TaskExecutionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

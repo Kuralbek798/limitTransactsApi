@@ -1,8 +1,8 @@
 package com.example.limittransactsapi.repository;
 
 
-import com.example.limittransactsapi.Models.DTO.TransactionLimitDTO;
-import com.example.limittransactsapi.Models.Entity.CheckedOnLimit;
+import com.example.limittransactsapi.models.DTO.TransactionLimitDTO;
+import com.example.limittransactsapi.models.entity.CheckedOnLimit;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,7 +17,7 @@ public interface CheckedOnLimitRepository extends JpaRepository<CheckedOnLimit, 
 
     List<CheckedOnLimit> findAllByLimitId(UUID limitId);
 
-    @Query("SELECT new com.example.limittransactsapi.Models.DTO.TransactionLimitDTO(t.id, t.sum, t.currency, t.accountFrom,t.accountTo, t.expenseCategory, t.datetimeTransaction, l.id, l.limitSum, l.currency, c.limitExceeded,  l.datetime) " +
+    @Query("SELECT new com.example.limittransactsapi.models.DTO.TransactionLimitDTO(t.id, t.sum, t.currency, t.accountFrom,t.accountTo, t.expenseCategory, t.datetimeTransaction, l.id, l.limitSum, l.currency, c.limitExceeded,  l.datetime) " +
             "FROM CheckedOnLimit c " +
             "JOIN Transaction t ON c.transactionId = t.id " +
             "JOIN Limit l ON c.limitId = l.id " +
