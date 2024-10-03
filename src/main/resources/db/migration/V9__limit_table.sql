@@ -9,6 +9,7 @@ CREATE TABLE limits
     is_base_limit BOOLEAN                  NOT NULL DEFAULT FALSE,
     is_active     BOOLEAN                  NOT NULL DEFAULT TRUE
 );
+CREATE INDEX idx_limits_is_active ON limits (is_active);
 
 -- Функция, разрешающая обновление только поля isActive
 CREATE OR REPLACE FUNCTION allow_is_active_update_only()

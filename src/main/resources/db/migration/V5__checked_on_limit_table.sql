@@ -7,3 +7,5 @@ CREATE TABLE IF NOT EXISTS public.checked_on_limit
     datetime timestamp with time zone NOT NULL DEFAULT now(),
     PRIMARY KEY (id)
 );
+CREATE INDEX idx_checked_on_limit_limit_id ON checked_on_limit (limit_id);
+CREATE INDEX idx_checked_on_limit_transaction_id ON checked_on_limit (transaction_id);

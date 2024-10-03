@@ -11,6 +11,9 @@ CREATE TABLE IF NOT EXISTS clients_accounts
     created_at     TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     updated_at     TIMESTAMP WITH TIME ZONE
 );
+CREATE INDEX idx_clients_accounts_client_id ON clients_accounts (client_id);
+CREATE INDEX idx_clients_accounts_account_number ON clients_accounts (account_number);
+
 
 -- Insert account details for clients into the clients_accounts table
 INSERT INTO clients_accounts (client_id, account_number, bank_name, bank_bik, inn, kpp)

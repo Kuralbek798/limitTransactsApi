@@ -7,3 +7,4 @@ CREATE TABLE exchange_rates
     datetime_rate      TIMESTAMP WITH TIME ZONE       NOT NULL,
      PRIMARY KEY (id)
 );
+CREATE INDEX idx_exchange_rates_currency_pair_datetime_rate ON exchange_rates (currency_pair, datetime_rate DESC);

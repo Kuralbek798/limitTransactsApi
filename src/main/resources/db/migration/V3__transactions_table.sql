@@ -10,3 +10,5 @@ CREATE TABLE transactions
 
     PRIMARY KEY (id)
 );
+
+CREATE INDEX idx_transactions_expense_category ON transactions (expense_category);

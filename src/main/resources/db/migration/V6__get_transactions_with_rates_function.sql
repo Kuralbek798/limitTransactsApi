@@ -23,7 +23,7 @@ BEGIN
                 tr.account_from,
                 tr.account_to,
                 tr.expense_category,
-                date_trunc('day', tr.datetime_transaction) AS tr_date -- Округляем дату до начала дня
+                date_trunc('day', tr.datetime_transaction) AS tr_date
             FROM
                 transactions tr
             WHERE
