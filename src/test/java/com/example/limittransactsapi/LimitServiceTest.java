@@ -67,7 +67,7 @@ class LimitServiceTest {
         // Вызов
         CompletableFuture<Optional<LimitDTO>> resultFuture = limitService.getLatestLimitByClientIdAsync(clientId);
 
-        // Проверка
+
         Optional<LimitDTO> result = resultFuture.join();
         assertTrue(result.isPresent());
 
