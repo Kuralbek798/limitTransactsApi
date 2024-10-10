@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories; // 
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.example.limittransactsapi.repository") // Добавьте эту строку
+@EnableJpaRepositories(basePackages = "com.example.limittransactsapi.repository")
 public class LimitTransactsApiApplication {
 
 	public static void main(String[] args) {

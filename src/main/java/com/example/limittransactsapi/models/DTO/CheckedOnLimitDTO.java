@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.Value;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Getter
+@Value
 @ToString
 public final class CheckedOnLimitDTO {
 
@@ -18,7 +19,7 @@ public final class CheckedOnLimitDTO {
     private final boolean limitExceeded;
     private final OffsetDateTime datetime;
 
-    @JsonCreator
+ /*   @JsonCreator
     public CheckedOnLimitDTO(
             @JsonProperty("id") UUID id,
             @JsonProperty("transactionId") UUID transactionId,
@@ -30,5 +31,5 @@ public final class CheckedOnLimitDTO {
         this.limitId = limitId;
         this.limitExceeded = limitExceeded;
         this.datetime = datetime;
-    }
+    }*/
 }

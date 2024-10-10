@@ -58,7 +58,8 @@ public class TransactionService {
         this.customExecutor = customExecutor;
         this.transactionCRUDService = transactionCRUDService;
         this.categoryRepository = categoryRepository;
-        CATEGORIES  = Collections.unmodifiableList(categoryRepository.findByIsActiveTrue().stream()
+        CATEGORIES  = Collections.unmodifiableList(categoryRepository.findByIsActiveTrue()
+                .stream()
                 .map(category -> category.getName())
                 .toList());
     }
@@ -162,7 +163,9 @@ public class TransactionService {
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 try {
                     // Extract data for the current category
-                    ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsGroupedFuture = clientsTransactionsContext.getTransactionsMap().getOrDefault(category, new ConcurrentHashMap<>());
+                    ConcurrentHashMap<Integer, ConcurrentLinkedQueue<TransactionDTO>> clientsGroupedFuture =
+                            clientsTransactionsContext.getTransactionsMap().getOrDefault(category, new ConcurrentHashMap<>());
+
                     var dbTransactions = dbTransactMap.getOrDefault(category, new ConcurrentLinkedQueue<>());
 
                     ConcurrentHashMap<Integer, BigDecimal> dbSummarized = new ConcurrentHashMap<>();
@@ -274,12 +277,10 @@ public class TransactionService {
                         }
                         return null;
                     });
-
                 }
                 futures.add(future);
             }
         }
-
         return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
     }
 

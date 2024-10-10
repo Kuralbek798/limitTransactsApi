@@ -25,7 +25,6 @@ public  class EncripionDecriptionUtil {
        }
     }
 
-
     public static SecretKey generateKeyFromUUID(String uuid) throws Exception {
         MessageDigest sha = MessageDigest.getInstance("SHA-256");
         byte[] key = sha.digest(uuid.getBytes("UTF-8")); // Генерация хеша SHA-256 из UUID

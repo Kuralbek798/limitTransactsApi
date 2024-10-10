@@ -2,35 +2,18 @@ package com.example.limittransactsapi.models.DTO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Data
-@NoArgsConstructor
+@Value
+@ToString
 public class TransactionLimitDTO {
     private UUID id;
     private UUID transactionId;
-
-    public TransactionLimitDTO(UUID transactionId, BigDecimal transactionSum,
-                               String transactionCurrency, Integer accountFrom, Integer accountTo,
-                               String expenseCategory, OffsetDateTime transactionDate, UUID limitId,
-                               BigDecimal limitSum, String currency, boolean limitExceeded, OffsetDateTime limitSetDate) {
-        this.transactionId = transactionId;
-        this.transactionSum = transactionSum;
-        this.transactionCurrency = transactionCurrency;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
-        this.expenseCategory = expenseCategory;
-        this.transactionDate = transactionDate;
-        this.limitId = limitId;
-        this.limitSum = limitSum;
-        this.currency = currency;
-        this.limitExceeded = limitExceeded;
-        this.limitSetDate = limitSetDate;
-    }
-
     private BigDecimal transactionSum;
     private String transactionCurrency;
     private Integer accountFrom;
@@ -42,8 +25,4 @@ public class TransactionLimitDTO {
     private String currency;
     private boolean limitExceeded;
     private OffsetDateTime limitSetDate;
-
-
-
-
 }

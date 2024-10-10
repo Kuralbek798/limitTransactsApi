@@ -3,12 +3,14 @@ package com.example.limittransactsapi.models.DTO;
 import lombok.Getter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-
-@Getter
+@Value
+@ToString
 public class LimitAccountDTO {
 
     private final UUID id;
@@ -20,7 +22,7 @@ public class LimitAccountDTO {
     private final boolean isActive;
     private final Integer accountNumber;
 
-    @JsonCreator
+ /*   @JsonCreator
     public LimitAccountDTO(
             @JsonProperty("id") UUID id,
             @JsonProperty("limitSum") BigDecimal limitSum,
@@ -38,5 +40,5 @@ public class LimitAccountDTO {
         this.isBaseLimit = isBaseLimit;
         this.isActive = isActive;
         this.accountNumber = accountNumber;
-    }
+    }*/
 }

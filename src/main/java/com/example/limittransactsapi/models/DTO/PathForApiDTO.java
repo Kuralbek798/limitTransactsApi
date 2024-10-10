@@ -13,10 +13,6 @@ import java.util.UUID;
 public class PathForApiDTO {
     private UUID id;
     private String apiPath;
-
     private String description;
-
     private OffsetDateTime dateTime;
-
-
 }

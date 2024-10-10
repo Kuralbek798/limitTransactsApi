@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@Getter
+@Value
 @ToString
 public final class ExchangeRateDTO {
 
@@ -18,7 +19,7 @@ public final class ExchangeRateDTO {
     private final OffsetDateTime dateTimeRate;
 
 
-    @JsonCreator
+/*    @JsonCreator
     public ExchangeRateDTO(
             @JsonProperty("currencyPair") String currencyPair,
             @JsonProperty("rate") BigDecimal rate,
@@ -28,7 +29,7 @@ public final class ExchangeRateDTO {
         this.rate = rate;
         this.close = close;
         this.dateTimeRate = dateTimeRate;
-    }
+    }*/
 
 
 
